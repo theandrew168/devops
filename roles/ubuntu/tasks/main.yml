@@ -24,6 +24,7 @@
   copy:
     src: ufw_web.ini
     dest: /etc/ufw/applications.d/web
+    mode: "0644"
   become: true
   become_user: root
 

@@ -29,6 +29,7 @@
   template:
     src: go.service.j2
     dest: /etc/systemd/system/{{ go_app_name }}.service
+    mode: "0644"
   become: true
   become_user: root
 
@@ -36,6 +37,7 @@
   template:
     src: go.socket.j2
     dest: /etc/systemd/system/{{ go_app_name }}.socket
+    mode: "0644"
   become: true
   become_user: root
 
