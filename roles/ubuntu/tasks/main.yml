@@ -1,0 +1,48 @@
+---
+
+- name: Install common system tools
+  apt:
+    name:
+      - htop
+      - tree
+      - vim
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+  become: true
+  become_user: root
+
+- name: Make vim the default text editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.tiny
+  become: true
+  become_user: root
+
+- name: Setup web application definitions for UFW
+  copy:
+    src: ufw_web.ini
+    dest: /etc/ufw/applications.d/web
+  become: true
+  become_user: root
+
+- name: Set UFW to allow web traffic (80/tcp, 443/tcp)
+  ufw:
+    name: Web Full
+    rule: allow
+  become: true
+  become_user: root
+
+- name: Set UFW to limit ssh traffic (22/tcp)
+  ufw:
+    name: OpenSSH
+    rule: limit
+  become: true
+  become_user: root
+
+- name: Enable UFW
+  ufw:
+    state: enabled
+  become: true
+  become_user: root
