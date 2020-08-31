@@ -1,6 +1,6 @@
 ---
 
-- hosts: jamql_app_1
+- hosts: jamql
   roles:
     - ubuntu
     - go
