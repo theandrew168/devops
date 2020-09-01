@@ -14,7 +14,7 @@ resource "digitalocean_domain" "jamql" {
   ip_address = digitalocean_droplet.jamql.ipv4_address
 }
 
-resource "digitalocean_record" "caa_letsencrypt" {
+resource "digitalocean_record" "jamql_caa_letsencrypt" {
   domain = digitalocean_domain.jamql.name
   name   = "@"
   type   = "CAA"

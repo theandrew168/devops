@@ -1,0 +1,9 @@
+---
+wsgi_app_name: "bloggulus"
+wsgi_app_user: "bloggulus"
+
+wsgi_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDB9zapq3vGBDzNAwD/tmfESQw/jHzVj4r18LSFnlmURGjzpY+sh+VBLpVGHJqbHWWmQynSETiDgDo0ugGgZoSNil0r45F+aCYy3mCVlmnEEjIHgJrGDKjRAVtIxILXU3lKwuknrSTZHSONBY64L7PUkrhowYebZWtoaGw/ddo78Oku7RQu2JcYhxvOciF/ck/vfikkCrVD1rQHJs4gOESD08N84mzS/Ta3VHVneUALcccWdAIoFOhbINcp6x1VrYk7sNGFrE92NBOcu4tw3K0U2L3RS4ecE7FvuRLlHGDtpb9RHgiCk0dHx7YgFNBfciFE3om1NmF3kJWStkSlWCdS6dg8qC5XgIzoWqfLxgExFfu9WWsqZjPClgTJj2TfdF425c2J7mc3Z1e00DFyF4/MG6S8fVeXGalnAahM/lQkjpxj9RkW4NpwGw/CVnyL1VNSCqJ3A7H1JhJi+WyfKZSqb8eXSBplcsbrqfzmoTsVs6DMD4DCJ5VqMNhdLaraVTM= derz@monmon
+
+wsgi_app_env_vars:
+  - name: BLOGGULUS_WEB_ROOT
+    value: /home/bloggulus/web

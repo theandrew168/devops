@@ -1,0 +1,15 @@
+[Unit]
+Description=the {{ wsgi_app_name }} application
+Requires={{ wsgi_app_name }}.socket
+After=network.target
+
+[Service]
+Type=simple
+User={{ wsgi_app_user }}
+Group={{ wsgi_app_user }}
+ExecStart=/home/{{ wsgi_app_user }}/{{ wsgi_app_name }}
+WorkingDirectory=/home/{{ wsgi_app_user }}
+EnvironmentFile=/home/{{ wsgi_app_user }}/{{ wsgi_app_name}}.env
+
+[Install]
+WantedBy=multi-user.target

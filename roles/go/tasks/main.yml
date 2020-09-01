@@ -1,5 +1,9 @@
 ---
 
+# References:
+# https://vincent.bernat.ch/en/blog/2018-systemd-golang-socket-activation
+# https://www.darkcoding.net/software/systemd-socket-activation-in-go/
+
 - name: Create the application user
   user:
     name: "{{ go_app_user }}"
