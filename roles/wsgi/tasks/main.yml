@@ -4,7 +4,6 @@
   apt:
     name:
       - python3
-      - python3-venv
     state: latest
     update_cache: true
     cache_valid_time: 3600
@@ -18,25 +17,6 @@
     shell: /bin/bash
   become: true
   become_user: root
-
-- name: Create virtualenv
-  pip:
-    name:
-      - wheel
-    virtualenv: "/home/{{ wsgi_app_user }}/venv"
-    virtualenv_command: python3 -m venv
-  become: true
-  become_user: "{{ wsgi_app_user }}"
-
-- name: Install web server dependencies
-  pip:
-    name:
-      - certbot
-      - gunicorn
-    virtualenv: "/home/{{ wsgi_app_user }}/venv"
-    virtualenv_command: python3 -m venv
-  become: true
-  become_user: "{{ wsgi_app_user }}"
 
 - name: Setup authorized SSH public key for GitHub Actions
   authorized_key:
