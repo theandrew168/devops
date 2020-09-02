@@ -4,6 +4,7 @@
   apt:
     name:
       - python3
+      - python3-venv
     state: latest
     update_cache: true
     cache_valid_time: 3600
