@@ -3,6 +3,7 @@
 - name: Install python dependencies
   apt:
     name:
+      - certbot
       - python3
       - python3-venv
     state: latest
