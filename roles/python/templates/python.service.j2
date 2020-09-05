@@ -1,0 +1,14 @@
+[Unit]
+Description=the {{ python_app_name }} application
+After=network.target
+
+[Service]
+Type=simple
+User={{ python_app_name }}
+Group={{ python_app_name }}
+ExecStart=/home/{{ python_app_name }}/{{ python_app_name }}
+WorkingDirectory=/home/{{ python_app_name }}
+EnvironmentFile=/home/{{ python_app_name }}/{{ python_app_name}}.env
+
+[Install]
+WantedBy=multi-user.target

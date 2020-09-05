@@ -1,0 +1,140 @@
+---
+
+- name: Install dependencies
+  apt:
+    name:
+      - certbot
+      - nginx
+      - python3
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+  become: true
+  become_user: root
+
+- name: Create the application user
+  user:
+    name: "{{ python_app_name }}"
+    shell: /bin/bash
+  become: true
+  become_user: root
+
+- name: Setup NGINX config file
+  template:
+    src: nginx.conf.j2
+    dest: "/home/{{ python_app_name }}/nginx.conf"
+    mode: "0600"
+  notify: restart nginx
+  become: true
+  become_user: "{{ python_app_name }}"
+
+- name: Create app logs dir
+  file:
+    path: "/home/{{ python_app_name }}/logs"
+    state: directory
+  become: true
+  become_user: "{{ python_app_name }}"
+
+- name: Setup authorized SSH public key for GitHub Actions
+  authorized_key:
+    user: "{{ python_app_name }}"
+    key: "{{ python_app_deployment_key }}"
+  become: true
+  become_user: "{{ python_app_name }}"
+
+- name: Setup systemd environment vars file
+  lineinfile:
+    path: /home/{{ python_app_name }}/{{ python_app_name }}.env
+    regexp: "^{{ item.name }}="
+    line: "{{ item.name }}={{ item.value }}"
+    create: true
+    mode: "0600"
+  with_items: "{{ python_app_env_vars }}"
+  no_log: true
+  become: true
+  become_user: "{{ python_app_name }}"
+
+- name: Setup NGINX systemd unit file
+  template:
+    src: nginx.service.j2
+    dest: /etc/systemd/system/nginx.service
+    mode: "0644"
+  notify: restart nginx
+  become: true
+  become_user: root
+
+- name: Enable NGINX systemd unit at startup
+  systemd:
+    name: nginx
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root
+
+- name: Obtain initial TLS key / cert
+  shell: >
+    certbot certonly
+    --noninteractive
+    --agree-tos
+    --keep-until-expiring
+    --register-unsafely-without-email
+    -d {{ python_app_hostname }}
+    --standalone
+  args:
+    creates: /etc/letsencrypt/live/{{ python_app_hostname }}/cert.pem
+  become: true
+  become_user: root
+
+- name: Generate dhparam file
+  shell: >
+    openssl dhparam -out /etc/letsencrypt/dhparams.pem 2048
+  args:
+    creates: /etc/letsencrypt/dhparams.pem
+  become: true
+  become_user: root
+
+- name: Setup crontab for TLS renewals
+  cron:
+    name: certbot renew
+    minute: "0"
+    hour: "*/6"
+    job: >
+      certbot certonly
+      --noninteractive
+      --agree-tos
+      --keep-until-expiring
+      --register-unsafely-without-email
+      -d {{ python_app_hostname }}
+      --webroot -w /var/www/html
+  become: true
+  become_user: root
+
+- name: Setup app systemd service file
+  template:
+    src: python.service.j2
+    dest: /etc/systemd/system/{{ python_app_name }}.service
+    mode: "0644"
+  become: true
+  become_user: root
+
+- name: Enable app systemd unit at startup
+  systemd:
+    name: "{{ python_app_name }}"
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root
+
+- name: Allow application user to manage the app via systemctl
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ item }}"
+    validate: "visudo -cf %s"
+  with_items:
+    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl status {{ python_app_name }}"
+    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl stop {{ python_app_name }}"
+    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl start {{ python_app_name }}"
+    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl restart {{ python_app_name }}"
+  become: true
+  become_user: root

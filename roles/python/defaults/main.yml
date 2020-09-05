@@ -1,0 +1,13 @@
+---
+
+# name of the application (will also be the name of: executable, user, systemd service)
+python_app_name: ~
+
+# hostname of the application (needed for NGINX and certbot)
+python_app_hostname: ~
+
+# ssh authorized (public) key that GitHub Actions will use to deploy the app
+python_app_deployment_key: ~
+
+# list of dicts with keys: name, value
+python_app_env_vars: []
