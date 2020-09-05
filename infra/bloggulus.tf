@@ -23,18 +23,3 @@ resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
   tag    = "issue"
   ttl    = "3600"
 }
-
-resource "digitalocean_domain" "www_bloggulus" {
-  name       = "www.bloggulus.com"
-  ip_address = digitalocean_droplet.bloggulus.ipv4_address
-}
-
-resource "digitalocean_record" "www_bloggulus_caa_letsencrypt" {
-  domain = digitalocean_domain.www_bloggulus.name
-  name   = "@"
-  type   = "CAA"
-  value  = "letsencrypt.org."
-  flags  = "0"
-  tag    = "issue"
-  ttl    = "3600"
-}
