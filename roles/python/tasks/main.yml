@@ -94,11 +94,10 @@
   become: true
   become_user: root
 
-- name: Setup crontab for TLS renewals
+- name: Setup daily crontab entry for TLS renewals
   cron:
     name: certbot renew
-    minute: "0"
-    hour: "*/6"
+    special_time: daily
     job: >
       certbot certonly
       --noninteractive
@@ -107,6 +106,25 @@
       --register-unsafely-without-email
       -d {{ python_app_hostname }}
       --webroot -w /var/www/html
+  become: true
+  become_user: root
+
+- name: Setup daily crontab entry for NGINX reloads
+  cron:
+    name: nginx reload
+    special_time: daily
+    job: >
+      systemctl reload nginx
+  become: true
+  become_user: root
+
+- name: Setup weekly crontab entry for NGINX log cycling
+  cron:
+    name: nginx cycle logs
+    special_time: weekly
+    job: >
+      rm -f /home/{{ python_app_name }}/logs/*.log &&
+      nginx -c /home/{{ python_app_name }}/nginx.conf -s reopen
   become: true
   become_user: root
 
