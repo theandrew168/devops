@@ -8,7 +8,7 @@ http {
     include /etc/nginx/mime.types;
 
     upstream app_server {
-        server unix:/run/gunicorn.sock fail_timeout=0;
+        server localhost:8000 fail_timeout=0;
     }
 
     server {
@@ -54,10 +54,6 @@ http {
 
         access_log  /home/{{ python_app_user }}/logs/nginx_access.log;
         error_log   /home/{{ python_app_user }}/logs/nginx_error.log;
-
-#        location /static/ {
-#            alias /home/{{ python_app_user }}/static/;
-#        }
 
         location / {
             proxy_pass        http://app_server;

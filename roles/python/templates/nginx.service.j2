@@ -18,9 +18,9 @@ After=network.target
 [Service]
 Type=forking
 PIDFile=/run/nginx.pid
-ExecStartPre=/usr/sbin/nginx -c /home/{{ python_app_name }}/nginx.conf -t -q -g 'daemon on; master_process on;'
-ExecStart=/usr/sbin/nginx -c /home/{{ python_app_name }}/nginx.conf -g 'daemon on; master_process on;'
-ExecReload=/usr/sbin/nginx -c /home/{{ python_app_name }}/nginx.conf -g 'daemon on; master_process on;' -s reload
+ExecStartPre=/usr/sbin/nginx -c /home/{{ python_app_user }}/nginx.conf -t -q -g 'daemon on; master_process on;'
+ExecStart=/usr/sbin/nginx -c /home/{{ python_app_user }}/nginx.conf -g 'daemon on; master_process on;'
+ExecReload=/usr/sbin/nginx -c /home/{{ python_app_user }}/nginx.conf -g 'daemon on; master_process on;' -s reload
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid
 TimeoutStopSec=5
 KillMode=mixed

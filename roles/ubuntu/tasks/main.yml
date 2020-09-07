@@ -5,6 +5,7 @@
     name:
       - htop
       - tree
+      - unzip
       - vim
     state: latest
     update_cache: true
@@ -16,7 +17,7 @@
 - name: Make vim the default text editor
   alternatives:
     name: editor
-    path: /usr/bin/vim.tiny
+    path: /usr/bin/vim.basic
   become: true
   become_user: root
 

@@ -4,10 +4,10 @@
   apt:
     name:
       - certbot
+      - gunicorn
       - nginx
       - python3
       - python3-gevent
-      - python3-gunicorn
     state: latest
     update_cache: true
     cache_valid_time: 3600
@@ -154,20 +154,13 @@
   become: true
   become_user: root
 
-- name: Setup Gunicorn systemd socket file
-  template:
-    src: gunicorn.socket.j2
-    dest: /etc/systemd/system/gunicorn.socket
-    mode: "0644"
-  become: true
-  become_user: root
-
 - name: Allow GitHub Actions to reload Gunicorn
   lineinfile:
     path: /etc/sudoers
     line: "{{ item }}"
     validate: "visudo -cf %s"
   with_items:
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl start gunicorn"
     - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl reload gunicorn"
   become: true
   become_user: root

@@ -3,6 +3,9 @@
 # hostname of the application (needed for NGINX and certbot)
 python_app_hostname: ~
 
+# name of the application
+python_app_name: ~
+
 # user that the app runs as and uses for its working directory
 python_app_user: ~
 

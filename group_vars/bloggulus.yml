@@ -1,5 +1,6 @@
 ---
 python_app_hostname: "bloggulus.com"
+python_app_name: "bloggulus"
 python_app_user: "bloggulus"
 
 python_app_wsgi_callable: "bloggulus.app:app"
@@ -9,5 +10,3 @@ python_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDB9zapq3vGBDzNA
 python_app_env_vars:
   - name: FLASK_ENV
     value: production
-  - name: BLOGGULUS_WEB_ROOT
-    value: /home/bloggulus/web
