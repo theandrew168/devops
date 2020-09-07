@@ -24,6 +24,7 @@ ExecReload=/usr/sbin/nginx -c /home/{{ python_app_name }}/nginx.conf -g 'daemon 
 ExecStop=-/sbin/start-stop-daemon --quiet --stop --retry QUIT/5 --pidfile /run/nginx.pid
 TimeoutStopSec=5
 KillMode=mixed
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target

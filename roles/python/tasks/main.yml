@@ -6,6 +6,8 @@
       - certbot
       - nginx
       - python3
+      - python3-gevent
+      - python3-gunicorn
     state: latest
     update_cache: true
     cache_valid_time: 3600
@@ -15,7 +17,7 @@
 
 - name: Create the application user
   user:
-    name: "{{ python_app_name }}"
+    name: "{{ python_app_user }}"
     shell: /bin/bash
   become: true
   become_user: root
@@ -23,29 +25,37 @@
 - name: Setup NGINX config file
   template:
     src: nginx.conf.j2
-    dest: "/home/{{ python_app_name }}/nginx.conf"
+    dest: "/home/{{ python_app_user }}/nginx.conf"
     mode: "0600"
   notify: restart nginx
   become: true
-  become_user: "{{ python_app_name }}"
+  become_user: "{{ python_app_user }}"
+
+- name: Setup Gunicorn config file
+  template:
+    src: gunicorn.conf.py.j2
+    dest: "/home/{{ python_app_user }}/gunicorn.conf.py"
+    mode: "0600"
+  become: true
+  become_user: "{{ python_app_user }}"
 
 - name: Create app logs dir
   file:
-    path: "/home/{{ python_app_name }}/logs"
+    path: "/home/{{ python_app_user }}/logs"
     state: directory
   become: true
-  become_user: "{{ python_app_name }}"
+  become_user: "{{ python_app_user }}"
 
 - name: Setup authorized SSH public key for GitHub Actions
   authorized_key:
-    user: "{{ python_app_name }}"
+    user: "{{ python_app_user }}"
     key: "{{ python_app_deployment_key }}"
   become: true
-  become_user: "{{ python_app_name }}"
+  become_user: "{{ python_app_user }}"
 
 - name: Setup systemd environment vars file
   lineinfile:
-    path: /home/{{ python_app_name }}/{{ python_app_name }}.env
+    path: /home/{{ python_app_user }}/gunicorn.env
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
     create: true
@@ -53,7 +63,7 @@
   with_items: "{{ python_app_env_vars }}"
   no_log: true
   become: true
-  become_user: "{{ python_app_name }}"
+  become_user: "{{ python_app_user }}"
 
 - name: Setup NGINX systemd unit file
   template:
@@ -123,36 +133,41 @@
     name: nginx cycle logs
     special_time: weekly
     job: >
-      rm -f /home/{{ python_app_name }}/logs/*.log &&
-      nginx -c /home/{{ python_app_name }}/nginx.conf -s reopen
+      rm -f /home/{{ python_app_user }}/logs/*.log &&
+      nginx -c /home/{{ python_app_user }}/nginx.conf -s reopen
   become: true
   become_user: root
 
-- name: Setup app systemd service file
+- name: Setup Gunicorn systemd service file
   template:
-    src: python.service.j2
-    dest: /etc/systemd/system/{{ python_app_name }}.service
+    src: gunicorn.service.j2
+    dest: /etc/systemd/system/gunicorn.service
     mode: "0644"
   become: true
   become_user: root
 
-- name: Enable app systemd unit at startup
+- name: Enable Gunicorn systemd service
   systemd:
-    name: "{{ python_app_name }}"
+    name: gunicorn
     enabled: true
     daemon_reload: true
   become: true
   become_user: root
 
-- name: Allow application user to manage the app via systemctl
+- name: Setup Gunicorn systemd socket file
+  template:
+    src: gunicorn.socket.j2
+    dest: /etc/systemd/system/gunicorn.socket
+    mode: "0644"
+  become: true
+  become_user: root
+
+- name: Allow GitHub Actions to reload Gunicorn
   lineinfile:
     path: /etc/sudoers
     line: "{{ item }}"
     validate: "visudo -cf %s"
   with_items:
-    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl status {{ python_app_name }}"
-    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl stop {{ python_app_name }}"
-    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl start {{ python_app_name }}"
-    - "{{ python_app_name }} ALL=NOPASSWD: /bin/systemctl restart {{ python_app_name }}"
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl reload gunicorn"
   become: true
   become_user: root

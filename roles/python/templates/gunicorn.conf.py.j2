@@ -1,0 +1,5 @@
+import os
+
+bind = 'unix:/run/gunicorn.sock'
+worker_class = 'gevent'
+workers = os.cpu_count() * 2 + 1

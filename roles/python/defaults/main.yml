@@ -1,10 +1,13 @@
 ---
 
-# name of the application (will also be the name of: executable, user, systemd service)
-python_app_name: ~
-
 # hostname of the application (needed for NGINX and certbot)
 python_app_hostname: ~
+
+# user that the app runs as and uses for its working directory
+python_app_user: ~
+
+# name of the WSGI callable (used by gunicorn)
+python_app_wsgi_callable: ~
 
 # ssh authorized (public) key that GitHub Actions will use to deploy the app
 python_app_deployment_key: ~

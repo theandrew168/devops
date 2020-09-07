@@ -6,10 +6,3 @@
     state: restarted
   become: true
   become_user: root
-
-- name: restart app
-  systemd:
-    name: "{{ python_app_name }}"
-    state: restarted
-  become: true
-  become_user: root

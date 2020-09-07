@@ -1,0 +1,9 @@
+[Unit]
+Description=gunicorn wsgi server socket
+
+[Socket]
+ListenStream=/run/gunicorn.sock
+Mode=0600
+
+[Install]
+WantedBy=sockets.target

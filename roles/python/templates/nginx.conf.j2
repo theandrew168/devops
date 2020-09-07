@@ -7,6 +7,10 @@ events {
 http {
     include /etc/nginx/mime.types;
 
+    upstream app_server {
+        server unix:/run/gunicorn.sock fail_timeout=0;
+    }
+
     server {
         listen 80;
         server_name {{ python_app_hostname }};
@@ -48,15 +52,15 @@ http {
         add_header  X-Content-Type-Options nosniff;
         add_header  X-XSS-Protection "1; mode=block";
 
-        access_log  /home/{{ python_app_name }}/logs/nginx_access.log;
-        error_log   /home/{{ python_app_name }}/logs/nginx_error.log;
+        access_log  /home/{{ python_app_user }}/logs/nginx_access.log;
+        error_log   /home/{{ python_app_user }}/logs/nginx_error.log;
 
-        location /static/ {
-            alias /home/{{ python_app_name }}/static/;
-        }
+#        location /static/ {
+#            alias /home/{{ python_app_user }}/static/;
+#        }
 
         location / {
-            proxy_pass        http://127.0.0.1:5000/;
+            proxy_pass        http://app_server;
             proxy_redirect    off;
 
             proxy_set_header  Host               $host;
