@@ -51,6 +51,10 @@ http {
         access_log  /home/{{ python_app_user }}/logs/nginx_access.log;
         error_log   /home/{{ python_app_user }}/logs/nginx_error.log;
 
+        location /static/ {
+            alias /home/{{ python_app_user }}/static/;
+        }
+
         location / {
             proxy_pass        http://localhost:8000;
             proxy_redirect    off;

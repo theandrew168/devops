@@ -9,9 +9,6 @@ python_app_name: ~
 # user that the app runs as and uses for its working directory
 python_app_user: ~
 
-# name of the WSGI callable (used by gunicorn)
-python_app_wsgi_callable: ~
-
 # ssh authorized (public) key that GitHub Actions will use to deploy the app
 python_app_deployment_key: ~
 

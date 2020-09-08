@@ -4,10 +4,8 @@
   apt:
     name:
       - certbot
-      - gunicorn
       - nginx
       - python3
-      - python3-gevent
     state: latest
     update_cache: true
     cache_valid_time: 3600
@@ -31,14 +29,6 @@
   become: true
   become_user: "{{ python_app_user }}"
 
-- name: Setup Gunicorn config file
-  template:
-    src: gunicorn.conf.py.j2
-    dest: "/home/{{ python_app_user }}/gunicorn.conf.py"
-    mode: "0600"
-  become: true
-  become_user: "{{ python_app_user }}"
-
 - name: Create app logs dir
   file:
     path: "/home/{{ python_app_user }}/logs"
@@ -55,7 +45,7 @@
 
 - name: Setup systemd environment vars file
   lineinfile:
-    path: /home/{{ python_app_user }}/gunicorn.env
+    path: /home/{{ python_app_user }}/{{ python_app_name }}.env
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
     create: true
@@ -84,6 +74,7 @@
 
 - name: Obtain initial TLS key / cert
   shell: >
+    systemctl stop nginx &&
     certbot certonly
     --noninteractive
     --agree-tos
@@ -138,17 +129,17 @@
   become: true
   become_user: root
 
-- name: Setup Gunicorn systemd service file
+- name: Setup Python systemd service file
   template:
-    src: gunicorn.service.j2
-    dest: /etc/systemd/system/gunicorn.service
+    src: python.service.j2
+    dest: /etc/systemd/system/{{ python_app_name }}.service
     mode: "0644"
   become: true
   become_user: root
 
-- name: Enable Gunicorn systemd service
+- name: Enable Python systemd service
   systemd:
-    name: gunicorn
+    name: "{{ python_app_name }}"
     enabled: true
     daemon_reload: true
   become: true
@@ -160,7 +151,9 @@
     line: "{{ item }}"
     validate: "visudo -cf %s"
   with_items:
-    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl start gunicorn"
-    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl reload gunicorn"
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl stop {{ python_app_name }}"
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ python_app_name }}"
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ python_app_name }}"
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl reload {{ python_app_name }}"
   become: true
   become_user: root
