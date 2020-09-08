@@ -5,6 +5,7 @@
     name:
       - htop
       - net-tools
+      - sqlite3
       - tree
       - unzip
       - vim
