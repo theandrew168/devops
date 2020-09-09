@@ -12,16 +12,17 @@ ExecStart=/home/{{ python_app_user }}/{{ python_app_name }}.pyz gunicorn
 TimeoutStopSec=5
 KillMode=mixed
 
-#CapabilityBoundingSet=~CAP_SYS_ADMIN
+CapabilityBoundingSet=~CAP_SYS_ADMIN
+PrivateDevices=true
+PrivateTmp=true
+ProtectControlGroups=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+SystemCallArchitectures=native
+
 #DynamicUser=true
-#PrivateDevices=true
-#PrivateTmp=true
-#ProtectControlGroups=true
 #ProtectHome=true
-#ProtectKernelModules=true
-#ProtectKernelTunables=true
-#ProtectSystem=strict
-#SystemCallArchitectures=native
 
 [Install]
 WantedBy=multi-user.target

@@ -23,3 +23,30 @@ resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
   tag    = "issue"
   ttl    = "3600"
 }
+
+resource "digitalocean_database_cluster" "bloggulus_primary" {
+  name       = "bloggulus-primary"
+  engine     = "pg"
+  version    = "12"
+  size       = "db-s-1vcpu-1gb"
+  region     = "nyc1"
+  node_count = 1
+}
+
+resource "digitalocean_database_firewall" "bloggulus_primary" {
+  cluster_id = digitalocean_database_cluster.bloggulus_primary.id
+  rule {
+    type  = "droplet"
+    value = digitalocean_droplet.bloggulus.id
+  }
+}
+
+resource "digitalocean_database_user" "bloggulus" {
+  cluster_id = digitalocean_database_cluster.bloggulus_primary.id
+  name       = "bloggulus"
+}
+
+resource "digitalocean_database_db" "bloggulus" {
+  cluster_id = digitalocean_database_cluster.bloggulus_primary.id
+  name       = "bloggulus"
+}
