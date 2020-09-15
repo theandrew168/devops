@@ -1,0 +1,22 @@
+---
+
+- name: Install postgresql
+  apt:
+    name:
+      - postgresql-12
+      - postgresql-client-12
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+  become: true
+  become_user: root
+
+#- name: Setup pg_hba.conf file
+#  template:
+#    src: pg_hba.conf.j2
+#    dest: /path/to/cluster/pg_hba.conf
+#    mode: "0600"
+#  notify: restart postgresql
+#  become: true
+#  become_user: root
