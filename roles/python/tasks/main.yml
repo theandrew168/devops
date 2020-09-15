@@ -55,6 +55,18 @@
   become: true
   become_user: "{{ python_app_user }}"
 
+- name: Setup exportable environment vars file
+  lineinfile:
+    path: /home/{{ python_app_user }}/{{ python_app_name }}.exp
+    regexp: "^export {{ item.name }}="
+    line: "export {{ item.name }}={{ item.value }}"
+    create: true
+    mode: "0600"
+  with_items: "{{ python_app_env_vars }}"
+  no_log: true
+  become: true
+  become_user: "{{ python_app_user }}"
+
 - name: Setup NGINX systemd unit file
   template:
     src: nginx.service.j2
