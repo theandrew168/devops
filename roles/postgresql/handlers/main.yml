@@ -1,8 +1,0 @@
----
-
-- name: restart postgresql
-  systemd:
-    name: postgresql
-    state: restarted
-  become: true
-  become_user: root
