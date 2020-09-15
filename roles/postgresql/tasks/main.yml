@@ -1,10 +1,11 @@
 ---
 
-- name: Install postgresql
+- name: Install postgresql (and psycopg2)
   apt:
     name:
       - postgresql-12
       - postgresql-client-12
+      - python3-psycopg2
     state: latest
     update_cache: true
     cache_valid_time: 3600
@@ -12,11 +13,18 @@
   become: true
   become_user: root
 
-#- name: Setup pg_hba.conf file
-#  template:
-#    src: pg_hba.conf.j2
-#    dest: /path/to/cluster/pg_hba.conf
-#    mode: "0600"
-#  notify: restart postgresql
-#  become: true
-#  become_user: root
+- name: Create users
+  postgresql_user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+  with_items: "{{ postgresql_users }}"
+  become: true
+  become_user: postgres
+
+- name: Create databases
+  postgresql_db:
+    name: "{{ item.name }}"
+    owner: "{{ item.owner }}"
+  with_items: "{{ postgresql_databases }}"
+  become: true
+  become_user: postgres

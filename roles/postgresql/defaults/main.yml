@@ -1,1 +1,7 @@
 ---
+
+# list of dicts with keys: username, password
+postgresql_users: []
+
+# list of dicts with keys: name, owner
+postgresql_databases: []
