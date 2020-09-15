@@ -1,0 +1,14 @@
+[Unit]
+Description=Redis persistent key-value storage
+After=network.target
+
+[Service]
+Type=notify
+ExecStart=/usr/local/bin/redis-server /etc/redis.conf
+ExecStop=/usr/local/bin/redis-cli -p 6379 shutdown
+ExecReload=/bin/kill -USR2 $MAINPID
+TimeoutStartSec=5
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target
