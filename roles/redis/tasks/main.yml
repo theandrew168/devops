@@ -1,5 +1,18 @@
 ---
 
+- name: Install dependencies
+  apt:
+    name:
+      - build-essential
+      - libsystemd-dev
+      - pkg-config
+    state: latest
+    update_cache: true
+    cache_valid_time: 3600
+    force_apt_get: true
+  become: true
+  become_user: root
+
 - name: Enable overcommit_memory in sysctl
   sysctl:
     name: vm.overcommit_memory

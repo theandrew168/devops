@@ -3,11 +3,8 @@
 - name: Install common system tools
   apt:
     name:
-      - build-essential
       - htop
-      - libsystemd-dev
       - net-tools
-      - pkg-config
       - sqlite3
       - tree
       - unzip
