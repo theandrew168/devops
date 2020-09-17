@@ -163,6 +163,7 @@
     line: "{{ item }}"
     validate: "visudo -cf %s"
   with_items:
+    - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl status {{ python_app_name }}"
     - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl stop {{ python_app_name }}"
     - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ python_app_name }}"
     - "{{ python_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ python_app_name }}"
