@@ -3,7 +3,6 @@
 - hosts: bloggulus
   roles:
     - ubuntu
-    - redis
     - python
 
 - hosts: bloggulus
