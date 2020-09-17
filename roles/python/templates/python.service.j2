@@ -8,7 +8,6 @@ User={{ python_app_user }}
 Group={{ python_app_user }}
 WorkingDirectory=/home/{{ python_app_user }}/
 EnvironmentFile=/home/{{ python_app_user }}/{{ python_app_name }}.env
-ExecStartPre=/home/{{ python_app_user }}/{{ python_app_name }}.pyz migrate
 ExecStart=/home/{{ python_app_user }}/{{ python_app_name }}.pyz gunicorn
 TimeoutStopSec=5
 KillMode=mixed
@@ -21,9 +20,6 @@ ProtectKernelModules=true
 ProtectKernelTunables=true
 ProtectSystem=strict
 SystemCallArchitectures=native
-
-#DynamicUser=true
-#ProtectHome=true
 
 [Install]
 WantedBy=multi-user.target

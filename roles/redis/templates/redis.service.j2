@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 Type=notify
-ExecStart=/usr/local/bin/redis-server /etc/redis.conf
+ExecStart=/usr/local/bin/redis-server /etc/redis.conf --supervised systemd --daemonize no
 ExecStop=/usr/local/bin/redis-cli -p 6379 shutdown
 ExecReload=/bin/kill -USR2 $MAINPID
 TimeoutStartSec=5
