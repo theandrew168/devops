@@ -1,6 +1,0 @@
----
-
-- hosts: thebrosmakeagame
-  roles:
-    - ubuntu
-    - go
