@@ -157,7 +157,7 @@
   become: true
   become_user: root
 
-- name: Allow GitHub Actions to reload Gunicorn
+- name: Allow GitHub Actions to reload the application
   lineinfile:
     path: /etc/sudoers
     line: "{{ item }}"

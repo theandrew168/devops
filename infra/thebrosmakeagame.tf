@@ -2,7 +2,6 @@ resource "digitalocean_app" "thebrosmakeagame" {
   spec {
     name    = "thebrosmakeagame"
     region  = "nyc"
-    domains = ["thebrosmakeagame.com"]
 
     service {
       name               = "thebrosmakeagame"
