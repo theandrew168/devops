@@ -10,9 +10,6 @@ resource "digitalocean_app" "thebrosmakeagame" {
       instance_count     = 1
       instance_size_slug = "basic-xxs"
 
-      run_command = "python3 main.py"
-      http_port   = 8000
-
       github {
         repo   = "theandrew168/thebrosmakeagame"
         branch = "main"
