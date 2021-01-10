@@ -4,6 +4,13 @@ resource "digitalocean_app" "thebrosmakeagame" {
     region  = "nyc"
     domains = ["thebrosmakeagame.com"]
 
+    database {
+      name       = "db"
+      engine     = "PG"
+      production = false
+      version    = "12"
+    }
+
     service {
       name               = "thebrosmakeagame"
       environment_slug   = "python"
@@ -15,6 +22,12 @@ resource "digitalocean_app" "thebrosmakeagame" {
         branch = "main"
 
         deploy_on_push = true
+      }
+
+      env {
+        key   = "DATABASE_URL"
+        value = "$${db.DATABASE_URL}"
+        scope = "RUN_TIME"
       }
 
       routes {
