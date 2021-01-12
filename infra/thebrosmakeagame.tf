@@ -13,7 +13,7 @@ resource "digitalocean_app" "thebrosmakeagame" {
 
     service {
       name               = "thebrosmakeagame"
-      environment_slug   = "python"
+      environment_slug   = "go"
       instance_count     = 1
       instance_size_slug = "basic-xxs"
 
