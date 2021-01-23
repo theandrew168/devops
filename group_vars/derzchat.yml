@@ -1,0 +1,9 @@
+---
+ubuntu_firewall_rules:
+  - rule: allow
+    port: 31415
+
+go_app_name: "derzchat"
+go_app_user: "derzchat"
+
+go_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDeVMmtR3rt76GtPzr5byyMx75wvcDVtNjmn24AIPcUAevixVkziU3l+Qo5qAYAI7viPiSWo6BvYC37e3Fo/6GfC6OI5zEyDezC1KfXPagAZaavSkbvcT4XEmzhfwjUW4onKmzJ88cusDKJGXuHZ+xF9cNH2RoLMXkuDIhm0te4WPVR4eHmhTrRKsteaNParOc5QXAesgAuO7ldDwJNks81yfLf+HfAUi6Q6DCSVPwgNT30MnJond6MrUF2y6GoOeazH5wOUbxCgvz8HxeWtQHTQ+xMfMhQfcn1U+MKc92Av+ayxNKMnlOFCQeLOzVU2T2QXRNyDGWhwdB9At+xwhHrlrqXvQe5rKnIhQy41Ar7xGqo6l8Hb0auImI8skjoTelxctx+D/46gutHUX2eqTqVQ0KebI7K/a8szRvpSge1ed6h/c/NO1Oaseb+MNvm8u8ETd98zM2b9WVqT0h2WMEMZAbdk1xMseHH+oYuH1a9GA0I1fik2+oOSDKYNZxlL38= derz@topeka

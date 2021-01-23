@@ -1,0 +1,14 @@
+[Unit]
+Description=the {{ go_app_name }} application
+After=network.target
+
+[Service]
+Type=simple
+User={{ go_app_user }}
+Group={{ go_app_user }}
+ExecStart=/home/{{ go_app_user }}/{{ go_app_name }}
+WorkingDirectory=/home/{{ go_app_user }}
+EnvironmentFile=/home/{{ go_app_user }}/{{ go_app_name}}.env
+
+[Install]
+WantedBy=multi-user.target

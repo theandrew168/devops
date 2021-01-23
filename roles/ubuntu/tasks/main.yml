@@ -23,25 +23,26 @@
   become: true
   become_user: root
 
-- name: Setup web application definitions for UFW
-  copy:
-    src: ufw_web.ini
-    dest: /etc/ufw/applications.d/web
-    mode: "0644"
+- name: Disable password login
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^PasswordAuthentication"
+    line: "PasswordAuthentication no"
   become: true
   become_user: root
 
-- name: Set UFW to allow web traffic (80/tcp, 443/tcp)
+- name: Limit SSH attempts
   ufw:
-    name: Web Full
-    rule: allow
-  become: true
-  become_user: root
-
-- name: Set UFW to limit ssh traffic (22/tcp)
-  ufw:
-    name: OpenSSH
     rule: limit
+    port: 22
+  become: true
+  become_user: root
+
+- name: Setup firewall rules
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+  with_items: "{{ ubuntu_firewall_rules }}"
   become: true
   become_user: root
 

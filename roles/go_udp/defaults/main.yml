@@ -1,0 +1,13 @@
+---
+
+# name of the app executable and systemd socket / service
+go_app_name: ~
+
+# user that the app runs as and uses for its working directory
+go_app_user: ~
+
+# ssh authorized (public) key that GitHub Actions will use to deploy the app
+go_app_deployment_key: ~
+
+# list of dicts with keys: name, value
+go_app_env_vars: []
