@@ -14,5 +14,5 @@
         job: >
           . /home/{{ python_app_user }}/{{ python_app_name }}.exp &&
           /home/{{ python_app_user }}/{{ python_app_name }}.pyz syncfeeds
-      become: true
+      become: yes
       become_user: "{{ python_app_user }}"

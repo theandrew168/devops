@@ -6,27 +6,24 @@
       - build-essential
       - libsystemd-dev
       - pkg-config
-    state: latest
-    force_apt_get: true
-    update_cache: true
-    cache_valid_time: 3600
-  become: true
+    update_cache: yes
+  become: yes
   become_user: root
 
 - name: Enable overcommit_memory in sysctl
   sysctl:
     name: vm.overcommit_memory
     value: "1"
-  become: true
+  become: yes
   become_user: root
 
 - name: Download and extract Redis source
   unarchive:
-    remote_src: true
     src: http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz
     dest: /tmp
     creates: /tmp/redis-{{ redis_version }}/
-  become: true
+    remote_src: yes
+  become: yes
   become_user: root
 
 - name: Build Redis
@@ -34,7 +31,7 @@
   args:
     chdir: /tmp/redis-{{ redis_version }}
     creates: /tmp/redis-{{ redis_version }}/src/redis-server
-  become: true
+  become: yes
   become_user: root
 
 - name: Install Redis
@@ -43,7 +40,7 @@
     chdir: /tmp/redis-{{ redis_version }}
     creates: /usr/local/bin/redis-server
   notify: restart redis
-  become: true
+  become: yes
   become_user: root
 
 - name: Setup Redis config file
@@ -52,7 +49,7 @@
     dest: /etc/redis.conf
     mode: "0600"
   notify: restart redis
-  become: true
+  become: yes
   become_user: root
 
 - name: Setup Redis systemd unit file
@@ -61,13 +58,13 @@
     dest: /etc/systemd/system/redis.service
     mode: "0644"
   notify: restart redis
-  become: true
+  become: yes
   become_user: root
 
 - name: Enable Redis systemd unit at startup
   systemd:
     name: redis
-    enabled: true
-    daemon_reload: true
-  become: true
+    enabled: yes
+    daemon_reload: yes
+  become: yes
   become_user: root

@@ -8,14 +8,14 @@
   user:
     name: "{{ go_app_user }}"
     shell: /bin/bash
-  become: true
+  become: yes
   become_user: root
 
 - name: Setup authorized SSH public key for GitHub Actions
   authorized_key:
     user: "{{ go_app_user }}"
     key: "{{ go_app_deployment_key }}"
-  become: true
+  become: yes
   become_user: "{{ go_app_user }}"
 
 - name: Create systemd environment vars file
@@ -25,7 +25,7 @@
     mode: "0600"
     modification_time: preserve
     access_time: preserve
-  become: true
+  become: yes
   become_user: "{{ go_app_user }}"
 
 - name: Setup systemd environment vars
@@ -34,8 +34,8 @@
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
   with_items: "{{ go_app_env_vars }}"
-  no_log: true
-  become: true
+  no_log: yes
+  become: yes
   become_user: "{{ go_app_user }}"
 
 - name: Setup systemd service file
@@ -43,7 +43,7 @@
     src: go.service.j2
     dest: /etc/systemd/system/{{ go_app_name }}.service
     mode: "0644"
-  become: true
+  become: yes
   become_user: root
 
 - name: Setup systemd socket file
@@ -51,7 +51,7 @@
     src: go.socket.j2
     dest: /etc/systemd/system/{{ go_app_name }}.socket
     mode: "0644"
-  become: true
+  become: yes
   become_user: root
 
 - name: Allow application user to control the application
@@ -65,13 +65,13 @@
     - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ go_app_name }}"
     - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ go_app_name }}"
     - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl reload {{ go_app_name }}"
-  become: true
+  become: yes
   become_user: root
 
 - name: Enable systemd unit at startup
   systemd:
     name: "{{ go_app_name }}"
-    enabled: true
-    daemon_reload: true
-  become: true
+    enabled: yes
+    daemon_reload: yes
+  become: yes
   become_user: root

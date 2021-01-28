@@ -35,6 +35,9 @@ cd infra/
 terraform init
 ```
 
+## Usage
+
+
 ## Directory Structure
 `group_vars/` - Ansible variables for specific deployments  
 `infra/` - Terraform config files for Digital Ocean infrastructure  

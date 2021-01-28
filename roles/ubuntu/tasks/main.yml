@@ -9,18 +9,15 @@
       - tree
       - unzip
       - vim
-    state: latest
-    force_apt_get: true
-    update_cache: true
-    cache_valid_time: 3600
-  become: true
+    update_cache: yes
+  become: yes
   become_user: root
 
 - name: Make vim the default text editor
   alternatives:
     name: editor
     path: /usr/bin/vim.basic
-  become: true
+  become: yes
   become_user: root
 
 - name: Disable password login
@@ -28,14 +25,14 @@
     path: /etc/ssh/sshd_config
     regexp: "^PasswordAuthentication"
     line: "PasswordAuthentication no"
-  become: true
+  become: yes
   become_user: root
 
 - name: Limit SSH attempts
   ufw:
     rule: limit
     port: "22"
-  become: true
+  become: yes
   become_user: root
 
 - name: Setup firewall rules
@@ -43,11 +40,11 @@
     rule: "{{ item.rule }}"
     port: "{{ item.port }}"
   with_items: "{{ ubuntu_firewall_rules }}"
-  become: true
+  become: yes
   become_user: root
 
 - name: Enable UFW
   ufw:
     state: enabled
-  become: true
+  become: yes
   become_user: root
