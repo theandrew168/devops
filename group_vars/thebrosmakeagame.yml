@@ -1,9 +1,0 @@
----
-go_app_name: "thebrosmakeagame"
-go_app_user: "thebrosmakeagame"
-
-go_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDPG+0OW14axVUzV678aJavlt6xr3cOuWt2NPYoXL63eJbKUBHxQH478J/7rtkxcUFu2BUXrgjH+enXPfZJEt185E5hNS7yjuwUQNd6TODLWaz3KyYHKTMdD4G+6VUJZi4j8ZLa3EVKHBwR9oKkyEt114e/tinVhD0+wYeEiR1lq/QQeD94FOOXHaGG/7kxII/KHIiKFu23caZmKRR3N8hVVBhn/wycGpquV9mXO1nhRNTdT0aW5vR9sT61Jl9aB6RZcQwgwX/DSevB73gdmUeRtkWsMVwF3ORbdoI8ejWgszW9k6GyuZmE2zZKlzGoDAFlgfYutP5ogJfj4sD+btlVmFt62L85AxMCNEIF8/jX8PqMEoeDzt/9P1/6iHAqkZBWdlVR8e/RPqq36ZLvfsCt66YaGG+OBdLs+m5OueVNTbXKQLYlN3MA9dltcccP3SUxGt6Qup+2FTHMXHB4GL91U7k8JfqRbNfLwXdK/3gERH90X8+qxRZTw9J7MIa29tM= derz@topeka
-
-go_app_env_vars:
-  - name: THEBROSMAKEAGAME_WEB_ROOT
-    value: /home/thebrosmakeagame/web

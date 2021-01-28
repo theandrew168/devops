@@ -18,12 +18,21 @@
   become: true
   become_user: "{{ go_app_user }}"
 
-- name: Setup systemd environment vars file
+- name: Create systemd environment vars file
+  file:
+    path: /home/{{ go_app_user }}/{{ go_app_name }}.env
+    state: touch
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+  become: true
+  become_user: "{{ go_app_user }}"
+
+- name: Setup systemd environment vars
   lineinfile:
     path: /home/{{ go_app_user }}/{{ go_app_name }}.env
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
-    create: true
   with_items: "{{ go_app_env_vars }}"
   no_log: true
   become: true
@@ -45,12 +54,17 @@
   become: true
   become_user: root
 
-- name: Allow application user to restart the app via systemctl
+- name: Allow application user to control the application
   lineinfile:
     path: /etc/sudoers
-    regexp: "^{{ go_app_user }}"
-    line: "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ go_app_name }}"
+    line: "{{ item }}"
     validate: "visudo -cf %s"
+  with_items:
+    - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl status {{ go_app_name }}"
+    - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl stop {{ go_app_name }}"
+    - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ go_app_name }}"
+    - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ go_app_name }}"
+    - "{{ go_app_user }} ALL=NOPASSWD: /bin/systemctl reload {{ go_app_name }}"
   become: true
   become_user: root
 

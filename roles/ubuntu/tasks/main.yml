@@ -10,9 +10,9 @@
       - unzip
       - vim
     state: latest
+    force_apt_get: true
     update_cache: true
     cache_valid_time: 3600
-    force_apt_get: true
   become: true
   become_user: root
 
@@ -34,7 +34,7 @@
 - name: Limit SSH attempts
   ufw:
     rule: limit
-    port: 22
+    port: "22"
   become: true
   become_user: root
 

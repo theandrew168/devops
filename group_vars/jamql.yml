@@ -1,4 +1,10 @@
 ---
+ubuntu_firewall_rules:
+  - rule: allow
+    port: 80
+  - rule: allow
+    port: 443
+
 go_app_name: "jamql"
 go_app_user: "jamql"
 

@@ -1,6 +1,0 @@
----
-
-- hosts: derzchat
-  roles:
-    - ubuntu
-    - go_udp
