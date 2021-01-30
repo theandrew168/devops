@@ -7,6 +7,7 @@ go_app_name: ~
 go_app_user: ~
 
 # ssh authorized (public) key that GitHub Actions will use to deploy the app
+# the corresponding private key must be setup as a GH secret: FOOBAR_SSH_KEY
 go_app_deployment_key: ~
 
 # list of dicts with keys: name, value
