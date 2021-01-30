@@ -49,12 +49,43 @@ terraform apply
 If this is for an app platform-based application, then we are done!
 That's all it takes, really.
 Once active, Digital Ocean will watch for new changes to the repo and auto-deploy the latest code.
-It even handles the acquisition and renewal of a TLS certificate which is a big win.
+It even handles the acquisition and renewal of TLS certificates which is a big win.
 
 For droplet-based applictions, we need to run Ansible to get the server ready for hosting an application.
 Note that this only has to happen once when the droplet is first created.
 ```
 ansible-playbook -u root -i hosts <playbook_file>
+```
+
+## GitHub Actions
+On top of using GitHub Actions for automating testing and builds, I use it to push verified artifacts out to the server.
+This isn't magic, of course, so some credentials are needed in order to do this.
+The following values must be manually setup on the repo using GitHub's [secrets](https://docs.github.com/en/actions/reference/encrypted-secrets) feature.
+
+| Name | Description |
+| --- | --- |
+| `FOOBAR_HOSTNAME` | Hostname associated with the application server |
+| `FOOBAR_SSH_USER` | SSH user to use when connecting to the server |
+| `FOOBAR_SSH_KEY` | SSH private key used to authenticate with the server |
+
+With the credentials in place, the only thing left is to add a couple workflow steps for copying the new artifact out to the server and then restarting the service.
+This is just a snippet!
+You can read more about the full syntax for GitHub Action workflows [here](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions).
+```
+- uses: appleboy/scp-action@master
+  with:
+    host: ${{ secrets.FOOBAR_HOSTNAME }}
+    username: ${{ secrets.FOOBAR_SSH_USER }}
+    key: ${{ secrets.FOOBAR_SSH_KEY }}
+    source: foobar
+    target: /home/${{ secrets.FOOBAR_SSH_USER }}/
+- uses: appleboy/ssh-action@master
+  with:
+    host: ${{ secrets.FOOBAR_HOSTNAME }}
+    username: ${{ secrets.FOOBAR_SSH_USER }}
+    key: ${{ secrets.FOOBAR_SSH_KEY }}
+    script: |
+      sudo systemctl restart foobar
 ```
 
 ## Directory Structure
