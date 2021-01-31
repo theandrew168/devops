@@ -1,7 +1,15 @@
 ---
 
 # list of dicts with keys: username, password
+#
+# example:
+#   - username: postgres
+#     password: postgres
 postgresql_users: []
 
 # list of dicts with keys: name, owner
+#
+# example:
+#   - name: foobar
+#     owner: postgres
 postgresql_databases: []
