@@ -36,8 +36,8 @@ terraform init
 ```
 
 ## Usage
-In general, I have two general app pipelines: use Ansible to setup a droplet for deployments via [GitHub Actions](https://github.com/features/actions) or let Digital Ocean's [app platform](https://www.digitalocean.com/products/app-platform/) do all of the heavy lifting.
-Both start with Terraform but the droplet-based approach needs a one-time off of Ansible to setup dependencies, firewalls, GitHub access keys, systemd units, etc.
+In general, setting up a server for app hosting involves three steps: use Terraform to create the droplet and associated a hostname, use Ansible to configure the server, then setup secrets to grant [GitHub Actions](https://github.com/features/actions) access to the droplet.
+The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup firewall rules, GitHub access keys, systemd units, etc.
 
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
 ```
@@ -46,15 +46,10 @@ terraform plan
 terraform apply
 ```
 
-If this is for an app platform-based application, then we are done!
-That's all it takes, really.
-Once active, Digital Ocean will watch for new changes to the repo and auto-deploy the latest code.
-It even handles the acquisition and renewal of TLS certificates which is a big win.
-
-For droplet-based applictions, we need to run Ansible to get the server ready for hosting an application.
+Next, we need to run Ansible to get the server ready for hosting an application.
 Note that this only has to happen once when the droplet is first created.
 ```
-ansible-playbook -u root -i hosts <playbook_file>
+ansible-playbook -u root -i hosts foobar.yml
 ```
 
 ## GitHub Actions
