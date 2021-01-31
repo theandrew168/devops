@@ -1,7 +1,10 @@
 ---
 
-ubuntu_firewall_rules:
-  - rule: allow
-    port: 80
-  - rule: allow
-    port: 443
+# list of dicts with keys: rule, port
+#
+# example:
+#   - rule: allow
+#     port: 80
+#   - rule: allow
+#     port: 443
+ubuntu_firewall_rules: []

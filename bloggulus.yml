@@ -3,16 +3,5 @@
 - hosts: bloggulus
   roles:
     - ubuntu
-    - python
-
-- hosts: bloggulus
-  tasks:
-    - name: Setup crontab entry for syncfeeds command
-      cron:
-        name: syncfeeds hourly
-        special_time: hourly
-        job: >
-          . /home/{{ python_app_user }}/{{ python_app_name }}.exp &&
-          /home/{{ python_app_user }}/{{ python_app_name }}.pyz syncfeeds
-      become: yes
-      become_user: "{{ python_app_user }}"
+    - postgresql
+    - go
