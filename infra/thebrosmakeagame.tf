@@ -1,38 +1,33 @@
-resource "digitalocean_app" "thebrosmakeagame" {
-  spec {
-    name    = "thebrosmakeagame"
-    region  = "nyc"
-    domains = ["thebrosmakeagame.com"]
+resource "digitalocean_droplet" "thebrosmakeagame" {
+  image    = "ubuntu-20-04-x64"
+  name     = "thebrosmakeagame"
+  region   = "nyc1"
+  size     = "s-1vcpu-1gb"
+  ssh_keys = [
+    digitalocean_ssh_key.andrew.fingerprint,
+    digitalocean_ssh_key.nick.fingerprint,
+  ]
+}
 
-    database {
-      name       = "db"
-      engine     = "PG"
-      production = false
-      version    = "12"
-    }
+resource "digitalocean_domain" "thebrosmakeagame" {
+  name       = "thebrosmakeagame.com"
+  ip_address = digitalocean_droplet.thebrosmakeagame.ipv4_address
+}
 
-    service {
-      name               = "thebrosmakeagame"
-      environment_slug   = "go"
-      instance_count     = 1
-      instance_size_slug = "basic-xxs"
+resource "digitalocean_record" "thebrosmakeagame_cname_www" {
+  domain = digitalocean_domain.thebrosmakeagame.name
+  type   = "CNAME"
+  name   = "www"
+  value  = "@"
+  ttl    = "43200"
+}
 
-      github {
-        repo   = "theandrew168/thebrosmakeagame"
-        branch = "main"
-
-        deploy_on_push = true
-      }
-
-      env {
-        key   = "DATABASE_URL"
-        value = "$${db.DATABASE_URL}"
-        scope = "RUN_TIME"
-      }
-
-      routes {
-        path = "/"
-      }
-    }
-  }
+resource "digitalocean_record" "thebrosmakeagame_caa_letsencrypt" {
+  domain = digitalocean_domain.thebrosmakeagame.name
+  type   = "CAA"
+  name   = "@"
+  value  = "letsencrypt.org."
+  ttl    = "3600"
+  flags  = "0"
+  tag    = "issue"
 }
