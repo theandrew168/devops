@@ -1,5 +1,25 @@
 ---
 
+- name: Ensure en_US.UTF-8 locale is available
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+  become: yes
+  become_user: root
+
+- name: Check current system locale
+  command: localectl status
+  register: locale_status
+  changed_when: no
+  become: yes
+  become_user: root
+
+- name: Set system locale
+  command: localectl set-locale en_US.UTF-8
+  when: "'LANG=en_US.UTF-8' not in locale_status.stdout"
+  become: yes
+  become_user: root
+
 - name: Install common system tools
   apt:
     name:
