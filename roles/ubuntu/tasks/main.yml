@@ -24,6 +24,7 @@
   apt:
     name:
       - htop
+      - ncdu
       - net-tools
       - sqlite3
       - tree

@@ -5,7 +5,6 @@ resource "digitalocean_droplet" "bloggulus" {
   size     = "s-1vcpu-1gb"
   ssh_keys = [
     digitalocean_ssh_key.andrew.fingerprint,
-    digitalocean_ssh_key.nick.fingerprint,
   ]
 }
 
