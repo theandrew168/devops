@@ -1,8 +1,8 @@
 ---
 
-- name: restart redis
+- name: restart app
   systemd:
-    name: redis
+    name: "{{ go_app_name }}"
     state: restarted
     daemon_reload: yes
   become: true

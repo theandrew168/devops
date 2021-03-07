@@ -1,3 +1,5 @@
+{{ ansible_managed | comment }}
+
 [Unit]
 Description=the {{ go_app_name }} application
 Requires={{ go_app_name }}.socket

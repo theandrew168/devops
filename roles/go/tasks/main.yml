@@ -34,6 +34,7 @@
     regexp: "^{{ item.name }}="
     line: "{{ item.name }}={{ item.value }}"
   with_items: "{{ go_app_env_vars }}"
+  notify: restart app
   no_log: yes
   become: yes
   become_user: "{{ go_app_user }}"
@@ -43,6 +44,7 @@
     src: go.service.j2
     dest: /etc/systemd/system/{{ go_app_name }}.service
     mode: "0644"
+  notify: restart app
   become: yes
   become_user: root
 
@@ -51,6 +53,7 @@
     src: go.socket.j2
     dest: /etc/systemd/system/{{ go_app_name }}.socket
     mode: "0644"
+  notify: restart app
   become: yes
   become_user: root
 
