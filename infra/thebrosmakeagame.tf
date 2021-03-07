@@ -10,7 +10,14 @@ resource "digitalocean_droplet" "thebrosmakeagame" {
 
 resource "digitalocean_domain" "thebrosmakeagame" {
   name       = "thebrosmakeagame.com"
-  ip_address = digitalocean_droplet.thebrosmakeagame.ipv4_address
+}
+
+resource "digitalocean_record" "thebrosmakeagame_a" {
+  domain = digitalocean_domain.thebrosmakeagame.name
+  type   = "A"
+  name   = "@"
+  value  = digitalocean_droplet.thebrosmakeagame.ipv4_address
+  ttl    = "3600"
 }
 
 resource "digitalocean_record" "thebrosmakeagame_cname_www" {

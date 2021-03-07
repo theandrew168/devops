@@ -10,7 +10,14 @@ resource "digitalocean_droplet" "jamql" {
 
 resource "digitalocean_domain" "jamql" {
   name       = "jamql.com"
-  ip_address = digitalocean_droplet.jamql.ipv4_address
+}
+
+resource "digitalocean_record" "jamql_a" {
+  domain = digitalocean_domain.jamql.name
+  type   = "A"
+  name   = "@"
+  value  = digitalocean_droplet.jamql.ipv4_address
+  ttl    = "3600"
 }
 
 resource "digitalocean_record" "jamql_cname_www" {

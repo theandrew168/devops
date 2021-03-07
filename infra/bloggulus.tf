@@ -10,7 +10,14 @@ resource "digitalocean_droplet" "bloggulus" {
 
 resource "digitalocean_domain" "bloggulus" {
   name       = "bloggulus.com"
-  ip_address = digitalocean_droplet.bloggulus.ipv4_address
+}
+
+resource "digitalocean_record" "bloggulus_a" {
+  domain = digitalocean_domain.bloggulus.name
+  type   = "A"
+  name   = "@"
+  value  = digitalocean_droplet.bloggulus.ipv4_address
+  ttl    = "3600"
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
