@@ -26,6 +26,7 @@
       - htop
       - ncdu
       - net-tools
+      - python3-venv
       - sqlite3
       - tree
       - unzip
