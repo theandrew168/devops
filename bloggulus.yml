@@ -5,4 +5,4 @@
     - ubuntu
     - postgresql
     - redis
-    - go
+    - web_app

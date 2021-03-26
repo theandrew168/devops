@@ -3,4 +3,4 @@
 - hosts: jamql
   roles:
     - ubuntu
-    - go
+    - web_app

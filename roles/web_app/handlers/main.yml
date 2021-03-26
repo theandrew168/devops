@@ -1,8 +1,8 @@
 ---
 
-- name: restart app
+- name: restart web app
   systemd:
-    name: "{{ go_app_name }}"
+    name: "{{ web_app_name }}"
     state: restarted
     daemon_reload: yes
   become: true

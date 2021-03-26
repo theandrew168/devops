@@ -4,4 +4,4 @@
   roles:
     - ubuntu
     - postgresql
-    - go
+    - web_app

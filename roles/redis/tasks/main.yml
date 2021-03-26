@@ -17,6 +17,7 @@
   become: yes
   become_user: root
 
+# TODO: make idempotent?
 - name: Download and extract Redis source
   unarchive:
     src: http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz
@@ -26,6 +27,7 @@
   become: yes
   become_user: root
 
+# TODO: make idempotent?
 - name: Build Redis
   command: make
   args:

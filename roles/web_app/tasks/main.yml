@@ -1,0 +1,76 @@
+---
+
+- name: Create the application user
+  user:
+    name: "{{ web_app_user }}"
+    shell: /bin/bash
+  become: yes
+  become_user: root
+
+- name: Setup authorized SSH public key for GitHub Actions
+  authorized_key:
+    user: "{{ web_app_user }}"
+    key: "{{ web_app_deployment_key }}"
+  become: yes
+  become_user: "{{ web_app_user }}"
+
+- name: Create systemd environment vars file
+  file:
+    path: /home/{{ web_app_user }}/{{ web_app_name }}.env
+    state: touch
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve
+  become: yes
+  become_user: "{{ web_app_user }}"
+
+- name: Setup systemd environment vars
+  lineinfile:
+    path: /home/{{ web_app_user }}/{{ web_app_name }}.env
+    regexp: "^{{ item.name }}="
+    line: "{{ item.name }}={{ item.value }}"
+  with_items: "{{ web_app_env_vars }}"
+  notify: restart web app
+  no_log: yes
+  become: yes
+  become_user: "{{ web_app_user }}"
+
+- name: Setup systemd service file
+  template:
+    src: web_app.service.j2
+    dest: /etc/systemd/system/{{ web_app_name }}.service
+    mode: "0644"
+  notify: restart web app
+  become: yes
+  become_user: root
+
+- name: Setup systemd socket file
+  template:
+    src: web_app.socket.j2
+    dest: /etc/systemd/system/{{ web_app_name }}.socket
+    mode: "0644"
+  notify: restart web app
+  become: yes
+  become_user: root
+
+- name: Allow application user to control the application
+  lineinfile:
+    path: /etc/sudoers
+    line: "{{ item }}"
+    validate: "visudo -cf %s"
+  with_items:
+    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl status {{ web_app_name }}"
+    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl stop {{ web_app_name }}"
+    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ web_app_name }}"
+    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ web_app_name }}"
+    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl reload {{ web_app_name }}"
+  become: yes
+  become_user: root
+
+- name: Enable systemd unit at startup
+  systemd:
+    name: "{{ web_app_name }}"
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

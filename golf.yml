@@ -3,3 +3,4 @@
 - hosts: golf
   roles:
     - ubuntu
+    - web_app
