@@ -8,11 +8,15 @@ ubuntu_firewall_rules:
 
 web_app_name: golf
 web_app_user: golf
+web_app_port: 5000
+web_app_hostnames:
+  - golf.shallowbrooksandbox.com
+  - www.golf.shallowbrooksandbox.com
 
 web_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJyoSo34vwJusF7xjFZYD5mtU9eXKjBeFlWsvqLP5r0CMIeylE7VVB1zW4IaaKKmwuJIil8xQRCJ/0HTA/q00XGjHNzdz3ra6kb0zAeF8KtO1W9IDS3e5brXhyx2IWBD+vABy96fmZjp8O4hjfLlsYJe3x3hKZCKFQ2dXK9ONnLR8S4G142+oN/H1erBoWyD0JEDO2Wlah6PJK0jeijMsUiJ4dQD+Fci3ZLEtOno1+nAWFAOB6kytpL74WeLVCqzXmtuap7e2wnFuqjcyeQPSCIG0EPBPx/sPiF1wRDsBbcLob9ogAGuURls7Qy8lG3Pk6tcIkxNZIeDkzDA1yD5uYz9coqZ1serKJe1R75zJYvAdo3v7SCRoXFfbrLcSVT1q5tkvJDuXquVlq2wHhS7HGXCzjLFRhzOP5h/EBgmIb7xTGX1U+bY+F0gE987c7i4627Bu2UvlZFBTC9FxS3qPIsvxIS7EtiIEYH3CVKRfuOs8MG32QNBiGqI8zieRx3Zs= derz@vulpix
 
 web_app_env_vars:
-  - name: SECRET_KEY
+  - name: GOLF_SECRET_KEY
     value: !vault |
       $ANSIBLE_VAULT;1.1;AES256
       31616634613263353930353562663266306238326633363261613731376531356563653263656264

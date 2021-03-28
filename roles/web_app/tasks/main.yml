@@ -1,5 +1,37 @@
 ---
 
+- name: Setup Caddy apt repo key
+  apt_key:
+    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+  become: yes
+  become_user: root
+
+- name: Setup Caddy apt repos
+  apt_repository:
+    repo: "{{ item }}"
+    update_cache: no
+  with_items:
+    - "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+    - "deb-src https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
+  become: yes
+  become_user: root
+
+- name: Install Caddy
+  apt:
+    name: caddy
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Setup Caddy config file
+  template:
+    src: Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+    mode: "0644"
+  notify: restart caddy
+  become: yes
+  become_user: root
+
 - name: Create the application user
   user:
     name: "{{ web_app_user }}"
@@ -39,15 +71,6 @@
   template:
     src: web_app.service.j2
     dest: /etc/systemd/system/{{ web_app_name }}.service
-    mode: "0644"
-  notify: restart web app
-  become: yes
-  become_user: root
-
-- name: Setup systemd socket file
-  template:
-    src: web_app.socket.j2
-    dest: /etc/systemd/system/{{ web_app_name }}.socket
     mode: "0644"
   notify: restart web app
   become: yes

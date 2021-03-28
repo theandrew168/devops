@@ -6,6 +6,12 @@ web_app_name: ~
 # user that the app runs as and uses for its working directory
 web_app_user: ~
 
+# local port on which the web app listens (5000, 8000, 8080, etc)
+web_app_port: ~
+
+# list of hostnames that point to the app server
+web_app_hostnames: []
+
 # ssh authorized (public) key that GitHub Actions will use to deploy the app
 # the corresponding private key must be setup as a GH secret: FOOBAR_SSH_KEY
 web_app_deployment_key: ~

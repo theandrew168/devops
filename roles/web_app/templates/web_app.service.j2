@@ -2,7 +2,6 @@
 
 [Unit]
 Description=the {{ web_app_name }} application
-Requires={{ web_app_name }}.socket
 After=network.target
 
 [Service]
@@ -12,7 +11,6 @@ Group={{ web_app_user }}
 ExecStart=/home/{{ web_app_user }}/{{ web_app_name }}
 WorkingDirectory=/home/{{ web_app_user }}
 EnvironmentFile=/home/{{ web_app_user }}/{{ web_app_name}}.env
-NonBlocking=true
 
 [Install]
 WantedBy=multi-user.target

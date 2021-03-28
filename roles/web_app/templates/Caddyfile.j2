@@ -1,0 +1,5 @@
+{{ ansible_managed | comment }}
+
+{{ web_app_hostnames | join(', ') }}
+
+reverse_proxy 127.0.0.1:{{ web_app_port }}
