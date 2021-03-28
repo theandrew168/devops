@@ -1,7 +1,0 @@
----
-
-- hosts: thebrosmakeagame
-  roles:
-    - ubuntu
-    - postgresql
-    - web_app
