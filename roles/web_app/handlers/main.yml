@@ -1,6 +1,6 @@
 ---
 
-- name: restart caddy
+- name: reload caddy
   systemd:
     name: caddy
     state: reloaded

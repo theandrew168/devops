@@ -28,7 +28,7 @@
     src: Caddyfile.j2
     dest: /etc/caddy/Caddyfile
     mode: "0644"
-  notify: restart caddy
+  notify: reload caddy
   become: yes
   become_user: root
 
