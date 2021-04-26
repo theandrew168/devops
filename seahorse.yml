@@ -1,0 +1,5 @@
+---
+
+- hosts: seahorse
+  roles:
+    - ubuntu

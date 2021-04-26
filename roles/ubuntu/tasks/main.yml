@@ -32,9 +32,24 @@
       - python3-venv
       - sqlite3
       - tree
+      - ufw
+      - unattended-upgrades
       - unzip
       - vim
     update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Configure unattended upgrades
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  with_items:
+    - src: 20auto-upgrades.j2
+      dest: /etc/apt/apt.conf.d/20auto-upgrades
+    - src: 50unattended-upgrades.j2
+      dest: /etc/apt/apt.conf.d/50unattended-upgrades
   become: yes
   become_user: root
 
@@ -45,15 +60,25 @@
   become: yes
   become_user: root
 
-- name: Disable password login
+- name: Enforce pubkey as only SSH auth method
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "^PasswordAuthentication"
-    line: "PasswordAuthentication no"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^PubkeyAuthentication"
+      line: "PubkeyAuthentication yes"
+    - regexp: "^PasswordAuthentication"
+      line: "PasswordAuthentication no"
+    - regexp: "^ChallengeResponseAuthentication"
+      line: "ChallengeResponseAuthentication no"
+    - regexp: "^UsePAM"
+      line: "UsePAM no"
+  notify: reload sshd
   become: yes
   become_user: root
 
-- name: Limit SSH attempts
+- name: Limit SSH login attempts
   ufw:
     rule: limit
     port: "22"

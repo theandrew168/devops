@@ -46,26 +46,15 @@
   become: yes
   become_user: "{{ web_app_user }}"
 
-- name: Create systemd environment vars file
-  file:
-    path: /home/{{ web_app_user }}/{{ web_app_name }}.env
-    state: touch
+- name: Setup systemd environment vars file
+  template:
+    src: web_app.env.j2
+    dest: /home/{{ web_app_user }}/{{ web_app_name }}.env
     mode: "0600"
-    modification_time: preserve
-    access_time: preserve
-  become: yes
-  become_user: "{{ web_app_user }}"
-
-- name: Setup systemd environment vars
-  lineinfile:
-    path: /home/{{ web_app_user }}/{{ web_app_name }}.env
-    regexp: "^{{ item.name }}="
-    line: "{{ item.name }}={{ item.value }}"
-  with_items: "{{ web_app_env_vars }}"
   notify: restart web app
   no_log: yes
   become: yes
-  become_user: "{{ web_app_user }}"
+  become_user: root
 
 - name: Setup systemd service file
   template:

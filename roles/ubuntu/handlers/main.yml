@@ -1,0 +1,9 @@
+---
+
+- name: reload sshd
+  systemd:
+    name: sshd
+    state: reloaded
+    daemon_reload: yes
+  become: true
+  become_user: root
