@@ -66,14 +66,14 @@
     regexp: "{{ item.regexp }}"
     line: "{{ item.line }}"
   with_items:
-    - regexp: "^PubkeyAuthentication"
+    - regexp: "^#?UsePAM"
+      line: "UsePAM yes"
+    - regexp: "^#?PubkeyAuthentication"
       line: "PubkeyAuthentication yes"
-    - regexp: "^PasswordAuthentication"
+    - regexp: "^#?PasswordAuthentication"
       line: "PasswordAuthentication no"
-    - regexp: "^ChallengeResponseAuthentication"
+    - regexp: "^#?ChallengeResponseAuthentication"
       line: "ChallengeResponseAuthentication no"
-    - regexp: "^UsePAM"
-      line: "UsePAM no"
   notify: reload sshd
   become: yes
   become_user: root
