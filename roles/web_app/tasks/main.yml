@@ -32,10 +32,15 @@
   become: yes
   become_user: root
 
+# set user password to "*" to allow SSH login
+#   with "UsePAM no" in sshd_config
+#
+# https://arlimus.github.io/articles/usepam/
 - name: Create the application user
   user:
     name: "{{ web_app_user }}"
     shell: /bin/bash
+    password: "*"
   become: yes
   become_user: root
 
