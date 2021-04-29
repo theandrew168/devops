@@ -23,9 +23,6 @@
 - name: Install common system tools
   apt:
     name:
-      - apt-transport-https
-      - debian-archive-keyring
-      - debian-keyring
       - htop
       - ncdu
       - net-tools

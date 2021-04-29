@@ -1,12 +1,22 @@
 ---
 
+- name: Install dependencies
+  apt:
+    name:
+      - apt-transport-https
+      - debian-archive-keyring
+      - debian-keyring
+    update_cache: yes
+  become: yes
+  become_user: root
+
 - name: Setup Caddy apt repo key
   apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
   become: yes
   become_user: root
 
-- name: Setup Caddy apt repos
+- name: Setup Caddy apt repo
   apt_repository:
     repo: "{{ item }}"
     update_cache: no
@@ -50,6 +60,16 @@
   template:
     src: web_app.env.j2
     dest: /home/{{ web_app_user }}/{{ web_app_name }}.env
+    mode: "0600"
+  notify: restart web app
+  no_log: yes
+  become: yes
+  become_user: root
+
+- name: Setup export environment vars file
+  template:
+    src: web_app.exp.j2
+    dest: /home/{{ web_app_user }}/{{ web_app_name }}.exp
     mode: "0600"
   notify: restart web app
   no_log: yes

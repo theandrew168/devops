@@ -3,6 +3,10 @@
 [Unit]
 Description=the {{ web_app_name }} application
 After=network.target
+{% for dep in web_app_extra_dependencies %}
+After={{ dep }}
+Requires={{ dep }}
+{% endfor %}
 
 [Service]
 Type=simple

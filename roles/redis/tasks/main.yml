@@ -1,15 +1,5 @@
 ---
 
-- name: Install dependencies
-  apt:
-    name:
-      - build-essential
-      - libsystemd-dev
-      - pkg-config
-    update_cache: yes
-  become: yes
-  become_user: root
-
 - name: Enable overcommit_memory in sysctl
   sysctl:
     name: vm.overcommit_memory
@@ -17,56 +7,15 @@
   become: yes
   become_user: root
 
-# TODO: make idempotent?
-- name: Download and extract Redis source
-  unarchive:
-    src: http://download.redis.io/releases/redis-{{ redis_version }}.tar.gz
-    dest: /tmp
-    creates: /tmp/redis-{{ redis_version }}/
-    remote_src: yes
-  become: yes
-  become_user: root
-
-# TODO: make idempotent?
-- name: Build Redis
-  command: make
-  args:
-    chdir: /tmp/redis-{{ redis_version }}
-    creates: /tmp/redis-{{ redis_version }}/src/redis-server
+- name: Setup Redis apt repo
+  apt_repository:
+    repo: ppa:redislabs/redis
   become: yes
   become_user: root
 
 - name: Install Redis
-  command: make install
-  args:
-    chdir: /tmp/redis-{{ redis_version }}
-    creates: /usr/local/bin/redis-server
-  notify: restart redis
-  become: yes
-  become_user: root
-
-- name: Setup Redis config file
-  template:
-    src: redis.conf.j2
-    dest: /etc/redis.conf
-    mode: "0600"
-  notify: restart redis
-  become: yes
-  become_user: root
-
-- name: Setup Redis systemd unit file
-  template:
-    src: redis.service.j2
-    dest: /etc/systemd/system/redis.service
-    mode: "0644"
-  notify: restart redis
-  become: yes
-  become_user: root
-
-- name: Enable Redis systemd unit at startup
-  systemd:
+  apt:
     name: redis
-    enabled: yes
-    daemon_reload: yes
+    update_cache: yes
   become: yes
   become_user: root
