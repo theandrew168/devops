@@ -14,7 +14,7 @@ web_app_hostnames: []
 
 # extra systemd units that the app depends on
 # (postgresql.service or redis.service, for example)
-web_app_extra_dependencies: []
+web_app_systemd_dependencies: []
 
 # ssh authorized (public) key that GitHub Actions will use to deploy the app
 # the corresponding private key must be setup as a GH secret: FOOBAR_SSH_KEY

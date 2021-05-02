@@ -7,3 +7,11 @@
     daemon_reload: yes
   become: true
   become_user: root
+
+- name: restart systemd-journald
+  systemd:
+    name: systemd-journald
+    state: restarted
+    daemon_reload: yes
+  become: true
+  become_user: root

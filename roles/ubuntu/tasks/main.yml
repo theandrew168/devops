@@ -27,6 +27,7 @@
       - ncdu
       - net-tools
       - python3-venv
+      - ripgrep
       - sqlite3
       - tree
       - ufw
@@ -50,10 +51,17 @@
   become: yes
   become_user: root
 
-- name: Make vim the default text editor
-  alternatives:
-    name: editor
-    path: /usr/bin/vim.basic
+- name: Limit journald log sizes
+  lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^#?SystemMaxUse"
+      line: "SystemMaxUse=50M"
+    - regexp: "^#?SystemMaxFileSize"
+      line: "SystemMaxFileSize=10M"
+  notify: restart systemd-journald
   become: yes
   become_user: root
 
@@ -93,5 +101,12 @@
 - name: Enable UFW
   ufw:
     state: enabled
+  become: yes
+  become_user: root
+
+- name: Make vim the default text editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
   become: yes
   become_user: root
