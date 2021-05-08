@@ -20,6 +20,12 @@
   become: yes
   become_user: root
 
+- name: Set timezone to UTC
+  timezone:
+    name: UTC
+  become: yes
+  become_user: root
+
 - name: Install common system tools
   apt:
     name:
@@ -98,10 +104,13 @@
   become: yes
   become_user: root
 
-- name: Enable UFW
-  ufw:
-    state: enabled
-  become: yes
+- name: Start and enable UFW
+  systemd:
+    name: ufw
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: true
   become_user: root
 
 - name: Make vim the default text editor
