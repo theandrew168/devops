@@ -1,9 +1,0 @@
----
-
-- name: restart redis
-  systemd:
-    name: redis-server
-    state: restarted
-    daemon_reload: yes
-  become: true
-  become_user: root
