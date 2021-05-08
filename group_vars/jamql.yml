@@ -8,7 +8,7 @@ ubuntu_firewall_rules:
 
 web_app_name: jamql
 web_app_user: jamql
-web_app_port: 5000
+web_app_proxy_port: 5000
 web_app_hostnames:
   - jamql.com
   - www.jamql.com

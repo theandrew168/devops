@@ -7,7 +7,7 @@ web_app_name: ~
 web_app_user: ~
 
 # local port on which the web app listens (5000, 8000, 8080, etc)
-web_app_port: ~
+web_app_proxy_port: ~
 
 # list of hostnames that point to the app server
 web_app_hostnames: []
