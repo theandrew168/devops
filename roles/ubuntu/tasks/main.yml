@@ -20,9 +20,9 @@
   become: yes
   become_user: root
 
-- name: Set timezone to UTC
+- name: Set timezone to Etc/UTC
   timezone:
-    name: UTC
+    name: Etc/UTC
   become: yes
   become_user: root
 

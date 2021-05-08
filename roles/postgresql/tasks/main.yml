@@ -10,7 +10,7 @@
   become: yes
   become_user: root
 
-- name: Create users
+- name: Create cluster users
   postgresql_user:
     name: "{{ item.username }}"
     password: "{{ item.password }}"
@@ -19,7 +19,7 @@
   become: yes
   become_user: postgres
 
-- name: Create databases
+- name: Create cluster databases
   postgresql_db:
     name: "{{ item.name }}"
     owner: "{{ item.owner }}"
