@@ -30,6 +30,7 @@
   apt:
     name:
       - htop
+      - lsof
       - ncdu
       - net-tools
       - python3-venv
