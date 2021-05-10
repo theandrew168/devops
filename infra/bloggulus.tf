@@ -8,10 +8,6 @@ resource "digitalocean_droplet" "bloggulus" {
   ]
 }
 
-resource "digitalocean_domain" "bloggulus" {
-  name       = "bloggulus.com"
-}
-
 resource "digitalocean_record" "bloggulus_a" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"
