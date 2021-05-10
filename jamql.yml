@@ -1,6 +1,0 @@
----
-
-- hosts: jamql
-  roles:
-    - ubuntu
-    - web_app
