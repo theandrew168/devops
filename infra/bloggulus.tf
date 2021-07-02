@@ -4,7 +4,8 @@ resource "digitalocean_droplet" "bloggulus" {
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
   ssh_keys = [
-    digitalocean_ssh_key.andrew.fingerprint,
+    digitalocean_ssh_key.andrew_macbook.fingerprint,
+    digitalocean_ssh_key.andrew_thinkpad.fingerprint,
   ]
 }
 
