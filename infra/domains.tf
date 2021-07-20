@@ -13,3 +13,7 @@ resource "digitalocean_domain" "sandbox" {
 resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }
+
+resource "digitalocean_domain" "daileybrue" {
+  name = "daileybrue.coffee"
+}
