@@ -1,0 +1,16 @@
+---
+
+ubuntu_firewall_rules:
+  - rule: allow
+    port: 80
+  - rule: allow
+    port: 443
+
+web_app_name: snake
+web_app_user: snake
+web_app_proxy_port: 5001
+web_app_hostnames:
+  - snake.shallowbrooksandbox.com
+  - www.snake.shallowbrooksandbox.com
+
+web_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDEgKdPeKf9oEF1sfwqSbwAyqqlocR+JMFGAWGfJ8pv13DKnqe/Zv7D6ZpTQY2+MhKdb0MuJlWlR5sNAHfxOx1ZIbkOAQPx3vLvW/6tZMwkWYyTMjWMGvF54IFCnWIF5iuIwdgW/TiNuYjg8mSNTpTeDWYQHz8rkKkB+cQ84xw/km/VBqJ535NqbPQL7AMkFcDhWeZ3ymi0h9r6xa76nVegOI3sRwdyoxnOdKL/xwFoz6TUF2YozHj2ITMD39p8Yj6OwU5NfsLKuy0MBwMC6yI1LIlIho9rd+d+hJUs2xdf6EgkLJz0YTibtrBpiReDSMnVMr8twBLApwG0rKM0ubT94V+1c8XvUFgPrvEjA2h6rhso2lcS3sD2ZMVoEiJ33AxZY0XWI8zfbT263SohSGZA1a3MMpB1J74ti0kAcvIf9hBNja+GMTJKrQGRv2FKfAGC8Yyip325nRjeE+TRojoaqw/W+ypQNKh5JoDyW70lOx/6F04AhT+8wm1xKhn6rr8= steve@skarmory.local

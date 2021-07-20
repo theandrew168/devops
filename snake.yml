@@ -1,0 +1,6 @@
+---
+
+- hosts: snake
+  roles:
+    - ubuntu
+    - web_app
