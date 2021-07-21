@@ -3,3 +3,4 @@
 - hosts: daileybrue
   roles:
     - ubuntu
+    - web_app
