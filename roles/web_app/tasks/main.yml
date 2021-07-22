@@ -26,10 +26,25 @@
   become: yes
   become_user: root
 
+- name: Check if Caddyfile exists (to detect initial install)
+  stat:
+    path: /etc/caddy/Caddyfile
+  register: caddyfile_check
+  become: yes
+  become_user: root
+
 - name: Install Caddy
   apt:
     name: caddy
     update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Clear default Caddyfile config (upon initial install)
+  copy:
+    dest: /etc/caddy/Caddyfile
+    content: ""
+  when: not caddyfile_check.stat.exists
   become: yes
   become_user: root
 
@@ -62,10 +77,18 @@
   become: yes
   become_user: "{{ web_app_user }}"
 
+- name: Create application config directory
+  file:
+    path: /etc/{{ web_app_name }}
+    mode: "0755"
+    state: directory
+  become: yes
+  become_user: root
+
 - name: Setup systemd environment vars file
   template:
     src: web_app.env.j2
-    dest: /home/{{ web_app_user }}/{{ web_app_name }}.env
+    dest: /etc/{{ web_app_name }}/{{ web_app_name }}.env
     mode: "0600"
   notify: restart web app
   no_log: yes
@@ -75,7 +98,7 @@
 - name: Setup export environment vars file
   template:
     src: web_app.exp.j2
-    dest: /home/{{ web_app_user }}/{{ web_app_name }}.exp
+    dest: /etc/{{ web_app_name }}/{{ web_app_name }}.exp
     mode: "0600"
   notify: restart web app
   no_log: yes

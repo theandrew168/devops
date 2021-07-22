@@ -14,7 +14,7 @@ User={{ web_app_user }}
 Group={{ web_app_user }}
 ExecStart=/home/{{ web_app_user }}/{{ web_app_name }}
 WorkingDirectory=/home/{{ web_app_user }}
-EnvironmentFile=/home/{{ web_app_user }}/{{ web_app_name}}.env
+EnvironmentFile=/etc/{{ web_app_name }}/{{ web_app_name}}.env
 
 [Install]
 WantedBy=multi-user.target
