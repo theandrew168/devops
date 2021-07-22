@@ -17,3 +17,7 @@ resource "digitalocean_domain" "thebrosmakeagame" {
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
 }
+
+resource "digitalocean_domain" "whosbuying" {
+  name = "whosbuying.coffee"
+}
