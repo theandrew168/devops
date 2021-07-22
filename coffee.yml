@@ -1,6 +1,6 @@
 ---
 
-- hosts: daileybrue
+- hosts: coffee
   roles:
     - ubuntu
     - web_app
