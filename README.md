@@ -17,18 +17,21 @@ Just reach out to me and I'll get you the actual credentials.
 I like to export these environment variables in `$HOME/.profile` but you can put them wherever you prefer.
 Just remember to either source the file after adding the vars or log out and back in again.
 
+### Ansible Vault Password
 Since Ansible is occasionally used to deploy encrypted values, a password is needed in order to decrypt them.
 Throw the correct password (ask an existing team member) into `$HOME/.vault_pass.txt` and export this environment variable which points to it's location:
 ```
 export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
 ```
 
+### Terraform DigitalOcean Access
 Terraform needs an access token in order to talk to Digital Ocean.
 This token can be obtained from Digital Ocean's web console:
 ```
 export DIGITALOCEAN_ACCESS_TOKEN="access_token_from_web_console"
 ```
 
+### Terraform Backend
 Additionally, since Terraform's `.tfstate` file may contain sensitive information, a DigitalOcean Space is used to keep it private.
 Terraform views DigitalOcean Spaces as an S3 backend so the following vars are necessary to hook everything up:
 ```
@@ -36,6 +39,7 @@ export AWS_ACCESS_KEY_ID="spaces_key_from_web_console"
 export AWS_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
 ```
 
+### Terraform Init
 The only thing left to do now is initialize Terraform:
 ```
 cd infra/
