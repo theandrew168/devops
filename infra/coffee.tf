@@ -44,7 +44,7 @@ resource "digitalocean_record" "whosbuying_a" {
 }
 
 resource "digitalocean_record" "whosbuying_cname_www" {
-  domain = digitalocean_domain.whosebuying.name
+  domain = digitalocean_domain.whosbuying.name
   type   = "CNAME"
   name   = "www"
   value  = "@"
