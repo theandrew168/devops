@@ -50,6 +50,7 @@ terraform init
 In general, setting up a server for app hosting involves three steps: use Terraform to create the droplet and associated a hostname, use Ansible to configure the server, then setup secrets to grant [GitHub Actions](https://github.com/features/actions) access to the droplet.
 The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup firewall rules, GitHub access keys, systemd units, etc.
 
+### Terraform
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
 ```
 cd infra/
@@ -57,6 +58,7 @@ terraform plan
 terraform apply
 ```
 
+### Ansible
 Next, we need to run Ansible to get the server ready for hosting an application.
 Note that this only has to happen once when the droplet is first created.
 ```
@@ -74,6 +76,7 @@ The following values must be manually setup on the repo using GitHub's [secrets]
 | `FOOBAR_SSH_USER` | SSH user to use when connecting to the server |
 | `FOOBAR_SSH_KEY` | SSH private key used to authenticate with the server |
 
+### Workflow Setup
 With the credentials in place, the only thing left is to add a couple workflow steps for copying the new artifact out to the server and then restarting the service.
 This is just a snippet!
 You can read more about the full syntax for GitHub Action workflows [here](https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions).
