@@ -55,10 +55,7 @@
     create: yes
     mode: "0644"
     marker: "# {mark} ANSIBLE MANAGED BLOCK {{ web_app_hostnames[0] }}"
-    block: |
-      {{ web_app_hostnames | join(', ') }} {
-          reverse_proxy 127.0.0.1:{{ web_app_proxy_port }}
-      }
+    block: "{{ web_app_hostnames | join(',\n') }} {\n\treverse_proxy 127.0.0.1:{{ web_app_proxy_port }}\n}"
   notify: reload caddy
   become: yes
   become_user: root
