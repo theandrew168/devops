@@ -32,7 +32,7 @@ export DIGITALOCEAN_ACCESS_TOKEN="access_token_from_web_console"
 ```
 
 ### Terraform Backend
-Additionally, since Terraform's `.tfstate` file may contain sensitive information, a DigitalOcean Space is used to keep it private.
+Additionally, since Terraform's `.tfstate` file may contain sensitive information, a [DigitalOcean Space](https://www.digitalocean.com/products/spaces/) is used to keep it private.
 Terraform views DigitalOcean Spaces as an S3 backend so the following vars are necessary to hook everything up:
 ```
 export AWS_ACCESS_KEY_ID="spaces_key_from_web_console"
