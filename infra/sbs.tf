@@ -25,3 +25,11 @@ resource "digitalocean_record" "sbs_caa_letsencrypt" {
   flags  = "0"
   tag    = "issue"
 }
+
+resource "digitalocean_record" "sbs_cname_status" {
+  domain = digitalocean_domain.sbs.name
+  type   = "CNAME"
+  name   = "status"
+  value  = "stats.uptimerobot.com."
+  ttl    = "43200"
+}
