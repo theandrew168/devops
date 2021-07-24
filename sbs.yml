@@ -1,0 +1,6 @@
+---
+
+- hosts: sbs
+  roles:
+    - ubuntu
+    - web_app
