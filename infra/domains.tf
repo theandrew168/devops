@@ -18,10 +18,29 @@ resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }
 
+# waiting on ownership dispute: [Ticket #5003581]
+#resource "digitalocean_domain" "derzchat" {
+#  name = "derzchat.com"
+#}
+#
+#resource "digitalocean_domain" "derzfiles" {
+#  name = "derzfiles.com"
+#}
+
+resource "digitalocean_domain" "simpleriscv" {
+  name = "simpleriscv.org"
+}
+
+resource "digitalocean_domain" "nwrsolutions" {
+  name = "nwr.solutions"
+}
+
+# owner: wes
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
 }
 
+# owner: wes
 resource "digitalocean_domain" "whosbuying" {
   name = "whosbuying.coffee"
 }
