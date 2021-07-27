@@ -34,7 +34,6 @@ resource "digitalocean_domain" "nwrsolutions" {
   name = "nwr.solutions"
 }
 
-
 # owner: wesley
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
