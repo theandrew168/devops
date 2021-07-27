@@ -34,12 +34,12 @@ resource "digitalocean_domain" "nwrsolutions" {
   name = "nwr.solutions"
 }
 
-# owner: wes
+# owner: wesley
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
 }
 
-# owner: wes
+# owner: wesley
 resource "digitalocean_domain" "whosbuying" {
   name = "whosbuying.coffee"
 }
