@@ -18,14 +18,13 @@ resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }
 
-# waiting on ownership dispute: [Ticket #5003581]
-#resource "digitalocean_domain" "derzchat" {
-#  name = "derzchat.com"
-#}
-#
-#resource "digitalocean_domain" "derzfiles" {
-#  name = "derzfiles.com"
-#}
+resource "digitalocean_domain" "derzchat" {
+  name = "derzchat.com"
+}
+
+resource "digitalocean_domain" "derzfiles" {
+  name = "derzfiles.com"
+}
 
 resource "digitalocean_domain" "simpleriscv" {
   name = "simpleriscv.org"
