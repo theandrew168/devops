@@ -1,5 +1,6 @@
 {{ ansible_managed | comment }}
 
+export ENV=production
 export PORT={{ web_app_proxy_port }}
 {% for var in web_app_env_vars %}
 export {{ var.name }}={{ var.value}}
