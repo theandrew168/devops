@@ -35,6 +35,7 @@
       - net-tools
       - python3-venv
       - ripgrep
+      - rlwrap
       - sqlite3
       - tree
       - ufw
@@ -105,12 +106,9 @@
   become: yes
   become_user: root
 
-- name: Start and enable UFW
-  systemd:
-    name: ufw
-    state: started
-    enabled: yes
-    daemon_reload: yes
+- name: Enable and start UFW
+  ufw:
+    state: enabled
   become: true
   become_user: root
 

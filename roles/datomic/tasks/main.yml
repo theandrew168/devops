@@ -1,0 +1,118 @@
+---
+
+- name: Setup storage backend
+  include_role:
+    name: postgresql
+  vars:
+    postgresql_users:
+      - username: "{{ datomic_storage_username }}"
+        password: "{{ datomic_storage_password }}"
+    postgresql_databases:
+      - name: "datomic"
+        owner: "{{ datomic_storage_username }}"
+
+- name: Create transactor storage table
+  postgresql_table:
+    db: datomic
+    name: datomic_kvs
+    owner: datomic
+    columns:
+      - id text primary key
+      - rev integer
+      - map text
+      - val bytea
+  become: yes
+  become_user: postgres
+
+- name: Install dependencies
+  apt:
+    name:
+      - openjdk-8-jre-headless
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Create the Datomic user
+  user:
+    name: datomic
+    shell: /bin/bash
+  become: yes
+  become_user: root
+
+- name: Download Datomic
+  get_url:
+    url: "https://my.datomic.com/repo/com/datomic/datomic-pro/{{ datomic_version }}/datomic-pro-{{ datomic_version }}.zip"
+    url_username: "{{ datomic_download_username }}"
+    url_password: "{{ datomic_download_password }}"
+    dest: "/home/datomic/datomic-pro-{{ datomic_version }}.zip"
+  notify: restart datomic
+  become: yes
+  become_user: datomic
+
+- name: Extract Datomic
+  unarchive:
+    src: "/home/datomic/datomic-pro-{{ datomic_version }}.zip"
+    dest: "/home/datomic/"
+    remote_src: yes
+  notify: restart datomic
+  become: yes
+  become_user: datomic
+
+- name: Symlink current Datomic version
+  file:
+    src: "/home/datomic/datomic-pro-{{ datomic_version }}/"
+    dest: "/home/datomic/datomic"
+    state: link
+  become: yes
+  become_user: datomic
+
+- name: Create Datomic config directory
+  file:
+    path: /etc/datomic
+    mode: "0755"
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Setup Datomic transactor config file
+  template:
+    src: transactor.properties.j2
+    dest: /etc/datomic/transactor.properties
+    mode: "0644"
+  notify: restart datomic
+  become: yes
+  become_user: root
+
+- name: Setup Datomic transactor systemd service file
+  template:
+    src: datomic-transactor.service.j2
+    dest: /etc/systemd/system/datomic-transactor.service
+    mode: "0644"
+  notify: restart datomic
+  become: yes
+  become_user: root
+
+- name: Enable Datomic transactor at startup
+  systemd:
+    name: datomic-transactor
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
+
+- name: Setup Datomic peer systemd service file
+  template:
+    src: datomic-peer.service.j2
+    dest: /etc/systemd/system/datomic-peer.service
+    mode: "0644"
+  notify: restart datomic
+  become: yes
+  become_user: root
+
+- name: Enable Datomic peer at startup
+  systemd:
+    name: datomic-peer
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=datomic transactor
+After=network.target
+
+[Service]
+Type=simple
+User=datomic
+Group=datomic
+ExecStart=/home/datomic/datomic/bin/run -m datomic.peer-server -h 0.0.0.0 -p 8998 -a {{ datomic_peer_access_key }},{{ datomic_peer_secret }} -d 'default,datomic:sql://default?jdbc:postgresql://localhost:5432/datomic?user={{ datomic_storage_username }}&password={{ datomic_storage_password }}'
+WorkingDirectory=/home/datomic
+
+[Install]
+WantedBy=multi-user.target

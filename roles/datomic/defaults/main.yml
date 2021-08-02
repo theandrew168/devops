@@ -1,0 +1,19 @@
+---
+
+# datomic pro version to be installed
+datomic_version: 1.0.6316
+
+# credentials necessary to download datomic pro
+datomic_download_username: ~
+datomic_download_password: ~
+
+# username and password for storage backend
+datomic_storage_username: ~
+datomic_storage_password: ~
+
+# access key and secret for peer connections
+datomic_peer_access_key: ~
+datomic_peer_secret: ~
+
+# datomic pro license (should be 6 lines)
+datomic_license: ~

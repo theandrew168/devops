@@ -1,0 +1,6 @@
+---
+
+- hosts: datomic
+  roles:
+    - ubuntu
+    - datomic
