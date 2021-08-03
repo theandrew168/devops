@@ -10,6 +10,15 @@
   become: yes
   become_user: root
 
+- name: Install java
+  apt:
+    name:
+      - openjdk-8-jre-headless
+    update_cache: yes
+  when: web_app_is_jar
+  become: yes
+  become_user: root
+
 - name: Setup Caddy apt repo key
   apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key

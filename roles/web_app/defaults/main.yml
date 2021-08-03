@@ -6,6 +6,9 @@ web_app_name: ~
 # user that the app runs as and uses for its working directory
 web_app_user: ~
 
+# whether the web app is deployed as a JAR file
+web_app_is_jar: no
+
 # local port on which the web app listens (5000, 8000, 8080, etc)
 web_app_proxy_port: ~
 

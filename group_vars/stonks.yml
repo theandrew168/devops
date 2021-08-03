@@ -1,0 +1,31 @@
+---
+
+ubuntu_firewall_rules:
+  - rule: allow
+    port: 80
+  - rule: allow
+    port: 443
+
+web_app_name: stonks
+web_app_user: stonks
+web_app_is_jar: yes
+web_app_proxy_port: 5000
+web_app_hostnames:
+  - stonks.shallowbrooksandbox.com
+  - www.stonks.shallowbrooksandbox.com
+
+web_app_deployment_key: ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDUzF9wmeQ6PzFBQDk9iC9kuTqigp2draq3opdTPYMVclbbAdop75RnlPAIhtrAMwu4Uy/zrgld3LFt1kGwjk1hqcowcIA4WhSX9T9JsdNC/qn/BtaRyr+SNJrz/Fv+74HLZhIFBQTqrKjp5GxG1u3eV11kTJTxmKTkTWCG5Lr0B7+BILc66rnN3qn4P8xaHfWHFqNYk5KPiZapRh67RkUNnLitytqCDbMXa77+j39TgSUcyjx2PEadOfXgG7JHBk/eZO4kIcoxoofO75/B55PWrmHvJWLAavzqNJLa6HdsIIVzrVi316lvM9skRfglxjXXjI5QLy0INXlEr9lmiBGZLQtTyRXYhNY8W5XPpaMbwp/D6ya8XO/mmKk4rLvzxo/n/GgeVFM8vzJHi5g2wuF4KG7X3zP4BvKxf342LOGbz2zI6j+BlMtskBt4sY6Wk8RMf4XZUbf8eAfmHHVrDA3xXj0aToIiFfisBx/CWrjnfnFswUeIubVjxCh7M4uIZVk= steve@skarmory.local
+
+web_app_env_vars:
+  - name: STONKS_DATOMIC_ENDPOINT
+    value: datomic.shallowbrooksandbox.com
+  - name: STONKS_DATOMIC_ACCESS_KEY
+    value: datomic
+  - name: STONKS_DATOMIC_SECRET
+    value: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      63386536623332636662383462613030613966623632313633656433633031353935343363643233
+      3665646663303439346662366664666463616261353933360a343964336132623364303333313539
+      33313537316331393831323064656637353361306134623139333863336366363162643032646230
+      6237633830623639330a336532353539303466613965386132363565356663646135303337366263
+      3634

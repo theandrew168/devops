@@ -8,6 +8,7 @@ datomic_databases:
   - default
   - movies
   - inventory
+  - stonks
   - andrew
   - wesley
 
