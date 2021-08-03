@@ -4,6 +4,13 @@ ubuntu_firewall_rules:
   - rule: allow
     port: 8998
 
+datomic_databases:
+  - default
+  - movies
+  - inventory
+  - andrew
+  - wesley
+
 datomic_download_username: andrew@shallowbrooksoftware.com
 datomic_download_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256

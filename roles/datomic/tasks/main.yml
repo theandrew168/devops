@@ -92,13 +92,26 @@
   become: yes
   become_user: root
 
-- name: Enable Datomic transactor at startup
+- name: Start Datomic transactor and enable at startup
   systemd:
     name: datomic-transactor
+    state: started
     enabled: yes
     daemon_reload: yes
   become: yes
   become_user: root
+
+#- name: Create Datomic databases
+#  shell:
+#    cmd: |
+#      (require '[datomic.api :as d])
+#      (def db-uri "datomic:sql://{{ item }}?jdbc:postgresql://localhost:5432/datomic?user={{ datomic_storage_username }}&password={{ datomic_storage_password }}")
+#      (d/create-database db-uri)
+#    executable: /home/datomic/datomic/bin/repl
+#    chdir: /home/datomic/datomic
+#  with_items: "{{ datomic_databases }}"
+#  become: yes
+#  become_user: datomic
 
 - name: Setup Datomic peer systemd service file
   template:

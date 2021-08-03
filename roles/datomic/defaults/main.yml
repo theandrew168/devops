@@ -3,6 +3,9 @@
 # datomic pro version to be installed
 datomic_version: 1.0.6316
 
+# list of database names to be created
+datomic_databases: []
+
 # credentials necessary to download datomic pro
 datomic_download_username: ~
 datomic_download_password: ~
