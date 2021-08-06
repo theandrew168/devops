@@ -1,7 +1,7 @@
 {{ ansible_managed | comment }}
 
 [Unit]
-Description=the {{ web_app_name }} application
+Description={{ web_app_name }} {{ item }}
 After=network.target
 {% for dep in web_app_systemd_dependencies %}
 After={{ dep }}
@@ -13,9 +13,9 @@ Type=simple
 User={{ web_app_user }}
 Group={{ web_app_user }}
 {% if web_app_is_jar %}
-ExecStart=java -jar /home/{{ web_app_user }}/{{ web_app_name }}.jar
+ExecStart=java -jar /home/{{ web_app_user }}/{{ web_app_name }}-{{ item }}.jar
 {% else %}
-ExecStart=/home/{{ web_app_user }}/{{ web_app_name }}
+ExecStart=/home/{{ web_app_user }}/{{ web_app_name }}-{{ item }}
 {% endif %}
 WorkingDirectory=/home/{{ web_app_user }}
 EnvironmentFile=/etc/{{ web_app_name }}/{{ web_app_name}}.env

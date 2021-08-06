@@ -3,6 +3,8 @@
 [Unit]
 Description=datomic peer server
 After=network.target
+After=postgresql.service
+Requires=postgresql.service
 
 [Service]
 Type=simple

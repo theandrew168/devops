@@ -111,33 +111,32 @@
   become: yes
   become_user: root
 
-- name: Setup systemd service file
+- name: Setup systemd service file(s)
   template:
     src: web_app.service.j2
-    dest: /etc/systemd/system/{{ web_app_name }}.service
+    dest: /etc/systemd/system/{{ web_app_name }}-{{ item }}.service
     mode: "0644"
+  with_items: "{{ web_app_components }}"
   notify: restart web app
   become: yes
   become_user: root
 
-- name: Allow application user to control the application
+- name: Allow app user to control its application(s)
   lineinfile:
     path: /etc/sudoers
-    line: "{{ item }}"
+    line: "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl {{ item[0] }} {{ web_app_name }}-{{ item[1] }}"
     validate: "visudo -cf %s"
-  with_items:
-    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl status {{ web_app_name }}"
-    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl stop {{ web_app_name }}"
-    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl start {{ web_app_name }}"
-    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl restart {{ web_app_name }}"
-    - "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl reload {{ web_app_name }}"
+  with_nested:
+    - [ "status", "stop", "start", "restart", "reload" ]
+    - "{{ web_app_components }}"
   become: yes
   become_user: root
 
-- name: Enable systemd unit at startup
+- name: Enable systemd unit(s) at startup
   systemd:
-    name: "{{ web_app_name }}"
+    name: "{{ web_app_name }}-{{ item }}"
     enabled: yes
     daemon_reload: yes
+  with_items: "{{ web_app_components }}"
   become: yes
   become_user: root

@@ -10,8 +10,9 @@
 
 - name: restart web app
   systemd:
-    name: "{{ web_app_name }}"
+    name: "{{ web_app_name }}-{{ item }}"
     state: restarted
     daemon_reload: yes
+  with_items: "{{ web_app_components }}"
   become: true
   become_user: root

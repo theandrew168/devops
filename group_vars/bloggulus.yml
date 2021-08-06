@@ -28,6 +28,11 @@ web_app_hostnames:
   - bloggulus.com
   - www.bloggulus.com
 
+web_app_components:
+  - web
+  - worker
+  - scheduler
+
 web_app_systemd_dependencies:
   - postgresql.service
   - redis.service
