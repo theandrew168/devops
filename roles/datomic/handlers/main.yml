@@ -1,5 +1,6 @@
 ---
 
+# TODO: peer fails to start because the transactor has a delayed startup
 - name: restart datomic
   systemd:
     name: "{{ item }}"

@@ -7,9 +7,6 @@ daileybrue.coffee
 [sbs]
 shallowbrooksoftware.com
 
-[snake]
-snake.shallowbrooksandbox.com
-
 [datomic]
 datomic.shallowbrooksandbox.com
 
