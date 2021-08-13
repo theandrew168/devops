@@ -5,7 +5,7 @@ resource "digitalocean_droplet" "datomic" {
   size     = "s-2vcpu-4gb"
   ssh_keys = [
     digitalocean_ssh_key.andrew_macbook.fingerprint,
-    digitalocean_ssh_key.wesley_thinkpad.fingerprint,
+    digitalocean_ssh_key.wesley_klang.fingerprint,
   ]
 }
 
