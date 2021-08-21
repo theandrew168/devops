@@ -29,11 +29,13 @@
 - name: Install common system tools
   apt:
     name:
+      - build-essential
       - haveged
       - htop
       - lsof
       - ncdu
       - net-tools
+      - python3
       - python3-venv
       - ripgrep
       - rlwrap
