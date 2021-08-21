@@ -29,6 +29,7 @@
 - name: Install common system tools
   apt:
     name:
+      - haveged
       - htop
       - lsof
       - ncdu
