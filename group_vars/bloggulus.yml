@@ -23,6 +23,7 @@ postgresql_databases:
 
 web_app_name: bloggulus
 web_app_user: bloggulus
+web_app_is_jar: yes
 web_app_proxy_port: 5000
 web_app_hostnames:
   - bloggulus.com

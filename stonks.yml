@@ -1,6 +1,0 @@
----
-
-- hosts: stonks
-  roles:
-    - ubuntu
-    - web_app
