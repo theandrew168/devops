@@ -29,6 +29,7 @@ web_app_hostnames:
   - www.bloggulus.com
 
 web_app_components:
+  - migrate
   - web
   - worker
   - scheduler

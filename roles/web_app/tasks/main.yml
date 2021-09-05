@@ -127,7 +127,7 @@
     line: "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl {{ item[0] }} {{ web_app_name }}-{{ item[1] }}"
     validate: "visudo -cf %s"
   with_nested:
-    - [ "status", "stop", "start", "restart", "reload" ]
+    - [ "status", "start", "restart", "reload" ]
     - "{{ web_app_components }}"
   become: yes
   become_user: root
