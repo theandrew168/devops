@@ -7,4 +7,9 @@
 #     port: 80
 #   - rule: allow
 #     port: 443
-ubuntu_firewall_rules: []
+firewall_rules: []
+
+vpc_network_prefix: ~
+vpc_gateway_private_ip: ~
+vpc_is_gateway: false
+vpc_is_internal: false

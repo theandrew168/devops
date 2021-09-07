@@ -5,7 +5,7 @@
     name: sshd
     state: reloaded
     daemon_reload: yes
-  become: true
+  become: yes
   become_user: root
 
 - name: restart systemd-journald
@@ -13,5 +13,16 @@
     name: systemd-journald
     state: restarted
     daemon_reload: yes
-  become: true
+  become: yes
+  become_user: root
+
+- name: netplan apply
+  command: netplan apply
+  become: yes
+  become_user: root
+
+- name: enable ufw
+  ufw:
+    state: enabled
+  become: yes
   become_user: root

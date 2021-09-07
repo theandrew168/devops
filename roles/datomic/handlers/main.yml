@@ -9,5 +9,5 @@
   with_items:
     - datomic-transactor
     - datomic-peer
-  become: true
+  become: yes
   become_user: root

@@ -1,0 +1,5 @@
+---
+
+- hosts: vpc
+  roles:
+    - ubuntu

@@ -5,7 +5,7 @@
     name: caddy
     state: reloaded
     daemon_reload: yes
-  become: true
+  become: yes
   become_user: root
 
 - name: restart web app
@@ -14,5 +14,5 @@
     state: restarted
     daemon_reload: yes
   with_items: "{{ web_app_components }}"
-  become: true
+  become: yes
   become_user: root

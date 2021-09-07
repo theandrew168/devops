@@ -1,6 +1,6 @@
 ---
 
-ubuntu_firewall_rules:
+firewall_rules:
   - rule: allow
     port: 80
   - rule: allow

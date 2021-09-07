@@ -4,4 +4,4 @@ Ansible role for configuring and securing an [Ubuntu](https://ubuntu.com/) serve
 ## Configuration
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `ubuntu_firewall_rules` | `[]` | Ubuntu firewall rules |
+| `firewall_rules` | `[]` | Ubuntu firewall rules |
