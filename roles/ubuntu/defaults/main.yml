@@ -9,7 +9,14 @@
 #     port: 443
 firewall_rules: []
 
+# (VPC) network CIDR range
 vpc_network_prefix: ~
+
+# (VPC) private IP of gateway node
 vpc_gateway_private_ip: ~
-vpc_is_gateway: false
-vpc_is_internal: false
+
+# (VPC) host var indicating gateway node
+vpc_is_gateway: no
+
+# (VPC) host var indicating internal nodes
+vpc_is_internal: no
