@@ -18,7 +18,7 @@ I like to export these environment variables in `$HOME/.profile` but you can put
 Just remember to either source the file after adding the vars or log out and back in again.
 
 ### SSH Config
-When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) but route through a specifically chosen "gateway" (or "bastion") server.
+When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) must route through a specified "gateway" (aka "bastion") server.
 SSH (and Ansible) can be configured (via `~/.ssh/config`) to handle these jumps transparently on a per-VPC basis:
 ```
 # template
