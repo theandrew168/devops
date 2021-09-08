@@ -124,7 +124,6 @@
 - name: Setup gateway traffic translation rule
   blockinfile:
     path: /etc/ufw/before.rules
-    insertbefore: BOF
     block: |
       # NAT table rules
       *nat
@@ -162,20 +161,20 @@
   become_user: root
 
 - name: Setup internal metadata route
-  lineinfile: 
+  blockinfile: 
     path: /etc/netplan/50-cloud-init.yaml
     insertbefore: "^\\s*set-name: eth0"
-    line: "            routes:\n            - to: 169.254.169.254\n              via: {{ public_gateway.stdout }}"
+    block: "            routes:\n            - to: 169.254.169.254\n              via: {{ public_gateway.stdout }}"
   when: vpc_is_internal and (public_gateway.stdout != vpc_gateway_private_ip)
   notify: netplan apply
   become: yes
   become_user: root
 
 - name: Setup internal gateway route
-  lineinfile: 
+  blockinfile: 
     path: /etc/netplan/50-cloud-init.yaml
     insertbefore: "^\\s*set-name: eth1"
-    line: "            routes:\n            - to: 0.0.0.0/0\n              via: {{ vpc_gateway_private_ip }}"
+    block: "            routes:\n            - to: 0.0.0.0/0\n              via: {{ vpc_gateway_private_ip }}"
   when: vpc_is_internal
   notify: netplan apply
   become: yes
