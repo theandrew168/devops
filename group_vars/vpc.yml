@@ -1,0 +1,3 @@
+---
+vpc_network_prefix: 10.0.0.0/24
+vpc_gateway_private_ip: 10.0.0.2

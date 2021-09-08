@@ -3,7 +3,7 @@
 - name: Enable overcommit_memory in sysctl
   sysctl:
     name: vm.overcommit_memory
-    value: "1"
+    value: 1
   become: yes
   become_user: root
 

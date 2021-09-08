@@ -17,6 +17,19 @@ Just reach out to me and I'll get you the actual credentials.
 I like to export these environment variables in `$HOME/.profile` but you can put them wherever you prefer.
 Just remember to either source the file after adding the vars or log out and back in again.
 
+### SSH Config
+When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) but route through a specifically chosen "gateway" (or "bastion") server.
+SSH (and Ansible) can be configured (via `~/.ssh/config`) to handle these jumps transparently on a per-VPC basis:
+```
+# template
+Host <vpc_network_wildcard>
+    ProxyCommand ssh -W %h:%p root@<vpc_gateway_public_ip>
+
+# example
+Host 10.0.0.*
+    ProxyCommand ssh -W %h:%p root@64.225.52.149
+```
+
 ### Ansible Vault Password
 Since Ansible is occasionally used to deploy encrypted values, a password is needed in order to decrypt them.
 Throw the correct password (ask an existing team member) into `$HOME/.vault_pass.txt` and export this environment variable which points to it's location:
@@ -52,10 +65,12 @@ The Ansible playbook only needs to be executed once (when the droplet is initial
 
 ### Terraform
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
+That last `refresh-only` command picks up default tags and other resource nuances added automatically after initial creation.
 ```
 cd infra/
 terraform plan
 terraform apply
+terraform apply -refresh-only
 ```
 
 ### Ansible
