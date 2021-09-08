@@ -12,8 +12,3 @@ datomic.shallowbrooksandbox.com
 
 [stonks]
 stonks.shallowbrooksandbox.com
-
-[vpc]
-143.198.120.143 vpc_is_gateway=yes
-10.0.0.2 vpc_is_internal=yes
-10.0.0.4 vpc_is_internal=yes
