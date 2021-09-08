@@ -1,6 +1,9 @@
 # ubuntu
 Ansible role for configuring and securing an [Ubuntu](https://ubuntu.com/) server
 
+## References
+This VPC configuration is detailed in the [DigitalOcean documentation](https://docs.digitalocean.com/products/networking/vpc/resources/droplet-as-gateway/).
+
 ## Configuration
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
