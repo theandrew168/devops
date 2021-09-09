@@ -15,10 +15,6 @@ web_app_proxy_port: ~
 # list of hostnames that point to the app server
 web_app_hostnames: []
 
-# distinct components of the web application
-web_app_components:
-  - web
-
 # extra systemd units that the app depends on
 # (postgresql.service or redis.service, for example)
 web_app_systemd_dependencies: []

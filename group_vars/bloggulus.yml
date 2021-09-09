@@ -1,11 +1,5 @@
 ---
 
-firewall_rules:
-  - rule: allow
-    port: 80
-  - rule: allow
-    port: 443
-
 postgresql_users:
   - username: bloggulus
     password: !vault |
@@ -27,12 +21,6 @@ web_app_proxy_port: 5000
 web_app_hostnames:
   - bloggulus.com
   - www.bloggulus.com
-
-web_app_components:
-  - migrate
-  - web
-  - worker
-  - scheduler
 
 web_app_systemd_dependencies:
   - postgresql.service

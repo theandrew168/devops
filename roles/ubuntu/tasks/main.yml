@@ -99,7 +99,7 @@
   ufw:
     rule: limit
     port: "22"
-  notify: enable ufw
+  notify: ufw enable
   become: yes
   become_user: root
 
@@ -118,6 +118,10 @@
   with_items:
     - regexp: "^#?net/ipv4/ip_forward"
       line: "net/ipv4/ip_forward=1"
+    - regexp: "^#?net/ipv6/conf/default/forwarding"
+      line: "net/ipv6/conf/default/forwarding=1"
+    - regexp: "^#?net/ipv6/conf/all/forwarding"
+      line: "net/ipv6/conf/all/forwarding=1"
   when: vpc_is_gateway
   become: yes
   become_user: root
@@ -180,15 +184,5 @@
     block: "            routes:\n            - to: 0.0.0.0/0\n              via: {{ vpc_gateway_private_ip }}"
   when: vpc_is_internal
   notify: netplan apply
-  become: yes
-  become_user: root
-
-# TODO: split this into other roles? (80/443 -> web_app)
-- name: Setup firewall rules
-  ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port }}"
-  with_items: "{{ firewall_rules }}"
-  notify: enable ufw
   become: yes
   become_user: root

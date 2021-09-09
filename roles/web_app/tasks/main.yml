@@ -19,6 +19,18 @@
   become: yes
   become_user: root
 
+- name: Setup firewall rules
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+  with_items:
+    - rule: allow
+      port: 80
+    - rule: allow
+      port: 443
+  become: yes
+  become_user: root
+
 - name: Setup Caddy apt repo key
   apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
@@ -111,32 +123,32 @@
   become: yes
   become_user: root
 
-- name: Setup systemd service file(s)
+- name: Setup systemd service file
   template:
     src: web_app.service.j2
-    dest: /etc/systemd/system/{{ web_app_name }}-{{ item }}.service
+    dest: /etc/systemd/system/{{ web_app_name }}.service
     mode: "0644"
-  with_items: "{{ web_app_components }}"
   notify: restart web app
   become: yes
   become_user: root
 
-- name: Allow app user to control its application(s)
+- name: Allow app user to control its application
   lineinfile:
     path: /etc/sudoers
-    line: "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl {{ item[0] }} {{ web_app_name }}-{{ item[1] }}"
+    line: "{{ web_app_user }} ALL=NOPASSWD: /bin/systemctl {{ item }} {{ web_app_name }}"
     validate: "visudo -cf %s"
-  with_nested:
-    - [ "status", "start", "restart", "reload" ]
-    - "{{ web_app_components }}"
+  with_items:
+    - status
+    - start
+    - restart
+    - reload
   become: yes
   become_user: root
 
-- name: Enable systemd unit(s) at startup
+- name: Enable systemd unit at startup
   systemd:
-    name: "{{ web_app_name }}-{{ item }}"
+    name: "{{ web_app_name }}"
     enabled: yes
     daemon_reload: yes
-  with_items: "{{ web_app_components }}"
   become: yes
   become_user: root

@@ -1,14 +1,5 @@
 ---
 
-# list of dicts with keys: rule, port
-#
-# example:
-#   - rule: allow
-#     port: 80
-#   - rule: allow
-#     port: 443
-firewall_rules: []
-
 # (VPC) network CIDR range
 vpc_network_prefix: ~
 

@@ -21,8 +21,12 @@
   become: yes
   become_user: root
 
-- name: enable ufw
-  ufw:
-    state: enabled
+# using the "at" command here since "ufw enable" hangs
+# on internal nodes when executed directly via Ansible
+- name: ufw enable
+  at:
+    command: ufw enable
+    count: 1
+    units: minutes
   become: yes
   become_user: root

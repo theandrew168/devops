@@ -1,11 +1,5 @@
 ---
 
-firewall_rules:
-  - rule: allow
-    port: 80
-  - rule: allow
-    port: 443
-
 web_app_name: sbs
 web_app_user: sbs
 web_app_proxy_port: 5002

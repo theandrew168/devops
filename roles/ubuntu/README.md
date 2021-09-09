@@ -7,7 +7,6 @@ The VPC configuration deployed by this role is detailed in the [DigitalOcean doc
 ## Configuration
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `firewall_rules` | `[]` | Firewall rules (list of dicts with keys: rule, port) |
 | `vpc_network_prefix` | `~` | (VPC) network CIDR range |
 | `vpc_gateway_private_ip` | `~` | (VPC) private IP of gateway node |
 | `vpc_is_gateway` | `no` | (VPC) host var indicating gateway node |
