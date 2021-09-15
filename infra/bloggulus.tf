@@ -8,6 +8,19 @@ resource "digitalocean_droplet" "bloggulus" {
   ]
 }
 
+resource "digitalocean_volume" "bloggulus" {
+  name   = "bloggulus"
+  region = "nyc1"
+  size   = 100
+
+  initial_filesystem_type = "ext4"
+}
+
+resource "digitalocean_volume_attachment" "bloggulus" {
+  droplet_id = digitalocean_droplet.bloggulus.id
+  volume_id  = digitalocean_volume.bloggulus.id
+}
+
 resource "digitalocean_record" "bloggulus_a" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"

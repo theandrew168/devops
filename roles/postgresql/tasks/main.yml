@@ -1,5 +1,9 @@
 ---
 
+# TODO: auto-adjust config based on system memory
+# https://www.enterprisedb.com/postgres-tutorials/how-tune-postgresql-memory
+# https://pgtune.leopard.in.ua/
+
 - name: Install postgresql (and psycopg2)
   apt:
     name:
