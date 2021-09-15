@@ -1,5 +1,8 @@
 ---
 
+# directory to hold postgresql data
+postgresql_data_directory: /var/lib/postgresql/12/main
+
 # list of dicts with keys: username, password
 #
 # example:

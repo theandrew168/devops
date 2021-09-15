@@ -1,9 +1,5 @@
 ---
 
-# TODO: auto-adjust config based on system memory
-# https://www.enterprisedb.com/postgres-tutorials/how-tune-postgresql-memory
-# https://pgtune.leopard.in.ua/
-
 - name: Install postgresql (and psycopg2)
   apt:
     name:
@@ -11,6 +7,18 @@
       - postgresql-client-12
       - python3-psycopg2
     update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Setup postgresql.conf settings
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  with_items:
+    - regexp: "^#?data_directory"
+      line: "data_directory={{ postgresql_data_directory }}"
+  notify: restart postgresql
   become: yes
   become_user: root
 

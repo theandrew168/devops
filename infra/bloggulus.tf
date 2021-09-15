@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "bloggulus" {
 resource "digitalocean_volume" "bloggulus" {
   name   = "bloggulus"
   region = "nyc1"
-  size   = 100
+  size   = 50
 
   initial_filesystem_type = "ext4"
 }

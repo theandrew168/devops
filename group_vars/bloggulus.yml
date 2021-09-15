@@ -1,5 +1,7 @@
 ---
 
+postgresql_data_directory: /mnt/bloggulus
+
 postgresql_users:
   - username: bloggulus
     password: !vault |
