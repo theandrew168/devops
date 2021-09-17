@@ -41,7 +41,7 @@ export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
 Terraform needs an access token in order to talk to Digital Ocean.
 This token can be obtained from Digital Ocean's web console:
 ```
-export DIGITALOCEAN_ACCESS_TOKEN="access_token_from_web_console"
+export DIGITALOCEAN_TOKEN="access_token_from_web_console"
 ```
 
 ### Terraform Backend
