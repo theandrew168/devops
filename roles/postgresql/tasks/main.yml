@@ -43,7 +43,7 @@
       line: "data_directory = '{{ postgresql_data_directory }}'"
     - regexp: "^#?listen_addresses"
       line: "listen_addresses = '*'"
-  register: postgresql_conf
+  notify: restart postgresql
   become: yes
   become_user: root
 
@@ -54,18 +54,12 @@
   with_items:
     - "host all all 0.0.0.0/0 md5"
     - "host all all ::/0 md5"
-  register: pg_hba_conf
+  notify: restart postgresql
   become: yes
   become_user: root
 
-- name: Restart postgresql
-  systemd:
-    name: postgresql
-    state: restarted
-    daemon_reload: yes
-  when: postgresql_conf.changed or pg_hba_conf.changed
-  become: yes
-  become_user: root
+- name: Restart postgresql now (if necessary)
+  meta: flush_handlers
 
 - name: Create cluster users
   postgresql_user:
