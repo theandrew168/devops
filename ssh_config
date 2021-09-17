@@ -1,0 +1,2 @@
+Host 10.0.0.*
+    ProxyCommand ssh -W %h:%p root@64.227.24.120
