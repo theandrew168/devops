@@ -19,13 +19,3 @@
     update_cache: yes
   become: yes
   become_user: root
-
-- name: Setup firewall rules
-  ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port }}"
-  with_items:
-    - rule: allow
-      port: 6379
-  become: yes
-  become_user: root

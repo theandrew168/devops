@@ -7,8 +7,8 @@
 - hosts: bloggulus_db
   roles:
     - postgresql
-    - redis
 
 - hosts: bloggulus_web
   roles:
+    - redis
     - web_app

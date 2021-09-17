@@ -4,16 +4,20 @@
 # NOTE: don't use a mount point directly: use a subdir
 postgresql_data_directory: ~
 
+# address to listen for incoming connections
+# NOTE: this will usually be the VPC subnet CIDR
+postgresql_listen_address: ~
+
+# database tuning params based on:
+# https://pgtune.leopard.in.ua/
+postgresql_tuning_parameters: []
+
 # list of dicts with keys: username, password
-#
-# example:
-#   - username: postgres
-#     password: postgres
 postgresql_users: []
+#  - username: postgres
+#    password: postgres
 
 # list of dicts with keys: name, owner
-#
-# example:
-#   - name: foobar
-#     owner: postgres
 postgresql_databases: []
+#  - name: foobar
+#    owner: postgres

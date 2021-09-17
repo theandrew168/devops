@@ -4,6 +4,7 @@ mounted_volumes:
   - /mnt/bloggulus_db
 
 postgresql_data_directory: /mnt/bloggulus_db/bloggulus
+postgresql_listen_address: 10.0.0.0/24
 
 postgresql_users:
   - username: bloggulus
@@ -19,3 +20,36 @@ postgresql_users:
 postgresql_databases:
   - name: bloggulus
     owner: bloggulus
+
+# DB Version: 12
+# OS Type: linux
+# DB Type: web
+# Total Memory (RAM): 1 GB
+# CPUs num: 1
+# Connections num: 50
+# Data Storage: san
+postgresql_tuning_parameters:
+  - name: max_connections
+    value: 50
+  - name: shared_buffers
+    value: 256MB
+  - name: effective_cache_size
+    value: 768MB
+  - name: maintenance_work_mem
+    value: 64MB
+  - name: checkpoint_completion_target
+    value: 0.9
+  - name: wal_buffers
+    value: 7864kB
+  - name: default_statistics_target
+    value: 100
+  - name: random_page_cost
+    value: 1.1
+  - name: effective_io_concurrency
+    value: 300
+  - name: work_mem
+    value: 2621kB
+  - name: min_wal_size
+    value: 1GB
+  - name: max_wal_size
+    value: 4GB

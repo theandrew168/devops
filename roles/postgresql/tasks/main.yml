@@ -33,27 +33,35 @@
   become: yes
   become_user: postgres
 
-- name: Setup postgresql.conf settings
+- name: Setup general settings postgresql.conf
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} = {{ item.value }}"
   with_items:
-    - regexp: "^#?data_directory"
-      line: "data_directory = '{{ postgresql_data_directory }}'"
-    - regexp: "^#?listen_addresses"
-      line: "listen_addresses = '*'"
+    - name: data_directory
+      value: "'{{ postgresql_data_directory }}'"
+    - name: listen_addresses
+      value: "'*'"
   notify: restart postgresql
   become: yes
   become_user: root
 
-- name: Setup pg_hba.conf settings
+- name: Setup tuning parameters postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} = {{ item.value }}"
+  with_items: "{{ postgresql_tuning_parameters }}"
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Setup listen address in pg_hba.conf
   lineinfile:
     path: /etc/postgresql/12/main/pg_hba.conf
-    line: "{{ item }}"
-  with_items:
-    - "host all all 0.0.0.0/0 md5"
-    - "host all all ::/0 md5"
+    line: "host all all {{ postgresql_listen_address }} md5"
+  when: postgresql_listen_address
   notify: restart postgresql
   become: yes
   become_user: root

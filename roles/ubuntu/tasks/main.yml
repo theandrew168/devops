@@ -66,13 +66,13 @@
 - name: Limit journald log sizes
   lineinfile:
     path: /etc/systemd/journald.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }}={{ item.value}}"
   with_items:
-    - regexp: "^#?SystemMaxUse"
-      line: "SystemMaxUse=50M"
-    - regexp: "^#?SystemMaxFileSize"
-      line: "SystemMaxFileSize=10M"
+    - name: SystemMaxUse
+      value: 50M
+    - name: SystemMaxFileSize
+      value: 10M
   notify: restart systemd-journald
   become: yes
   become_user: root
@@ -80,17 +80,17 @@
 - name: Enforce pubkey as only SSH auth method
   lineinfile:
     path: /etc/ssh/sshd_config
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} {{ item.value }}"
   with_items:
-    - regexp: "^#?UsePAM"
-      line: "UsePAM yes"
-    - regexp: "^#?PubkeyAuthentication"
-      line: "PubkeyAuthentication yes"
-    - regexp: "^#?PasswordAuthentication"
-      line: "PasswordAuthentication no"
-    - regexp: "^#?ChallengeResponseAuthentication"
-      line: "ChallengeResponseAuthentication no"
+    - name: UsePAM
+      value: "yes"
+    - name: PubkeyAuthentication
+      value: "yes"
+    - name: PasswordAuthentication
+      value: "no"
+    - name: ChallengeResponseAuthentication
+      value: "no"
   notify: reload sshd
   become: yes
   become_user: root
@@ -121,15 +121,15 @@
 - name: Setup gateway IP forwarding
   lineinfile:
     path: /etc/ufw/sysctl.conf
-    regexp: "{{ item.regexp }}"
-    line: "{{ item.line }}"
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name}}={{ item.value }}"
   with_items:
-    - regexp: "^#?net/ipv4/ip_forward"
-      line: "net/ipv4/ip_forward=1"
-    - regexp: "^#?net/ipv6/conf/default/forwarding"
-      line: "net/ipv6/conf/default/forwarding=1"
-    - regexp: "^#?net/ipv6/conf/all/forwarding"
-      line: "net/ipv6/conf/all/forwarding=1"
+    - name: net/ipv4/ip_forward
+      value: 1
+    - name: net/ipv6/conf/default/forwarding
+      value: 1
+    - name: net/ipv6/conf/all/forwarding
+      value: 1
   when: vpc_is_gateway
   become: yes
   become_user: root
