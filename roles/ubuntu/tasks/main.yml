@@ -103,6 +103,14 @@
   become: yes
   become_user: root
 
+- name: Fix default permissions on mounted volumes
+  file:
+    path: "{{ item }}"
+    mode: "0755"
+  with_items: "{{ mounted_volumes }}"
+  become: yes
+  become_user: root
+
 - name: Make vim the default text editor
   alternatives:
     name: editor

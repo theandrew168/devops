@@ -10,6 +10,29 @@
   become: yes
   become_user: root
 
+- name: Setup permissions for data directory
+  file:
+    path: "{{ postgresql_data_directory }}"
+    mode: "0700"
+    owner: postgres
+    group: postgres
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Check if database is initialized
+  stat:
+    path: "{{ postgresql_data_directory }}/PG_VERSION"
+  register: pg_version
+  become: yes
+  become_user: root
+
+- name: Ensure PostgreSQL database is initialized.
+  command: "/usr/lib/postgresql/12/bin/initdb -D {{ postgresql_data_directory }}"
+  when: not pg_version.stat.exists
+  become: yes
+  become_user: postgres
+
 - name: Setup postgresql.conf settings
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
@@ -17,8 +40,30 @@
     line: "{{ item.line }}"
   with_items:
     - regexp: "^#?data_directory"
-      line: "data_directory={{ postgresql_data_directory }}"
-  notify: restart postgresql
+      line: "data_directory = '{{ postgresql_data_directory }}'"
+    - regexp: "^#?listen_addresses"
+      line: "listen_addresses = '*'"
+  register: postgresql_conf
+  become: yes
+  become_user: root
+
+- name: Setup pg_hba.conf settings
+  lineinfile:
+    path: /etc/postgresql/12/main/pg_hba.conf
+    line: "{{ item }}"
+  with_items:
+    - "host all all 0.0.0.0/0 md5"
+    - "host all all ::/0 md5"
+  register: pg_hba_conf
+  become: yes
+  become_user: root
+
+- name: Restart postgresql
+  systemd:
+    name: postgresql
+    state: restarted
+    daemon_reload: yes
+  when: postgresql_conf.changed or pg_hba_conf.changed
   become: yes
   become_user: root
 
@@ -38,3 +83,13 @@
   with_items: "{{ postgresql_databases }}"
   become: yes
   become_user: postgres
+
+- name: Setup firewall rules
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+  with_items:
+    - rule: allow
+      port: 5432
+  become: yes
+  become_user: root

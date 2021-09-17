@@ -3,6 +3,12 @@
 - hosts: bloggulus
   roles:
     - ubuntu
+
+- hosts: bloggulus_db
+  roles:
     - postgresql
     - redis
+
+- hosts: bloggulus_web
+  roles:
     - web_app

@@ -1,5 +1,12 @@
-[bloggulus]
-bloggulus.com
+[bloggulus_db]
+10.0.0.3 vpc_is_internal=yes
+
+[bloggulus_web]
+10.0.0.2 vpc_is_gateway=yes
+
+[bloggulus:children]
+bloggulus_db
+bloggulus_web
 
 [coffee]
 daileybrue.coffee

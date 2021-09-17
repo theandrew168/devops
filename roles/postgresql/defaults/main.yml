@@ -1,7 +1,8 @@
 ---
 
 # directory to hold postgresql data
-postgresql_data_directory: /var/lib/postgresql/12/main
+# NOTE: don't use a mount point directly: use a subdir
+postgresql_data_directory: ~
 
 # list of dicts with keys: username, password
 #

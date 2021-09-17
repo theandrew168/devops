@@ -1,31 +1,49 @@
-resource "digitalocean_droplet" "bloggulus" {
-  image    = "ubuntu-20-04-x64"
+resource "digitalocean_vpc" "bloggulus" {
   name     = "bloggulus"
   region   = "nyc1"
-  size     = "s-1vcpu-1gb"
-  ssh_keys = [
-    digitalocean_ssh_key.andrew_macbook.fingerprint,
-  ]
+  ip_range = "10.0.0.0/24"
 }
 
-resource "digitalocean_volume" "bloggulus" {
-  name   = "bloggulus"
+resource "digitalocean_volume" "bloggulus_db" {
+  name   = "bloggulus-db"
   region = "nyc1"
   size   = 50
 
   initial_filesystem_type = "ext4"
 }
 
-resource "digitalocean_volume_attachment" "bloggulus" {
-  droplet_id = digitalocean_droplet.bloggulus.id
-  volume_id  = digitalocean_volume.bloggulus.id
+resource "digitalocean_droplet" "bloggulus_db" {
+  image      = "ubuntu-20-04-x64"
+  name       = "bloggulus-db"
+  region     = "nyc1"
+  size       = "s-1vcpu-1gb"
+  monitoring = true
+  vpc_uuid   = digitalocean_vpc.bloggulus.id
+  volume_ids = [
+    digitalocean_volume.bloggulus_db.id
+  ]
+  ssh_keys   = [
+    digitalocean_ssh_key.andrew_macbook.fingerprint,
+  ]
+}
+
+resource "digitalocean_droplet" "bloggulus_web" {
+  image      = "ubuntu-20-04-x64"
+  name       = "bloggulus-web"
+  region     = "nyc1"
+  size       = "s-1vcpu-1gb"
+  monitoring = true
+  vpc_uuid   = digitalocean_vpc.bloggulus.id
+  ssh_keys   = [
+    digitalocean_ssh_key.andrew_macbook.fingerprint,
+  ]
 }
 
 resource "digitalocean_record" "bloggulus_a" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"
   name   = "@"
-  value  = digitalocean_droplet.bloggulus.ipv4_address
+  value  = digitalocean_droplet.bloggulus_web.ipv4_address
   ttl    = "3600"
 }
 
