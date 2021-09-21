@@ -1,0 +1,17 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=%I database backup
+After=network.target
+After=postgresql.service
+Requires=postgresql.service
+
+[Service]
+Type=oneshot
+User=pg2s3
+Group=pg2s3
+ExecStart=pg2s3 backup && pg2s3 prune
+EnvironmentFile=/etc/pg2s3/%i.env
+
+[Install]
+WantedBy=multi-user.target

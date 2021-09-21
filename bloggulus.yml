@@ -7,6 +7,7 @@
 - hosts: bloggulus_db
   roles:
     - postgresql
+    - pg2s3
 
 - hosts: bloggulus_web
   roles:

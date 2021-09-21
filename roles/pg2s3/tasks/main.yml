@@ -1,0 +1,68 @@
+---
+
+- name: Install dependencies
+  apt:
+    name:
+      - postgresql-client-12
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Install pg2s3
+  unarchive:
+    src: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_version }}_Linux_x86_64.tar.gz
+    dest: /usr/local/bin
+    remote_src: yes
+  become: yes
+  become_user: root
+
+- name: Create the backup user
+  user:
+    name: pg2s3
+    shell: /sbin/nologin
+    system: yes
+  become: yes
+  become_user: root
+
+- name: Create pg2s3 config directory
+  file:
+    path: /etc/pg2s3
+    mode: "0755"
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Setup pg2s3 environment vars files
+  template:
+    src: "{{ item.src }}"
+    dest: /etc/pg2s3/{{ item.name }}
+    mode: "0600"
+  with_items:
+    - src: pg2s3.env.j2
+      name: "{{ pg2s3_backup_name }}.env"
+    - src: pg2s3.exp.j2
+      name: "{{ pg2s3_backup_name }}.exp"
+  become: yes
+  become_user: root
+
+- name: Setup systemd service files
+  template:
+    src: "{{ item.src }}"
+    dest: /etc/systemd/system/{{ item.name }}
+    mode: "0644"
+  with_items:
+    - src: pg2s3@.service.j2
+      name: "pg2s3@{{ pg2s3_backup_name }}.service"
+    - src: pg2s3@.timer.j2
+      name: "pg2s3@{{ pg2s3_backup_name }}.timer"
+  become: yes
+  become_user: root
+
+- name: Enable systemd timer
+  systemd:
+    name: "pg2s3@{{ pg2s3_backup_name }}.timer"
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

@@ -1,0 +1,11 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=%I database backup
+
+[Timer]
+OnCalendar={{ pg2s3_backup_frequency }}
+Persistent=true
+
+[Install]
+WantedBy=timers.target
