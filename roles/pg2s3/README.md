@@ -6,7 +6,7 @@ More info about systemd timers can be found [here](https://wiki.archlinux.org/ti
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `pg2s3_version` | `0.0.8` | Version of pg2s3 to install |
+| `pg2s3_version` | `0.0.9` | Version of pg2s3 to install |
 | `pg2s3_backup_name` | `pg2s3` | Name to label the service and environment files |
 | `pg2s3_backup_frequency` | `*-*-* 8:00:00` | OnCalendar expression for the systemd timer |
 | `pg2s3_backup_retention` | `30` | Number of backups to retain after pruning |

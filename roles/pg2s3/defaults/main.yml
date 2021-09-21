@@ -1,7 +1,7 @@
 ---
 
 # Version of pg2s3 to install
-pg2s3_version: 0.0.8
+pg2s3_version: 0.0.9
 
 # Name to label the service and environment files
 pg2s3_backup_name: pg2s3
