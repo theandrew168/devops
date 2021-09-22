@@ -6,11 +6,12 @@ I currently use [Digital Ocean](https://www.digitalocean.com/) to host all of my
 ## Scheduling
 In general, the infra managed by this repo operates on the following schedule.
 Note that not all of these events occur each day.
+System restarts, for example, only occur as needed (when a package or kernel update requires it).
 
 | What | When |
 | ---- | ---- |
 | Database backups | 7:00 AM UTC (2:00 AM CST) |
-| System update reboots | 8:00 AM UTC (3:00 AM CST) |
+| System restarts | 8:00 AM UTC (3:00 AM CST) |
 
 ## Install
 First, follow the corresponding guides for [installing Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) and [installing Terraform](https://www.terraform.io/downloads.html).
