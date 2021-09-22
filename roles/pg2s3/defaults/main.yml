@@ -7,7 +7,7 @@ pg2s3_version: 0.0.11
 pg2s3_backup_name: pg2s3
 
 # OnCalendar expression for the systemd timer
-pg2s3_backup_frequency: "*-*-* 8:00:00"
+pg2s3_backup_frequency: "*-*-* 9:00:00"
 
 # Number of backups to retain after pruning
 pg2s3_backup_retention: 30
