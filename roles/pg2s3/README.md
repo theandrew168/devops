@@ -3,10 +3,11 @@ Ansible role for installing and configuring the [pg2s3](https://github.com/thean
 
 ## Configuration
 More info about systemd timers can be found [here](https://wiki.archlinux.org/title/Systemd/Timers).
+Encryption, decryption, and key generation are handled by the [age](https://github.com/FiloSottile/age) tool.
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `pg2s3_version` | `0.0.9` | Version of pg2s3 to install |
+| `pg2s3_version` | `0.0.10` | Version of pg2s3 to install |
 | `pg2s3_backup_name` | `pg2s3` | Name to label the service and environment files |
 | `pg2s3_backup_frequency` | `*-*-* 8:00:00` | OnCalendar expression for the systemd timer |
 | `pg2s3_backup_retention` | `30` | Number of backups to retain after pruning |
@@ -15,3 +16,4 @@ More info about systemd timers can be found [here](https://wiki.archlinux.org/ti
 | `pg2s3_s3_access_key_id` | `~` | S3-compatible storage access key ID |
 | `pg2s3_s3_secret_access_key` | `~` | S3-compatible storage secret access key |
 | `pg2s3_s3_bucket_name` | `~` | S3-compatible storage bucket name |
+| `pg2s3_age_public_key` | `~` | Public key for backup encryption |

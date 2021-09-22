@@ -55,6 +55,7 @@ postgresql_tuning_parameters:
     value: 4GB
 
 pg2s3_backup_name: bloggulus
+pg2s3_age_public_key: age129u27z96mt2wc3zdgjfh5nlx7fge9dcr7nrrula90gxhzumwxyzsptt8rt
 pg2s3_pg_connection_uri: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   34303436656437373766656536393734373438396433386633313766303166306162663562353033
