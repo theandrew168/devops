@@ -3,6 +3,15 @@ This repo contains the automation I use for my personal projects and websites.
 Two open source tools carry most of the weight: [Ansible](https://www.ansible.com/) and [Terraform](https://www.terraform.io/).
 I currently use [Digital Ocean](https://www.digitalocean.com/) to host all of my infrastructure but this setup can be easily adapted to other hosting providers.
 
+## Scheduling
+In general, the infra managed by this repo operates on the following schedule.
+Note that not all of these events occur each day.
+
+| What | When |
+| ---- | ---- |
+| Database backups | 7:00 AM UTC (2:00 AM CST) |
+| System update reboots | 8:00 AM UTC (3:00 AM CST) |
+
 ## Install
 First, follow the corresponding guides for [installing Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) and [installing Terraform](https://www.terraform.io/downloads.html).
 You can verify that each tool is installed correctly by checking their versions:
