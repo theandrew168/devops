@@ -145,7 +145,7 @@
   become: yes
   become_user: root
 
-- name: Enable systemd unit at startup
+- name: Enable application at startup
   systemd:
     name: "{{ web_app_name }}"
     enabled: yes

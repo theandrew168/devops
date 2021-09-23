@@ -1,0 +1,16 @@
+---
+
+# List of desired integrations
+grafana_integrations: []
+
+# Grafana Cloud Agent version
+grafana_version: 0.18.4
+
+# Grafana Cloud Prometheus username
+grafana_username_prometheus: ~
+
+# Grafana Cloud Loki username
+grafana_username_loki: ~
+
+# Grafana Cloud password / API key
+grafana_password: ~

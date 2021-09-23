@@ -1,6 +1,6 @@
 ---
 
+# virtually hosted on bloggulus-web droplet
 - hosts: sbs
   roles:
-    - ubuntu
     - web_app

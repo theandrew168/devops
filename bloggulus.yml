@@ -4,6 +4,7 @@
   roles:
     - ubuntu
     - vpc
+    - grafana
 
 - hosts: bloggulus_db
   roles:

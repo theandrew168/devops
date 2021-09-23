@@ -1,5 +1,9 @@
 ---
 
+grafana_integrations:
+  - caddy
+  - redis
+
 web_app_name: bloggulus
 web_app_user: bloggulus
 web_app_proxy_port: 5000
