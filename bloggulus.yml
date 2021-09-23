@@ -3,6 +3,7 @@
 - hosts: bloggulus
   roles:
     - ubuntu
+    - vpc
 
 - hosts: bloggulus_db
   roles:

@@ -1,6 +1,6 @@
 ---
 
-mounted_volumes:
+ubuntu_mounted_volumes:
   - /mnt/bloggulus_db
 
 postgresql_data_directory: /mnt/bloggulus_db/bloggulus

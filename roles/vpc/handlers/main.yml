@@ -1,0 +1,12 @@
+---
+
+- name: netplan apply
+  command: netplan apply
+  become: yes
+  become_user: root
+
+- name: ufw reload
+  ufw:
+    state: reloaded
+  become: yes
+  become_user: root
