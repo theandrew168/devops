@@ -79,3 +79,6 @@
   notify: netplan apply
   become: yes
   become_user: root
+
+- name: Flush handlers
+  meta: flush_handlers

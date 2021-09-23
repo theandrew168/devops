@@ -26,6 +26,14 @@
   become: yes
   become_user: root
 
+- name: Set permissions on mounted volumes
+  file:
+    path: "{{ item }}"
+    mode: "0755"
+  with_items: "{{ ubuntu_mounted_volumes }}"
+  become: yes
+  become_user: root
+
 - name: Install common system tools
   apt:
     name:
@@ -47,6 +55,13 @@
       - unzip
       - vim
     update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Make vim the default text editor
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
   become: yes
   become_user: root
 
@@ -99,21 +114,11 @@
   ufw:
     rule: limit
     port: "22"
-  notify: ufw enable
   become: yes
   become_user: root
 
-- name: Fix default permissions on mounted volumes
-  file:
-    path: "{{ item }}"
-    mode: "0755"
-  with_items: "{{ ubuntu_mounted_volumes }}"
-  become: yes
-  become_user: root
-
-- name: Make vim the default text editor
-  alternatives:
-    name: editor
-    path: /usr/bin/vim.basic
+- name: Enable ufw (might hang if using an SSH proxy, just cancel and restart)
+  ufw:
+    state: enabled
   become: yes
   become_user: root

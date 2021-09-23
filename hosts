@@ -1,15 +1,15 @@
-[bloggulus_db]
-10.0.0.3 vpc_is_internal=yes
-
 [bloggulus_web]
 10.0.0.2 vpc_is_gateway=yes
+
+[bloggulus_db]
+10.0.0.3 vpc_is_internal=yes
 
 [bloggulus:children]
 bloggulus_db
 bloggulus_web
 
 [coffee]
-daileybrue.coffee
+68.183.108.238
 
 [sbs]
-shallowbrooksoftware.com
+64.227.24.120

@@ -17,6 +17,7 @@
     owner: postgres
     group: postgres
     state: directory
+  when: postgresql_data_directory
   become: yes
   become_user: root
 
@@ -24,25 +25,41 @@
   stat:
     path: "{{ postgresql_data_directory }}/PG_VERSION"
   register: pg_version
+  when: postgresql_data_directory
   become: yes
   become_user: root
 
 - name: Ensure PostgreSQL database is initialized.
   command: "/usr/lib/postgresql/12/bin/initdb -D {{ postgresql_data_directory }}"
-  when: not pg_version.stat.exists
+  when: postgresql_data_directory and (not pg_version.stat.exists)
   become: yes
   become_user: postgres
 
-- name: Setup general settings postgresql.conf
+- name: Setup data directory in postgresql.conf
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
-    regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }} = {{ item.value }}"
-  with_items:
-    - name: data_directory
-      value: "'{{ postgresql_data_directory }}'"
-    - name: listen_addresses
-      value: "'*'"
+    regexp: "^#?data_directory"
+    line: "data_directory = '{{ postgresql_data_directory }}'"
+  when: postgresql_data_directory
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Setup listen address in postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "^#?listen_addresses"
+    line: "listen_addresses = '*'"
+  when: postgresql_listen_address
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Setup listen address in pg_hba.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/pg_hba.conf
+    line: "host all all {{ postgresql_listen_address }} md5"
+  when: postgresql_listen_address
   notify: restart postgresql
   become: yes
   become_user: root
@@ -57,16 +74,7 @@
   become: yes
   become_user: root
 
-- name: Setup listen address in pg_hba.conf
-  lineinfile:
-    path: /etc/postgresql/12/main/pg_hba.conf
-    line: "host all all {{ postgresql_listen_address }} md5"
-  when: postgresql_listen_address
-  notify: restart postgresql
-  become: yes
-  become_user: root
-
-- name: Restart postgresql now (if necessary)
+- name: Flush handlers
   meta: flush_handlers
 
 - name: Create cluster users
@@ -93,5 +101,6 @@
   with_items:
     - rule: allow
       port: 5432
+  when: postgresql_listen_address
   become: yes
   become_user: root

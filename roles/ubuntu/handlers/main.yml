@@ -15,9 +15,3 @@
     daemon_reload: yes
   become: yes
   become_user: root
-
-- name: ufw enable
-  ufw:
-    state: enabled
-  become: yes
-  become_user: root
