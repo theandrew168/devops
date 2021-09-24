@@ -7,6 +7,15 @@
   become: yes
   become_user: root
 
+- name: Add grafana-agent to journal groups
+  user:
+    name: grafana-agent
+    groups: adm,systemd-journal
+    append: yes
+  notify: restart grafana-agent
+  become: yes
+  become_user: root
+
 - name: Setup grafana-agent config file
   template:
     src: grafana-agent.yaml.j2

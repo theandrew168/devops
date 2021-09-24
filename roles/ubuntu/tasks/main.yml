@@ -41,6 +41,7 @@
       - haveged
       - htop
       - iptables
+      - libsystemd-dev
       - lsof
       - ncdu
       - net-tools
