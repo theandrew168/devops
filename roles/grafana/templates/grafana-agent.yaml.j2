@@ -1,45 +1,67 @@
+server:
+  http_listen_port: 12345
 integrations:
   node_exporter:
     enabled: true
   prometheus_remote_write:
-  - basic_auth:
+  - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    basic_auth:
       password: {{ grafana_password }}
       username: {{ grafana_username_prometheus }}
-    url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+{% if 'postgresql' in grafana_integrations %}
+  postgres_exporter:
+    enabled: true
+    data_source_names: ['{{ grafana_postgresql_connection_uri }}']
+{% endif %}
 {% if 'redis' in grafana_integrations %}
   redis_exporter:
     enabled: true
-    redis_addr: localhost:6379
+    redis_addr: 'localhost:6379'
 {% endif %}
-loki:
-  configs:
-  - clients:
-    - basic_auth:
-        password: {{ grafana_password }}
-        username: {{ grafana_username_loki }}
-      url: https://logs-prod-us-central1.grafana.net/api/prom/push
-    name: integrations
-    positions:
-      filename: /tmp/positions.yaml
-    target_config:
-      sync_period: 10s
 prometheus:
   configs:
   - name: integrations
     remote_write:
-    - basic_auth:
+    - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+      basic_auth:
         password: {{ grafana_password }}
         username: {{ grafana_username_prometheus }}
-      url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
     scrape_configs:
 {% if 'caddy' in grafana_integrations %}
     - job_name: integrations/caddy
       static_configs:
-      - targets:
-        - localhost:2019
+      - targets: ['localhost:2019']
+{% endif %}
+{% if 'go' in grafana_integrations %}
+    - job_name: integrations/go
+      static_configs:
+      - targets: ['localhost:2112']
 {% endif %}
   global:
     scrape_interval: 15s
   wal_directory: /tmp/grafana-agent-wal
-server:
-  http_listen_port: 12345
+loki:
+  configs:
+  - name: integrations
+    clients:
+    - url: https://logs-prod-us-central1.grafana.net/api/prom/push
+      basic_auth:
+        password: {{ grafana_password }}
+        username: {{ grafana_username_loki }}
+    positions:
+      filename: /tmp/positions.yaml
+    target_config:
+      sync_period: 10s
+    scrape_configs:
+    - job_name: systemd-journal
+      journal:
+        max_age: 12h
+        labels:
+          job: systemd-journal
+      relabel_configs:
+      - source_labels: ['__journal__systemd_unit']
+        target_label: systemd_unit
+      - source_labels: ['__journal__hostname']
+        target_label: nodename
+      - source_labels: ['__journal_syslog_identifier']
+        target_label: syslog_identifier

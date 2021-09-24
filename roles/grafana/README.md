@@ -9,3 +9,4 @@ Ansible role for installing and configuring a [Grafana Cloud Agent](https://graf
 | `grafana_username_prometheus` | `~` | Grafana Cloud Prometheus username |
 | `grafana_username_loki` | `~` | Grafana Cloud Loki username |
 | `grafana_password` | `~` | Grafana Cloud password / API key |
+| `grafana_postgresql_connection_uri` | `~` | PostgreSQL integration connection string |
