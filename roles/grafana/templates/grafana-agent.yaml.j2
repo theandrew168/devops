@@ -6,8 +6,8 @@ integrations:
   prometheus_remote_write:
   - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
     basic_auth:
-      password: {{ grafana_password }}
       username: {{ grafana_username_prometheus }}
+      password: {{ grafana_password }}
 {% if 'postgresql' in grafana_integrations %}
   postgres_exporter:
     enabled: true
@@ -24,8 +24,8 @@ prometheus:
     remote_write:
     - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
       basic_auth:
-        password: {{ grafana_password }}
         username: {{ grafana_username_prometheus }}
+        password: {{ grafana_password }}
     scrape_configs:
 {% if 'caddy' in grafana_integrations %}
     - job_name: integrations/caddy
@@ -46,8 +46,8 @@ loki:
     clients:
     - url: https://logs-prod-us-central1.grafana.net/api/prom/push
       basic_auth:
-        password: {{ grafana_password }}
         username: {{ grafana_username_loki }}
+        password: {{ grafana_password }}
     positions:
       filename: /tmp/positions.yaml
     target_config:
