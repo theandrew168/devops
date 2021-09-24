@@ -14,3 +14,6 @@ grafana_username_loki: ~
 
 # Grafana Cloud password / API key
 grafana_password: ~
+
+# PostgreSQL integration connection string
+grafana_postgresql_connection_uri: ~
