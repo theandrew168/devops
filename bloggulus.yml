@@ -4,7 +4,7 @@
   roles:
     - server
     - vpc
-    - grafana
+    - agent
 
 - hosts: bloggulus_db
   roles:

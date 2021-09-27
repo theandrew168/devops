@@ -1,10 +1,10 @@
 ---
 
-grafana_integrations:
+agent_integrations:
   - caddy
-grafana_username_prometheus: 208423
-grafana_username_loki: 103183
-grafana_password: !vault |
+agent_username_prometheus: 208423
+agent_username_loki: 103183
+agent_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   64613561306631373237643663666331373235663165643864343730363662336532613266313866
   3534313731326137343464353161613964646238306563300a383261323831396462656530383132

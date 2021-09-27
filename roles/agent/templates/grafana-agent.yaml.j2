@@ -6,14 +6,14 @@ integrations:
   prometheus_remote_write:
   - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
     basic_auth:
-      username: {{ grafana_username_prometheus }}
-      password: {{ grafana_password }}
-{% if 'postgresql' in grafana_integrations %}
+      username: {{ agent_username_prometheus }}
+      password: {{ agent_password }}
+{% if 'postgresql' in agent_integrations %}
   postgres_exporter:
     enabled: true
-    data_source_names: ['{{ grafana_postgresql_connection_uri }}']
+    data_source_names: ['{{ agent_postgresql_connection_uri }}']
 {% endif %}
-{% if 'redis' in grafana_integrations %}
+{% if 'redis' in agent_integrations %}
   redis_exporter:
     enabled: true
     redis_addr: 'localhost:6379'
@@ -24,15 +24,15 @@ prometheus:
     remote_write:
     - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
       basic_auth:
-        username: {{ grafana_username_prometheus }}
-        password: {{ grafana_password }}
+        username: {{ agent_username_prometheus }}
+        password: {{ agent_password }}
     scrape_configs:
-{% if 'caddy' in grafana_integrations %}
+{% if 'caddy' in agent_integrations %}
     - job_name: integrations/caddy
       static_configs:
       - targets: ['localhost:2019']
 {% endif %}
-{% if 'go' in grafana_integrations %}
+{% if 'go' in agent_integrations %}
     - job_name: integrations/go
       static_configs:
       - targets: ['localhost:2112']
@@ -46,8 +46,8 @@ loki:
     clients:
     - url: https://logs-prod-us-central1.grafana.net/api/prom/push
       basic_auth:
-        username: {{ grafana_username_loki }}
-        password: {{ grafana_password }}
+        username: {{ agent_username_loki }}
+        password: {{ agent_password }}
     positions:
       filename: /tmp/positions.yaml
     target_config:

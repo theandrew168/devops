@@ -1,6 +1,6 @@
 ---
 
-grafana_integrations:
+agent_integrations:
   - caddy
   - go
   - redis

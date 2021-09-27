@@ -2,7 +2,7 @@
 
 - name: Install grafana-agent
   apt:
-    deb: https://github.com/grafana/agent/releases/download/v{{ grafana_version }}/grafana-agent-{{ grafana_version }}-1.amd64.deb
+    deb: https://github.com/grafana/agent/releases/download/v{{ agent_version }}/grafana-agent-{{ agent_version }}-1.amd64.deb
     update_cache: yes
   become: yes
   become_user: root

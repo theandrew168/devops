@@ -3,5 +3,5 @@
 - hosts: coffee
   roles:
     - server
-    - grafana
+    - agent
     - web_app

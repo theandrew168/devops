@@ -1,0 +1,19 @@
+---
+
+# List of desired integrations
+agent_integrations: []
+
+# Grafana Agent version
+agent_version: 0.18.4
+
+# Grafana Prometheus username
+agent_username_prometheus: ~
+
+# Grafana Loki username
+agent_username_loki: ~
+
+# Grafana password / API key
+agent_password: ~
+
+# PostgreSQL integration connection string
+agent_postgresql_connection_uri: ~
