@@ -1,6 +1,6 @@
 ---
 
-ubuntu_mounted_volumes:
+server_mounted_volumes:
   - /mnt/bloggulus_db
 
 grafana_integrations:

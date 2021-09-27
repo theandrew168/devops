@@ -30,7 +30,7 @@
   file:
     path: "{{ item }}"
     mode: "0755"
-  with_items: "{{ ubuntu_mounted_volumes }}"
+  with_items: "{{ server_mounted_volumes }}"
   become: yes
   become_user: root
 

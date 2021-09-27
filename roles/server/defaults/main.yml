@@ -1,4 +1,4 @@
 ---
 
 # list of mounted volumes
-ubuntu_mounted_volumes: []
+server_mounted_volumes: []
