@@ -26,3 +26,12 @@
   notify: restart grafana-agent
   become: yes
   become_user: root
+
+- name: Start and enable grafana-agent
+  systemd:
+    name: grafana-agent
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

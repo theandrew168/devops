@@ -1,83 +1,11 @@
 ---
 
-- name: Install dependencies
-  apt:
-    name:
-      - apt-transport-https
-      - debian-archive-keyring
-      - debian-keyring
-    update_cache: yes
-  become: yes
-  become_user: root
-
 - name: Install java
   apt:
     name:
       - openjdk-8-jre-headless
     update_cache: yes
   when: web_app_is_jar
-  become: yes
-  become_user: root
-
-- name: Setup firewall rules
-  ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port }}"
-  with_items:
-    - rule: allow
-      port: 80
-    - rule: allow
-      port: 443
-  become: yes
-  become_user: root
-
-- name: Setup Caddy apt repo key
-  apt_key:
-    url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
-  become: yes
-  become_user: root
-
-- name: Setup Caddy apt repo
-  apt_repository:
-    repo: "{{ item }}"
-    update_cache: no
-  with_items:
-    - "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
-    - "deb-src https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
-  become: yes
-  become_user: root
-
-- name: Check if Caddyfile exists (to detect initial install)
-  stat:
-    path: /etc/caddy/Caddyfile
-  register: caddyfile_check
-  become: yes
-  become_user: root
-
-- name: Install Caddy
-  apt:
-    name: caddy
-    update_cache: yes
-  become: yes
-  become_user: root
-
-- name: Clear default Caddyfile config (upon initial install)
-  copy:
-    dest: /etc/caddy/Caddyfile
-    content: ""
-  when: not caddyfile_check.stat.exists
-  become: yes
-  become_user: root
-
-- name: Add entry to Caddyfile
-  blockinfile:
-    path: /etc/caddy/Caddyfile
-    backup: yes
-    create: yes
-    mode: "0644"
-    marker: "# {mark} ANSIBLE MANAGED BLOCK {{ web_app_hostnames[0] }}"
-    block: "{{ web_app_hostnames | join(',\n') }} {\n\treverse_proxy 127.0.0.1:{{ web_app_proxy_port }}\n}"
-  notify: reload caddy
   become: yes
   become_user: root
 

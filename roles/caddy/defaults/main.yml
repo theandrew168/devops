@@ -1,0 +1,11 @@
+---
+
+# list of reverse proxy config blocks
+caddy_config: []
+#  - hostnames:
+#      - foo.com
+#      - bar.com
+#    proxy_port: 5000
+#    proxy_auth:
+#      username: foobar
+#      password: p@ssw0rd

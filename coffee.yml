@@ -4,4 +4,5 @@
   roles:
     - server
     - agent
+    - caddy
     - web_app

@@ -1,8 +1,8 @@
 ---
 
-- name: restart web app
+- name: restart cortex
   systemd:
-    name: "{{ web_app_name }}"
+    name: cortex
     state: restarted
     daemon_reload: yes
   become: yes

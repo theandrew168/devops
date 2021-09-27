@@ -1,0 +1,8 @@
+{% for config in caddy_config %}
+{% for hostname in config.hostnames[:-1] %}
+{{ hostname }},
+{% endfor %}
+{{ config.hostnames[-1] }} {
+	reverse_proxy 127.0.0.1:{{ config.proxy_port }}
+}
+{% endfor %}

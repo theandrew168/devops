@@ -1,0 +1,6 @@
+---
+
+- hosts: cortex
+  roles:
+    - server
+    - cortex

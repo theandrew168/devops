@@ -12,9 +12,6 @@ web_app_is_jar: no
 # local port on which the web app listens (5000, 8000, 8080, etc)
 web_app_proxy_port: ~
 
-# list of hostnames that point to the app server
-web_app_hostnames: []
-
 # extra systemd units that the app depends on
 # (postgresql.service or redis.service, for example)
 web_app_systemd_dependencies: []
