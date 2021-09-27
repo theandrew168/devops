@@ -4,5 +4,10 @@
 {% endfor %}
 {{ config.hostnames[-1] }} {
 	reverse_proxy 127.0.0.1:{{ config.proxy_port }}
+{% if 'proxy_auth' in config %}
+	basicauth {
+		{{ config.proxy_auth.username }} {{ config.proxy_auth.password }}
+	}
+{% endif %}
 }
 {% endfor %}

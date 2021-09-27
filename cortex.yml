@@ -3,4 +3,5 @@
 - hosts: cortex
   roles:
     - server
+    - caddy
     - cortex
