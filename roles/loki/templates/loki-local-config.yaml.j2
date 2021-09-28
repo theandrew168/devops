@@ -20,21 +20,30 @@ ingester:
 schema_config:
   configs:
   - from: 2020-05-15
-    store: boltdb
-    object_store: filesystem
+    store: boltdb-shipper
+    object_store: s3
     schema: v11
     index:
       prefix: index_
-      period: 168h
+      period: 24h
 
 storage_config:
-  boltdb:
-    directory: /tmp/loki/index
-
-  filesystem:
-    directory: /tmp/loki/chunks
+  boltdb_shipper:
+    active_index_directory: /tmp/loki/index
+    cache_location: /tmp/loki/index_cache
+    shared_store: s3
+  aws:
+    endpoint: '{{ loki_s3_endpoint }}'
+    access_key_id: '{{ loki_s3_access_key_id }}'
+    secret_access_key: '{{ loki_s3_secret_access_key }}'
+    bucketnames: '{{ loki_s3_bucket_name }}'
 
 limits_config:
   enforce_metric_name: false
   reject_old_samples: true
   reject_old_samples_max_age: 168h
+
+compactor:
+  working_directory: /tmp/loki/compactor
+  shared_store: s3
+  compaction_interval: 5m
