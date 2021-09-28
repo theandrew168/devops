@@ -3,6 +3,9 @@
 # Cortex version
 cortex_version: 1.10.0
 
+# How long to keep historic metric data
+cortex_retention: 90d
+
 # S3-compatible storage endpoint
 cortex_s3_endpoint: ~
 

@@ -1,9 +1,11 @@
 ---
 
-agent_integrations:
-  - caddy
-  - go
-  - redis
+agent_redis_address: localhost:6379
+agent_scrape_configs:
+  - name: bloggulus-caddy
+    target: localhost:2019
+  - name: bloggulus
+    target: localhost:2112
 
 caddy_config:
   - hostnames:

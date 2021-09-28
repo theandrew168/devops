@@ -19,3 +19,6 @@ bloggulus_web
 
 [loki]
 157.230.80.140
+
+[grafana]
+67.207.91.29

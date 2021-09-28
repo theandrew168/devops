@@ -1,5 +1,11 @@
 ---
 
+agent_scrape_configs:
+  - name: cortex-caddy
+    target: localhost:2019
+  - name: cortex
+    target: localhost:9009
+
 caddy_config:
   - hostnames:
       - cortex.shallowbrooksoftware.com

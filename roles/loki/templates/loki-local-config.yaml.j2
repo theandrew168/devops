@@ -1,25 +1,66 @@
+# single-binary deployment: all components run inside of a single process
+target: all
+
+# no need for multi-tenancy
 auth_enabled: false
 
 server:
+  # explicit HTTP port here since caddy needs to match
   http_listen_address: 127.0.0.1
   http_listen_port: 3100
+
+  # don't care about gRPC port, just want to listen locally
   grpc_listen_address: 127.0.0.1
-  grpc_listen_port: 9096
+
+  # allow messages up to 100MB
+  grpc_server_max_recv_msg_size: 104857600
+  grpc_server_max_send_msg_size: 104857600
+  grpc_server_max_concurrent_streams: 1000
 
 ingester:
   lifecycler:
+    # address to advertise for this ingester
     address: 127.0.0.1
+
+    # use an in memory ring store to avoid Consul
     ring:
       kvstore:
         store: inmemory
       replication_factor: 1
+
+    # start immediately and flush on shutdown
+    min_ready_duration: 0s
     final_sleep: 0s
+    num_tokens: 512
+
+  # flush chunks out sooner than default
   chunk_idle_period: 5m
   chunk_retain_period: 30s
 
+ingester_client:
+  grpc_client_config:
+    # allow messages up to 100MB
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 104857600
+    grpc_compression: gzip
+
+storage_config:
+  # use BoltDB (stored on S3) for indexes
+  boltdb_shipper:
+    active_index_directory: /tmp/loki/index
+    cache_location: /tmp/loki/index_cache
+    shared_store: s3
+  # use S3-compatible storage
+  aws:
+    endpoint: '{{ loki_s3_endpoint }}'
+    access_key_id: '{{ loki_s3_access_key_id }}'
+    secret_access_key: '{{ loki_s3_secret_access_key }}'
+    bucketnames: '{{ loki_s3_bucket_name }}'
+
+# use S3 for both indexes and chunks
 schema_config:
   configs:
-  - from: 2020-05-15
+  - from: 1994-07-13
     store: boltdb-shipper
     object_store: s3
     schema: v11
@@ -27,23 +68,14 @@ schema_config:
       prefix: index_
       period: 24h
 
-storage_config:
-  boltdb_shipper:
-    active_index_directory: /tmp/loki/index
-    cache_location: /tmp/loki/index_cache
-    shared_store: s3
-  aws:
-    endpoint: '{{ loki_s3_endpoint }}'
-    access_key_id: '{{ loki_s3_access_key_id }}'
-    secret_access_key: '{{ loki_s3_secret_access_key }}'
-    bucketnames: '{{ loki_s3_bucket_name }}'
-
-limits_config:
-  enforce_metric_name: false
-  reject_old_samples: true
-  reject_old_samples_max_age: 168h
-
 compactor:
+  # use tmp dir for compacting index shards on S3
   working_directory: /tmp/loki/compactor
   shared_store: s3
-  compaction_interval: 5m
+
+  # enable retention within the compactor
+  retention_enabled: true
+
+limits_config:
+  # limit log retention
+  retention_period: {{ loki_retention }}

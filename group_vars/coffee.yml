@@ -1,7 +1,8 @@
 ---
 
-agent_integrations:
-  - caddy
+agent_scrape_configs:
+  - name: coffee-caddy
+    target: localhost:2019
 
 caddy_config:
   - hostnames:

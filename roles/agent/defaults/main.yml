@@ -1,10 +1,10 @@
 ---
 
-# List of desired integrations
-agent_integrations: []
-
 # Grafana Agent version
 agent_version: 0.18.4
+
+# Scrape interval for metrics and logs
+agent_scrape_interval: 10s
 
 # Cortex metrics push endpoint
 agent_cortex_endpoint: ~
@@ -24,5 +24,16 @@ agent_loki_username: ~
 # Loki password
 agent_loki_password: ~
 
-# PostgreSQL integration connection string
+# Redis integration address
+agent_redis_address: ~
+
+# PostgreSQL integration connection URI
 agent_postgresql_connection_uri: ~
+
+# List of prometheus scrape configs
+# NOTE: these assume that a /metrics endpoint exists
+agent_scrape_configs: []
+#  - name: caddy
+#    target: localhost:2019
+#  - name: bloggulus
+#    target: localhost:5000

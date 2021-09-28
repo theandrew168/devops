@@ -1,8 +1,8 @@
 ---
 
-- hosts: cortex
+- hosts: grafana
   roles:
     - server
     - agent
     - caddy
-    - cortex
+    - grafana

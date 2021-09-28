@@ -3,8 +3,6 @@
 server_mounted_volumes:
   - /mnt/bloggulus_db
 
-agent_integrations:
-  - postgresql
 agent_postgresql_connection_uri: !vault |
   $ANSIBLE_VAULT;1.1;AES256
   34303436656437373766656536393734373438396433386633313766303166306162663562353033

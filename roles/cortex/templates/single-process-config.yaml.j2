@@ -1,58 +1,55 @@
-# Disable the requirement that every request to Cortex has a
-# X-Scope-OrgID header. `fake` will be substituted in instead.
+# single-binary deployment: all components run inside of a single process
+target: all
+
+# no need for multi-tenancy
 auth_enabled: false
 
 server:
+  # explicit HTTP port here since caddy needs to match
   http_listen_address: 127.0.0.1
   http_listen_port: 9009
-  grpc_listen_address: 127.0.0.1
-  grpc_listen_port: 9095
 
-  # Configure the server to allow messages up to 100MB.
+  # don't care about gRPC port, just want to listen locally
+  grpc_listen_address: 127.0.0.1
+
+  # allow messages up to 100MB
   grpc_server_max_recv_msg_size: 104857600
   grpc_server_max_send_msg_size: 104857600
   grpc_server_max_concurrent_streams: 1000
 
 distributor:
+  # distribute samples based on all labels, as opposed to solely by metric name
   shard_by_all_labels: true
-  pool:
-    health_check_ingesters: true
-
-ingester_client:
-  grpc_client_config:
-    # Configure the client to allow messages up to 100MB.
-    max_recv_msg_size: 104857600
-    max_send_msg_size: 104857600
-    grpc_compression: gzip
 
 ingester:
   lifecycler:
-    # The address to advertise for this ingester.  Will be autodiscovered by
-    # looking up address on eth0 or en0; can be specified if this fails.
+    # address to advertise for this ingester
     address: 127.0.0.1
 
-    # We want to start immediately and flush on shutdown.
-    join_after: 0
-    min_ready_duration: 0s
-    final_sleep: 0s
-    num_tokens: 512
-
-    # Use an in memory ring store, so we don't need to launch a Consul.
+    # use an in memory ring store to avoid Consul
     ring:
       kvstore:
         store: inmemory
       replication_factor: 1
 
+    # start immediately and flush on shutdown
+    min_ready_duration: 0s
+    final_sleep: 0s
+    num_tokens: 512
+
+ingester_client:
+  grpc_client_config:
+    # allow messages up to 100MB
+    max_recv_msg_size: 104857600
+    max_send_msg_size: 104857600
+    grpc_compression: gzip
+
 storage:
+  # use the blocks storage engine
   engine: blocks
 
 blocks_storage:
-  tsdb:
-    dir: /tmp/cortex/tsdb
-
-  bucket_store:
-    sync_dir: /tmp/cortex/tsdb-sync
-
+  # use S3-compatible storage for blocks
   backend: s3
   s3:
     endpoint: '{{ cortex_s3_endpoint }}'
@@ -60,11 +57,18 @@ blocks_storage:
     secret_access_key: '{{ cortex_s3_secret_access_key }}'
     bucket_name: '{{ cortex_s3_bucket_name }}'
 
-compactor:
-  data_dir: /tmp/cortex/compactor
-  sharding_ring:
-    kvstore:
-      store: inmemory
+  bucket_store:
+    # configure block synchronization dir
+    sync_dir: /tmp/cortex/tsdb-sync
 
-frontend_worker:
-  match_max_concurrent: true
+  tsdb:
+    # configure local TSDB dir
+    dir: /tmp/cortex/tsdb
+
+compactor:
+  # configure block compaction dir
+  data_dir: /tmp/cortex/compactor
+
+limits:
+  # limit metric retention
+  compactor_blocks_retention_period: {{ cortex_retention }}

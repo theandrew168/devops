@@ -3,6 +3,9 @@
 # loki version
 loki_version: 2.3.0
 
+# How long to keep historic log data
+loki_retention: 90d
+
 # S3-compatible storage endpoint
 loki_s3_endpoint: ~
 
