@@ -6,14 +6,23 @@ agent_integrations: []
 # Grafana Agent version
 agent_version: 0.18.4
 
-# Grafana Prometheus username
-agent_username_prometheus: ~
+# Cortex metrics push endpoint
+agent_cortex_endpoint: ~
 
-# Grafana Loki username
-agent_username_loki: ~
+# Cortex username
+agent_cortex_username: ~
 
-# Grafana password / API key
-agent_password: ~
+# Cortex password
+agent_cortex_password: ~
+
+# Loki logs push endpoint
+agent_loki_endpoint: ~
+
+# Loki username
+agent_loki_username: ~
+
+# Loki password
+agent_loki_password: ~
 
 # PostgreSQL integration connection string
 agent_postgresql_connection_uri: ~

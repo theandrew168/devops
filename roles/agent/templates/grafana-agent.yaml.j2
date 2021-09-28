@@ -1,14 +1,16 @@
 server:
   http_listen_address: 127.0.0.1
   http_listen_port: 12345
+  grpc_listen_address: 127.0.0.1
+  grpc_listen_port: 9095
 integrations:
   node_exporter:
     enabled: true
   prometheus_remote_write:
-  - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+  - url: '{{ agent_cortex_endpoint }}'
     basic_auth:
-      username: {{ agent_username_prometheus }}
-      password: {{ agent_password }}
+      username: '{{ agent_cortex_username }}'
+      password: '{{ agent_cortex_password }}'
 {% if 'postgresql' in agent_integrations %}
   postgres_exporter:
     enabled: true
@@ -23,10 +25,10 @@ prometheus:
   configs:
   - name: integrations
     remote_write:
-    - url: https://prometheus-prod-10-prod-us-central-0.grafana.net/api/prom/push
+    - url: '{{ agent_cortex_endpoint }}'
       basic_auth:
-        username: {{ agent_username_prometheus }}
-        password: {{ agent_password }}
+        username: '{{ agent_cortex_username }}'
+        password: '{{ agent_cortex_password }}'
     scrape_configs:
 {% if 'caddy' in agent_integrations %}
     - job_name: integrations/caddy
@@ -45,10 +47,10 @@ loki:
   configs:
   - name: integrations
     clients:
-    - url: https://logs-prod-us-central1.grafana.net/api/prom/push
+    - url: '{{ agent_loki_endpoint }}'
       basic_auth:
-        username: {{ agent_username_loki }}
-        password: {{ agent_password }}
+        username: '{{ agent_loki_username }}'
+        password: '{{ agent_loki_password }}'
     positions:
       filename: /tmp/positions.yaml
     target_config:
