@@ -1,0 +1,79 @@
+---
+
+# based on:
+# https://github.com/cortexproject/cortex/blob/master/packaging/deb/control/postinst
+- name: Create Loki user
+  user:
+    name: loki
+    system: yes
+    home: /var/lib/loki
+    create_home: yes
+    shell: /usr/sbin/nologin
+  become: yes
+  become_user: root
+
+- name: Download and install Loki
+  unarchive:
+    src: https://github.com/grafana/loki/releases/download/v{{ loki_version }}/loki-linux-amd64.zip
+    dest: /usr/local/bin
+    remote_src: yes
+  become: yes
+  become_user: root
+
+- name: Symlink Loki binary to full name
+  file:
+    src: /usr/local/bin/loki-linux-amd64
+    dest: /usr/local/bin/loki
+    state: link
+  become: yes
+  become_user: root
+
+- name: Create Loki config directory
+  file:
+    path: /etc/loki
+    mode: "0755"
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Setup Loki config file
+  template:
+    src: loki-local-config.yaml.j2
+    dest: /etc/loki/loki-local-config.yaml
+    mode: "0640"
+    owner: root
+    group: loki
+  notify: restart loki
+  become: yes
+  become_user: root
+
+# based on:
+# https://github.com/cortexproject/cortex/blob/master/packaging/deb/default/cortex
+- name: Setup Loki default environment file
+  template:
+    src: loki.j2
+    dest: /etc/default/loki
+    mode: "0600"
+  notify: restart loki
+  become: yes
+  become_user: root
+
+# based on:
+# https://github.com/cortexproject/cortex/blob/master/packaging/deb/systemd/cortex.service
+- name: Setup Loki systemd service file
+  template:
+    src: loki.service.j2
+    dest: /etc/systemd/system/loki.service
+    mode: "0644"
+  notify: restart loki
+  become: yes
+  become_user: root
+
+- name: Start and enable Loki
+  systemd:
+    name: loki
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

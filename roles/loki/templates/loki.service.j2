@@ -1,0 +1,18 @@
+[Unit]
+Description=Horizontally-scalable, highly-available, multi-tenant log aggregation systemd inspired by Prometheus.
+Documentation=https://grafana.com/docs/loki/latest/
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Restart=always
+User=loki
+EnvironmentFile=/etc/default/loki
+ExecStart=/usr/local/bin/loki --config.file $CONFIG_FILE --log.level $LOG_LEVEL $CUSTOM_ARGS
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+WorkingDirectory=/var/lib/loki
+
+[Install]
+WantedBy=multi-user.target

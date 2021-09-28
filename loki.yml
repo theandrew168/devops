@@ -1,0 +1,7 @@
+---
+
+- hosts: loki
+  roles:
+    - server
+    - caddy
+    - loki
