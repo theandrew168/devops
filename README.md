@@ -27,24 +27,12 @@ Just reach out to me and I'll get you the actual credentials.
 I like to export these environment variables in `$HOME/.profile` but you can put them wherever you prefer.
 Just remember to either source the file after adding the vars or log out and back in again.
 
-### SSH Config
-When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) must route through a specified "gateway" (aka "bastion") server.
-SSH (and Ansible) can be configured (via `~/.ssh/config`) to handle these jumps transparently on a per-VPC basis:
+### Terraform Backend
+Since Terraform's `.tfstate` file may contain sensitive information, a [DigitalOcean Space](https://www.digitalocean.com/products/spaces/) is used to keep it private.
+Terraform views DigitalOcean Spaces as an S3 backend so the following environment variables (also obtained from the web console) are necessary to hook everything up:
 ```
-# template
-Host <vpc_network_wildcard>
-    ProxyCommand ssh -W %h:%p root@<vpc_gateway_public_ip>
-
-# example
-Host 10.0.0.*
-    ProxyCommand ssh -W %h:%p root@64.225.52.149
-```
-
-### Ansible Vault Password
-Since Ansible is occasionally used to deploy encrypted values, a password is needed in order to decrypt them.
-Throw the correct password (ask an existing team member) into `$HOME/.vault_pass.txt` and export this environment variable which points to it's location:
-```
-export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
+export AWS_ACCESS_KEY_ID="spaces_key_from_web_console"
+export AWS_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
 ```
 
 ### Terraform DigitalOcean Access
@@ -60,19 +48,31 @@ export SPACES_ACCESS_KEY_ID="spaces_key_from_web_console"
 export SPACES_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
 ```
 
-### Terraform Backend
-Since Terraform's `.tfstate` file may contain sensitive information, a [DigitalOcean Space](https://www.digitalocean.com/products/spaces/) is used to keep it private.
-Terraform views DigitalOcean Spaces as an S3 backend so the following environment variables (also obtained from the web console) are necessary to hook everything up:
-```
-export AWS_ACCESS_KEY_ID="spaces_key_from_web_console"
-export AWS_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
-```
-
 ### Terraform Init
 The only thing left to do now is initialize Terraform:
 ```
 cd infra/
 terraform init
+```
+
+### Ansible Vault Password
+Since Ansible is occasionally used to deploy encrypted values, a password is needed in order to decrypt them.
+Throw the correct password (ask an existing team member) into `$HOME/.vault_pass.txt` and export this environment variable which points to it's location:
+```
+export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
+```
+
+### SSH Config
+When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) must route through a specified "gateway" (aka "bastion") server.
+SSH (and Ansible) can be configured (via `~/.ssh/config`) to handle these jumps transparently on a per-VPC basis:
+```
+# template
+Host <vpc_network_wildcard>
+    ProxyCommand ssh -W %h:%p root@<vpc_gateway_public_ip>
+
+# example
+Host 10.0.0.*
+    ProxyCommand ssh -W %h:%p root@64.225.52.149
 ```
 
 ## Usage
