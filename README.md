@@ -1,7 +1,7 @@
 # devops
 This repo contains the automation I use for my personal projects and websites.
 Two open source tools carry most of the weight: [Ansible](https://www.ansible.com/) and [Terraform](https://www.terraform.io/).
-I currently use [Digital Ocean](https://www.digitalocean.com/) to host all of my infrastructure but this setup can be easily adapted to other hosting providers.
+I currently use [DigitalOcean](https://www.digitalocean.com/) to host all of my infrastructure but this setup can be easily adapted to other hosting providers.
 
 ## Scheduling
 In general, the infra managed by this repo operates on the following schedule.
@@ -48,10 +48,16 @@ export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
 ```
 
 ### Terraform DigitalOcean Access
-Terraform needs an access token in order to talk to Digital Ocean.
-This token can be obtained from Digital Ocean's web console:
+Terraform needs an access token in order to talk to DigitalOcean.
+This token can be obtained from DigitalOcean's web console:
 ```
 export DIGITALOCEAN_TOKEN="access_token_from_web_console"
+```
+
+Additionally, a few more vars are needed in order to interact with DigitalOcean Spaces (S3-compatible object storage):
+```
+export SPACES_ACCESS_KEY_ID="spaces_key_from_web_console"
+export SPACES_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
 ```
 
 ### Terraform Backend
@@ -124,5 +130,5 @@ You can read more about the full syntax for GitHub Action workflows [here](https
 
 ## Directory Structure
 `group_vars/` - Ansible variables for specific deployments  
-`infra/` - Terraform config files for Digital Ocean infrastructure  
+`infra/` - Terraform config files for DigitalOcean infrastructure  
 `roles/` - Ansible roles for various applications and components  

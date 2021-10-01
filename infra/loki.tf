@@ -1,3 +1,9 @@
+resource "digitalocean_spaces_bucket" "loki" {
+  name   = "sbs-loki"
+  region = "nyc3"
+  acl    = "private"
+}
+
 resource "digitalocean_droplet" "loki" {
   image    = "ubuntu-20-04-x64"
   name     = "loki"

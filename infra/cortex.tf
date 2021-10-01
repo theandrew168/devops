@@ -1,3 +1,9 @@
+resource "digitalocean_spaces_bucket" "cortex" {
+  name   = "sbs-cortex"
+  region = "nyc3"
+  acl    = "private"
+}
+
 resource "digitalocean_droplet" "cortex" {
   image    = "ubuntu-20-04-x64"
   name     = "cortex"

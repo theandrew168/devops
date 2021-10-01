@@ -1,3 +1,9 @@
+resource "digitalocean_spaces_bucket" "bloggulus" {
+  name   = "bloggulus-backup"
+  region = "nyc3"
+  acl    = "private"
+}
+
 resource "digitalocean_vpc" "bloggulus" {
   name     = "bloggulus"
   region   = "nyc1"

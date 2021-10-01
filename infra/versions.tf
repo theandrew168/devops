@@ -1,4 +1,5 @@
 terraform {
+  # this bucket must be created manually (chicken and the egg problem)
   backend "s3" {
     region   = "nyc3"
     bucket   = "sbs-terraform"
