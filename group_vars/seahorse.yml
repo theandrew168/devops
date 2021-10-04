@@ -1,0 +1,6 @@
+---
+
+agent_architecture: armv6
+#agent_scrape_configs:
+#  - name: seahorse
+#    target: localhost:3100
