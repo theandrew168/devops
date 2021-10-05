@@ -5,7 +5,9 @@ agent_scrape_configs:
   - name: bloggulus-caddy
     target: localhost:2019
   - name: bloggulus
-    target: localhost:2112
+    target: localhost:5000
+  - name: sbs
+    target: localhost:5002
 
 caddy_config:
   - hostnames:
