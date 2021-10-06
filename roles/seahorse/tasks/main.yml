@@ -1,0 +1,25 @@
+---
+
+- name: Create the seahorse user
+  user:
+    name: seahorse
+    shell: /bin/bash
+  become: yes
+  become_user: root
+
+- name: Setup systemd service file
+  template:
+    src: seahorse.service.j2
+    dest: /etc/systemd/system/seahorse.service
+    mode: "0644"
+  notify: restart seahorse
+  become: yes
+  become_user: root
+
+- name: Enable application at startup
+  systemd:
+    name: seahorse
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

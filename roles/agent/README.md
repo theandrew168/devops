@@ -5,7 +5,7 @@ Ansible role for installing and configuring [Grafana Agent](https://grafana.com/
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `agent_version` | `0.18.4` | Grafana Agent version |
-| `agent_architecture` | `amd64` | Grafana Agent architecture |
+| `agent_arch` | `amd64` | Grafana Agent architecture |
 | `agent_scrape_interval` | `10s` | Scrape interval for metrics and logs |
 | `agent_cortex_endpoint` | `~` | Cortex metrics push endpoint |
 | `agent_cortex_username` | `~` | Cortex username |

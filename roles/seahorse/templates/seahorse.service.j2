@@ -1,0 +1,16 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=seahorse
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+User=seahorse
+Group=seahorse
+ExecStart=/home/seahorse/seahorse
+WorkingDirectory=/home/seahorse
+
+[Install]
+WantedBy=multi-user.target

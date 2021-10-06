@@ -1,0 +1,9 @@
+---
+
+- name: restart seahorse
+  systemd:
+    name: seahorse
+    state: restarted
+    daemon_reload: yes
+  become: yes
+  become_user: root

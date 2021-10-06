@@ -4,3 +4,4 @@
   roles:
     - server
     - agent 
+    - seahorse

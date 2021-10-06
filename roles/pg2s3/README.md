@@ -7,7 +7,9 @@ Encryption, decryption, and key generation are handled by the [age](https://gith
 
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
-| `pg2s3_version` | `0.0.12` | Version of pg2s3 to install |
+| `pg2s3_version` | `0.0.13` | Version of pg2s3 to install |
+| `pg2s3_os` | `linux` | Target operating system for pg2s3 |
+| `pg2s3_arch` | `amd64` | Target architecture for pg2s3 |
 | `pg2s3_backup_name` | `pg2s3` | Name to label the service and environment files |
 | `pg2s3_backup_frequency` | `*-*-* 7:00:00` | OnCalendar expression for the systemd timer |
 | `pg2s3_backup_retention` | `30` | Number of backups to retain after pruning |

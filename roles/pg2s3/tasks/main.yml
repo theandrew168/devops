@@ -10,7 +10,7 @@
 
 - name: Install pg2s3
   unarchive:
-    src: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_version }}_Linux_x86_64.tar.gz
+    src: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_version }}_{{ pg2s3_os }}_{{ pg2s3_arch }}.tar.gz
     dest: /usr/local/bin
     remote_src: yes
   become: yes

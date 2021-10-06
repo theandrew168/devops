@@ -4,7 +4,7 @@
 agent_version: 0.18.4
 
 # Grafana Agent architecture
-agent_architecture: amd64
+agent_arch: amd64
 
 # Scrape interval for metrics and logs
 agent_scrape_interval: 10s
