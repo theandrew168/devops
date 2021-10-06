@@ -1,12 +1,5 @@
 ---
 
-- name: Create the seahorse user
-  user:
-    name: seahorse
-    shell: /bin/bash
-  become: yes
-  become_user: root
-
 - name: Setup systemd service file
   template:
     src: seahorse.service.j2

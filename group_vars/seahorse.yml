@@ -1,6 +1,6 @@
 ---
 
 agent_arch: armv6
-#agent_scrape_configs:
-#  - name: seahorse
-#    target: localhost:5000
+agent_scrape_configs:
+  - name: seahorse
+    target: localhost:5000
