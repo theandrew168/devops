@@ -31,6 +31,17 @@
   become: yes
   become_user: root
 
+- name: Setup config file
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+    mode: "0640"
+    owner: root
+    group: grafana
+  notify: restart grafana
+  become: yes
+  become_user: root
+
 - name: Start and enable Grafana
   systemd:
     name: grafana-server

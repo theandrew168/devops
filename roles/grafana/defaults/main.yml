@@ -1,0 +1,12 @@
+---
+
+# Hostname where Grafana is hosted
+grafana_hostname: ~
+
+# Grafana SMTP configuration
+grafana_smtp_config: ~
+#  from_addr: info@shallowbrooksoftware.com
+#  from_name: Shallow Brook Software - Grafana
+#  hostname: smtp.sendgrid.net:465
+#  username: apikey
+#  password: !vault |
