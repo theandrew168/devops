@@ -10,7 +10,8 @@ Requires=postgresql.service
 Type=oneshot
 User=pg2s3
 Group=pg2s3
-ExecStart=pg2s3 backup && pg2s3 prune
+ExecStart=pg2s3 backup
+ExecStart=pg2s3 prune
 EnvironmentFile=/etc/pg2s3/%i.env
 
 [Install]
