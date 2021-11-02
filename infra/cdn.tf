@@ -5,7 +5,7 @@ resource "digitalocean_spaces_bucket" "sbs_cdn" {
 
   cors_rule {
     allowed_headers = ["*"]
-    allowed_methods = ["GET"]
+    allowed_methods = ["GET", "HEAD"]
     allowed_origins = ["*"]
     max_age_seconds = 3000
   }
