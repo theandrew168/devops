@@ -10,7 +10,8 @@ Requires={{ dep }}
 
 [Service]
 Type=simple
-Restart=always
+Restart=on-failure
+RestartSec=5
 User={{ web_app_user }}
 Group={{ web_app_user }}
 {% if web_app_is_jar %}
