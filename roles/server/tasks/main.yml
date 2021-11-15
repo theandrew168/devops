@@ -50,6 +50,7 @@
       - ripgrep
       - rlwrap
       - sqlite3
+      - traceroute
       - tree
       - ufw
       - unattended-upgrades
