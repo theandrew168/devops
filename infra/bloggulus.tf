@@ -28,7 +28,8 @@ resource "digitalocean_droplet" "bloggulus_db" {
   volume_ids = [
     digitalocean_volume.bloggulus_db.id
   ]
-  ssh_keys   = [
+
+  ssh_keys = [
     digitalocean_ssh_key.andrew_macbook.fingerprint,
   ]
 }

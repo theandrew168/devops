@@ -5,10 +5,11 @@ resource "digitalocean_spaces_bucket" "loki" {
 }
 
 resource "digitalocean_droplet" "loki" {
-  image    = "ubuntu-20-04-x64"
-  name     = "loki"
-  region   = "nyc1"
-  size     = "s-1vcpu-1gb"
+  image  = "ubuntu-20-04-x64"
+  name   = "loki"
+  region = "nyc1"
+  size   = "s-1vcpu-1gb"
+
   ssh_keys = [
     digitalocean_ssh_key.andrew_macbook.fingerprint,
   ]
