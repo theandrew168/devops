@@ -15,4 +15,4 @@
   roles:
     - redis
     - caddy
-    - web_app
+    - web_app_v2

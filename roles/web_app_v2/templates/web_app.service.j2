@@ -1,0 +1,20 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description={{ web_app_name }}
+After=network.target
+{% for dep in web_app_systemd_dependencies %}
+After={{ dep }}
+Requires={{ dep }}
+{% endfor %}
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User={{ web_app_user }}
+Group={{ web_app_user }}
+ExecStart=/home/{{ web_app_user }}/{{ web_app_name }} -conf /etc/{{ web_app_name }}.conf
+
+[Install]
+WantedBy=multi-user.target

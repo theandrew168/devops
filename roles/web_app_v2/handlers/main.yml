@@ -1,0 +1,9 @@
+---
+
+- name: restart web app
+  systemd:
+    name: "{{ web_app_name }}"
+    state: restarted
+    daemon_reload: yes
+  become: yes
+  become_user: root
