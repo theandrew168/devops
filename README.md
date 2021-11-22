@@ -62,19 +62,6 @@ Throw the correct password (ask an existing team member) into `$HOME/.vault_pass
 export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
 ```
 
-### SSH Config
-When dealing with infrastructure that is deployed within a [VPC](https://en.wikipedia.org/wiki/Virtual_private_cloud), all SSH connections (and therefore Ansible connections) must route through a specified "gateway" (aka "bastion") server.
-SSH (and Ansible) can be configured (via `~/.ssh/config`) to handle these jumps transparently on a per-VPC basis:
-```
-# template
-Host <vpc_network_wildcard>
-    ProxyCommand ssh -W %h:%p root@<vpc_gateway_public_ip>
-
-# example
-Host 10.0.0.*
-    ProxyCommand ssh -W %h:%p root@64.225.52.149
-```
-
 ## Usage
 In general, setting up a server for app hosting involves three steps: use Terraform to create the droplet and associated a hostname, use Ansible to configure the server, then setup secrets to grant [GitHub Actions](https://github.com/features/actions) access to the droplet.
 The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup firewall rules, GitHub access keys, systemd units, etc.

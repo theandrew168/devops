@@ -1,8 +1,8 @@
 [bloggulus_web]
-10.0.0.2 vpc_is_gateway=yes
+10.0.0.2
 
 [bloggulus_db]
-10.0.0.3 vpc_is_internal=yes
+10.0.0.3
 
 [bloggulus:children]
 bloggulus_db
