@@ -34,6 +34,22 @@ resource "digitalocean_domain" "nwrsolutions" {
   name = "nwr.solutions"
 }
 
+resource "digitalocean_domain" "crawdata_dev" {
+  name = "crawdata.dev"
+}
+
+resource "digitalocean_domain" "crawdata_com" {
+  name = "crawdata.com"
+}
+
+resource "digitalocean_domain" "crawdata_net" {
+  name = "crawdata.net"
+}
+
+resource "digitalocean_domain" "crawdata_org" {
+  name = "crawdata.org"
+}
+
 # owner: wesley
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
