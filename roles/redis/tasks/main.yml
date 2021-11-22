@@ -7,22 +7,22 @@
   become: yes
   become_user: root
 
-- name: Setup Redis apt repo
+- name: Setup redis apt repo
   apt_repository:
     repo: ppa:redislabs/redis
   become: yes
   become_user: root
 
-- name: Install Redis
+- name: Install redis
   apt:
     name: redis
     update_cache: yes
   become: yes
   become_user: root
 
-- name: Start and enable Redis
+- name: Start and enable redis
   systemd:
-    name: redis
+    name: redis-server
     state: started
     enabled: yes
     daemon_reload: yes

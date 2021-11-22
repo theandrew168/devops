@@ -29,7 +29,7 @@
   become: yes
   become_user: root
 
-- name: Ensure PostgreSQL database is initialized.
+- name: Ensure postgresql database is initialized.
   command: "/usr/lib/postgresql/12/bin/initdb -D {{ postgresql_data_directory }}"
   when: postgresql_data_directory and (not pg_version.stat.exists)
   become: yes

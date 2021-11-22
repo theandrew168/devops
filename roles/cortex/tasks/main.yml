@@ -1,13 +1,13 @@
 ---
 
-- name: Install Cortex
+- name: Install cortex
   apt:
     deb: https://github.com/cortexproject/cortex/releases/download/v{{ cortex_version }}/cortex-{{ cortex_version }}_amd64.deb
     update_cache: yes
   become: yes
   become_user: root
 
-- name: Setup Cortex config file
+- name: Setup cortex config file
   template:
     src: single-process-config.yaml.j2
     dest: /etc/cortex/single-process-config.yaml
@@ -18,7 +18,7 @@
   become: yes
   become_user: root
 
-- name: Start and enable Cortex
+- name: Start and enable cortex
   systemd:
     name: cortex
     state: started

@@ -19,12 +19,12 @@ resource "digitalocean_volume" "bloggulus_db" {
 }
 
 resource "digitalocean_droplet" "bloggulus_db" {
-  image      = "ubuntu-20-04-x64"
-  name       = "bloggulus-db"
-  region     = "nyc1"
-  size       = "s-1vcpu-1gb"
-  monitoring = true
-  vpc_uuid   = digitalocean_vpc.bloggulus.id
+  image    = "ubuntu-20-04-x64"
+  name     = "bloggulus-db"
+  region   = "nyc1"
+  size     = "s-1vcpu-1gb"
+  vpc_uuid = digitalocean_vpc.bloggulus.id
+
   volume_ids = [
     digitalocean_volume.bloggulus_db.id
   ]
@@ -35,18 +35,17 @@ resource "digitalocean_droplet" "bloggulus_db" {
 }
 
 resource "digitalocean_droplet" "bloggulus_web" {
-  image      = "ubuntu-20-04-x64"
-  name       = "bloggulus-web"
-  region     = "nyc1"
-  size       = "s-1vcpu-1gb"
-  monitoring = true
-  vpc_uuid   = digitalocean_vpc.bloggulus.id
-  ssh_keys   = [
+  image    = "ubuntu-20-04-x64"
+  name     = "bloggulus-web"
+  region   = "nyc1"
+  size     = "s-1vcpu-1gb"
+  vpc_uuid = digitalocean_vpc.bloggulus.id
+  ssh_keys = [
     digitalocean_ssh_key.andrew_macbook.fingerprint,
   ]
 }
 
-resource "digitalocean_record" "bloggulus_a" {
+resource "digitalocean_record" "bloggulus_a_web" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"
   name   = "@"

@@ -1,8 +1,8 @@
 [bloggulus_web]
-10.0.0.2
+165.227.202.218
 
 [bloggulus_db]
-10.0.0.3
+143.244.168.177
 
 [bloggulus:children]
 bloggulus_db
@@ -11,8 +11,8 @@ bloggulus_web
 [coffee]
 68.183.108.238
 
-[sbs]
-64.227.24.120
+#[sbs]
+#165.227.202.218
 
 [cortex]
 157.230.55.181
