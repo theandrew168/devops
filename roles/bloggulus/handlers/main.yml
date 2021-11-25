@@ -1,8 +1,8 @@
 ---
 
-- name: restart web app
+- name: restart bloggulus
   systemd:
-    name: "{{ web_app_name }}"
+    name: bloggulus
     state: restarted
     daemon_reload: yes
   become: yes

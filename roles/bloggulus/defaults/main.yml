@@ -1,13 +1,13 @@
 ---
 
 # Version to install
-pg2s3_version: 0.1.1
+bloggulus_version: 0.0.3
 
 # Target operating system
-pg2s3_os: linux
+bloggulus_os: linux
 
 # Target architecture
-pg2s3_arch: amd64
+bloggulus_arch: amd64
 
 # Config file contents
-pg2s3_config: ~
+bloggulus_config: ~

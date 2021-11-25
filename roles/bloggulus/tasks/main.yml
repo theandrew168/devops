@@ -1,0 +1,28 @@
+---
+
+- name: Install bloggulus
+  apt:
+    deb: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_version }}_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Setup bloggulus config file
+  copy:
+    content: "{{ bloggulus_config }}"
+    dest: /etc/bloggulus.conf
+    mode: "0640"
+    owner: root
+    group: bloggulus
+  notify: restart bloggulus
+  become: yes
+  become_user: root
+
+- name: Start and enable bloggulus
+  systemd:
+    name: bloggulus
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

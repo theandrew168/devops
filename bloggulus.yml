@@ -14,4 +14,4 @@
   roles:
     - redis
     - caddy
-    - web_app_v2
+    - bloggulus
