@@ -1,5 +1,12 @@
 ---
 
+- name: Disable root password
+  user:
+    name: root
+    password: '*'
+  become: yes
+  become_user: root
+
 - name: Ensure en_US.UTF-8 locale is available
   locale_gen:
     name: en_US.UTF-8
