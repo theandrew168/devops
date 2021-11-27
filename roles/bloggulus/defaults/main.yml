@@ -1,7 +1,7 @@
 ---
 
 # Version to install
-bloggulus_version: 0.0.3
+bloggulus_version: 0.0.4
 
 # Target operating system
 bloggulus_os: linux

@@ -4,6 +4,7 @@
   apt:
     deb: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_version }}_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
     update_cache: yes
+  notify: restart bloggulus
   become: yes
   become_user: root
 
