@@ -45,21 +45,21 @@
   become: yes
   become_user: root
 
-- name: Setup listen address in postgresql.conf
+- name: Setup listen addresses in postgresql.conf
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
     regexp: "^#?listen_addresses"
-    line: "listen_addresses = '*'"
-  when: postgresql_listen_address
+    line: "listen_addresses = '{{ postgresql_listen_addresses | join(',') }}'"
+  when: postgresql_listen_addresses
   notify: restart postgresql
   become: yes
   become_user: root
 
-- name: Setup listen address in pg_hba.conf
+- name: Setup extra entries in pg_hba.conf
   lineinfile:
     path: /etc/postgresql/12/main/pg_hba.conf
-    line: "host all all {{ postgresql_listen_address }} md5"
-  when: postgresql_listen_address
+    line: "{{ item }}"
+  with_items: "{{ postgresql_extra_hba_entries }}"
   notify: restart postgresql
   become: yes
   become_user: root
@@ -101,6 +101,6 @@
   with_items:
     - rule: allow
       port: 5432
-  when: postgresql_listen_address
+  when: postgresql_listen_addresses
   become: yes
   become_user: root

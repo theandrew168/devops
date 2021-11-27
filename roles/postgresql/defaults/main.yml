@@ -4,9 +4,13 @@
 # NOTE: don't use a mount point directly: use a subdir
 postgresql_data_directory: ~
 
-# address to listen for incoming connections
-# NOTE: this will usually be the VPC subnet CIDR
-postgresql_listen_address: ~
+# addresses to listen for incoming connections
+# NOTE: this will usually be "localhost" plus a private network IP
+postgresql_listen_addresses: []
+
+# extra entries to add the pg_hba.conf file
+# NOTE: this can be used to further enforce a private network
+postgresql_extra_hba_entries: []
 
 # database tuning params based on:
 # https://pgtune.leopard.in.ua/

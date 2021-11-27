@@ -16,7 +16,11 @@ agent_postgresql_connection_uri: !vault |
   3035
 
 postgresql_data_directory: /mnt/bloggulus_db/bloggulus
-postgresql_listen_address: 10.0.0.0/24
+postgresql_listen_addresses:
+  - localhost
+  - 10.0.0.3
+postgresql_extra_hba_entries:
+  - host all all 10.0.0.0/24 md5
 
 postgresql_users:
   - username: bloggulus

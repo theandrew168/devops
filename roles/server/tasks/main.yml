@@ -126,7 +126,7 @@
   become: yes
   become_user: root
 
-- name: Enable ufw (might hang if using an SSH proxy)
+- name: Start and enable ufw
   ufw:
     state: enabled
   become: yes
