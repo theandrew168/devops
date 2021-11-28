@@ -70,7 +70,7 @@ The Ansible playbook only needs to be executed once (when the droplet is initial
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
 That last `refresh-only` command picks up default tags and other resource nuances added automatically after initial creation.
 ```
-cd infra/
+cd infra/<project>/
 terraform plan
 terraform apply
 terraform apply -refresh-only
