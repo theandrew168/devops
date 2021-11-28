@@ -11,12 +11,12 @@ resource "digitalocean_droplet" "loki" {
   size   = "s-1vcpu-1gb"
 
   ssh_keys = [
-    digitalocean_ssh_key.andrew_macbook.fingerprint,
+    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
 }
 
 resource "digitalocean_record" "loki_a" {
-  domain = digitalocean_domain.sbs.name
+  domain = "shallowbrooksoftware.com"
   type   = "A"
   name   = "loki"
   value  = digitalocean_droplet.loki.ipv4_address
@@ -24,7 +24,7 @@ resource "digitalocean_record" "loki_a" {
 }
 
 resource "digitalocean_record" "loki_caa_letsencrypt" {
-  domain = digitalocean_domain.sbs.name
+  domain = "shallowbrooksoftware.com"
   type   = "CAA"
   name   = "loki"
   value  = "letsencrypt.org."
