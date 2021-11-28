@@ -22,7 +22,7 @@ terraform version
 ```
 
 ## Setup
-If you are reading this then we must be collaborating on something. Hell yeah!
+If you are reading this then we must be collaborating on something.
 Just reach out to me and I'll get you the actual credentials.
 I like to export these environment variables in `$HOME/.profile` but you can put them wherever you prefer.
 Just remember to either source the file after adding the vars or log out and back in again.
