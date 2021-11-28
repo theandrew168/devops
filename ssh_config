@@ -1,0 +1,14 @@
+Host bloggulus_web
+    HostName 165.227.202.218
+Host bloggulus_db
+    HostName 143.244.168.177
+Host coffee
+    HostName 68.183.108.238
+Host cortex
+    HostName 157.230.55.181
+Host loki
+    HostName 157.230.80.140
+Host grafana
+    HostName 67.207.91.29
+Host seahorse
+    HostName 192.168.1.24
