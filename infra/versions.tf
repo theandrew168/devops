@@ -3,7 +3,7 @@ terraform {
   backend "s3" {
     region   = "nyc3"
     bucket   = "sbs-terraform"
-    key      = "devops/terraform.tfstate"
+    key      = "sbs.tfstate"
     endpoint = "nyc3.digitaloceanspaces.com"
 
     skip_credentials_validation = true
