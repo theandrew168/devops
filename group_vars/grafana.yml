@@ -9,6 +9,7 @@ agent_scrape_configs:
 caddy_config:
   - hostnames:
       - grafana.shallowbrooksoftware.com
+      - www.grafana.shallowbrooksoftware.com
     proxy_port: 3000
 
 grafana_hostname: grafana.shallowbrooksoftware.com

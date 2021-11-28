@@ -17,6 +17,14 @@ resource "digitalocean_record" "grafana_a" {
   ttl    = "3600"
 }
 
+resource "digitalocean_record" "grafana_cname_www" {
+  domain = "shallowbrooksoftware.com"
+  type   = "CNAME"
+  name   = "www.grafana"
+  value  = "grafana."
+  ttl    = "43200"
+}
+
 resource "digitalocean_record" "grafana_caa_letsencrypt" {
   domain = "shallowbrooksoftware.com"
   type   = "CAA"
