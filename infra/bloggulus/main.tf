@@ -1,7 +1,3 @@
-resource "digitalocean_domain" "bloggulus" {
-  name = "bloggulus.com"
-}
-
 resource "digitalocean_spaces_bucket" "bloggulus" {
   name   = "bloggulus-backup"
   region = "nyc3"
@@ -49,7 +45,7 @@ resource "digitalocean_droplet" "bloggulus_web" {
 }
 
 resource "digitalocean_record" "bloggulus_a_web" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.bloggulus_web.ipv4_address
@@ -57,7 +53,7 @@ resource "digitalocean_record" "bloggulus_a_web" {
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "CNAME"
   name   = "www"
   value  = "@"
@@ -65,7 +61,7 @@ resource "digitalocean_record" "bloggulus_cname_www" {
 }
 
 resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."

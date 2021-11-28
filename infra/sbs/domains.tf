@@ -6,6 +6,10 @@ resource "digitalocean_domain" "sandbox" {
   name = "shallowbrooksandbox.com"
 }
 
+resource "digitalocean_domain" "bloggulus" {
+  name = "bloggulus.com"
+}
+
 resource "digitalocean_domain" "jamql" {
   name = "jamql.com"
 }
@@ -44,4 +48,14 @@ resource "digitalocean_domain" "crawdata_net" {
 
 resource "digitalocean_domain" "crawdata_org" {
   name = "crawdata.org"
+}
+
+# owner: wesley
+resource "digitalocean_domain" "daileybrue" {
+  name = "daileybrue.coffee"
+}
+
+# owner: wesley
+resource "digitalocean_domain" "whosbuying" {
+  name = "whosbuying.coffee"
 }

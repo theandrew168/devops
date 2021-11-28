@@ -1,13 +1,3 @@
-# owner: wesley
-resource "digitalocean_domain" "daileybrue" {
-  name = "daileybrue.coffee"
-}
-
-# owner: wesley
-resource "digitalocean_domain" "whosbuying" {
-  name = "whosbuying.coffee"
-}
-
 resource "digitalocean_droplet" "coffee" {
   image  = "ubuntu-20-04-x64"
   name   = "coffee"
@@ -21,7 +11,7 @@ resource "digitalocean_droplet" "coffee" {
 }
 
 resource "digitalocean_record" "daileybrue_a" {
-  domain = digitalocean_domain.daileybrue.name
+  domain = "daileybrue.coffee"
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.coffee.ipv4_address
@@ -29,7 +19,7 @@ resource "digitalocean_record" "daileybrue_a" {
 }
 
 resource "digitalocean_record" "daileybrue_cname_www" {
-  domain = digitalocean_domain.daileybrue.name
+  domain = "daileybrue.coffee"
   type   = "CNAME"
   name   = "www"
   value  = "@"
@@ -37,7 +27,7 @@ resource "digitalocean_record" "daileybrue_cname_www" {
 }
 
 resource "digitalocean_record" "daileybrue_caa_letsencrypt" {
-  domain = digitalocean_domain.daileybrue.name
+  domain = "daileybrue.coffee"
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."
@@ -47,7 +37,7 @@ resource "digitalocean_record" "daileybrue_caa_letsencrypt" {
 }
 
 resource "digitalocean_record" "whosbuying_a" {
-  domain = digitalocean_domain.whosbuying.name
+  domain = "whosbuying.coffee"
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.coffee.ipv4_address
@@ -55,7 +45,7 @@ resource "digitalocean_record" "whosbuying_a" {
 }
 
 resource "digitalocean_record" "whosbuying_cname_www" {
-  domain = digitalocean_domain.whosbuying.name
+  domain = "whosbuying.coffee"
   type   = "CNAME"
   name   = "www"
   value  = "@"
@@ -63,7 +53,7 @@ resource "digitalocean_record" "whosbuying_cname_www" {
 }
 
 resource "digitalocean_record" "whosbuying_caa_letsencrypt" {
-  domain = digitalocean_domain.whosbuying.name
+  domain = "whosbuying.coffee"
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."
