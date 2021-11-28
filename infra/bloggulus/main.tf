@@ -1,3 +1,7 @@
+resource "digitalocean_domain" "bloggulus" {
+  name = "bloggulus.com"
+}
+
 resource "digitalocean_spaces_bucket" "bloggulus" {
   name   = "bloggulus-backup"
   region = "nyc3"
@@ -24,13 +28,12 @@ resource "digitalocean_droplet" "bloggulus_db" {
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
   vpc_uuid = digitalocean_vpc.bloggulus.id
-
-  volume_ids = [
-    digitalocean_volume.bloggulus_db.id
+  ssh_keys = [
+    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
 
-  ssh_keys = [
-    digitalocean_ssh_key.andrew_macbook.fingerprint,
+  volume_ids = [
+    digitalocean_volume.bloggulus_db.id,
   ]
 }
 
@@ -41,7 +44,7 @@ resource "digitalocean_droplet" "bloggulus_web" {
   size     = "s-1vcpu-1gb"
   vpc_uuid = digitalocean_vpc.bloggulus.id
   ssh_keys = [
-    digitalocean_ssh_key.andrew_macbook.fingerprint,
+    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
 }
 

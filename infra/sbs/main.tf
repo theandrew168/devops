@@ -4,7 +4,7 @@ resource "digitalocean_record" "sbs_a" {
   domain = digitalocean_domain.sbs.name
   type   = "A"
   name   = "@"
-  value  = digitalocean_droplet.bloggulus_web.ipv4_address
+  value  = "165.227.202.218"
   ttl    = "3600"
 }
 
