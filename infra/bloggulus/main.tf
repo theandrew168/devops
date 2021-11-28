@@ -24,6 +24,7 @@ resource "digitalocean_droplet" "bloggulus_db" {
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
   vpc_uuid = digitalocean_vpc.bloggulus.id
+
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
@@ -39,6 +40,7 @@ resource "digitalocean_droplet" "bloggulus_web" {
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
   vpc_uuid = digitalocean_vpc.bloggulus.id
+
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
