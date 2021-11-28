@@ -5,12 +5,12 @@ resource "digitalocean_droplet" "grafana" {
   size   = "s-1vcpu-1gb"
 
   ssh_keys = [
-    digitalocean_ssh_key.andrew_macbook.fingerprint,
+    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
   ]
 }
 
 resource "digitalocean_record" "grafana_a" {
-  domain = digitalocean_domain.sbs.name
+  domain = "shallowbrooksoftware.com"
   type   = "A"
   name   = "grafana"
   value  = digitalocean_droplet.grafana.ipv4_address
@@ -18,7 +18,7 @@ resource "digitalocean_record" "grafana_a" {
 }
 
 resource "digitalocean_record" "grafana_caa_letsencrypt" {
-  domain = digitalocean_domain.sbs.name
+  domain = "shallowbrooksoftware.com"
   type   = "CAA"
   name   = "grafana"
   value  = "letsencrypt.org."
