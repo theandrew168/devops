@@ -3,6 +3,6 @@
 - hosts: loki
   roles:
     - server
-    - agent 
+    - agent
     - caddy
     - loki

@@ -1,7 +1,7 @@
 ---
 
-- hosts: seahorse
+- hosts: jamql
   roles:
     - server
     - agent
-    - seahorse
+    - caddy

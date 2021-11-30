@@ -1,0 +1,11 @@
+---
+
+agent_scrape_configs:
+  - name: jamql-caddy
+    target: localhost:2019
+
+caddy_config:
+  - hostnames:
+      - jamql.com
+      - www.jamql.com
+    proxy_port: 5000
