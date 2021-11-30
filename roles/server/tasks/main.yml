@@ -91,7 +91,7 @@
   lineinfile:
     path: /etc/systemd/journald.conf
     regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }}={{ item.value}}"
+    line: "{{ item.name }}={{ item.value }}"
   with_items:
     - name: SystemMaxUse
       value: 50M

@@ -4,7 +4,9 @@
   apt:
     name:
       - postgresql-12
+      - postgresql-contrib
       - postgresql-client-12
+      - postgresql-client-common
       - python3-psycopg2
     update_cache: yes
   become: yes
@@ -35,6 +37,32 @@
   become: yes
   become_user: postgres
 
+- name: Setup general settings in postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} = '{{ item.value }}'"
+  with_items:
+    - name: shared_preload_libraries
+      value: pg_stat_statements
+    - name: track_activity_query_size
+      value: 2048
+    - name: pg_stat_statements.track
+      value: all
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Setup tuning parameters postgresql.conf
+  lineinfile:
+    path: /etc/postgresql/12/main/postgresql.conf
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} = {{ item.value }}"
+  with_items: "{{ postgresql_tuning_parameters }}"
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
 - name: Setup data directory in postgresql.conf
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
@@ -49,27 +77,17 @@
   lineinfile:
     path: /etc/postgresql/12/main/postgresql.conf
     regexp: "^#?listen_addresses"
-    line: "listen_addresses = '{{ postgresql_listen_addresses | join(',') }}'"
-  when: postgresql_listen_addresses
+    line: "listen_addresses = 'localhost,{{ postgresql_private_network_ip }}'"
+  when: postgresql_private_network_ip
   notify: restart postgresql
   become: yes
   become_user: root
 
-- name: Setup extra entries in pg_hba.conf
+- name: Setup remote access entry in pg_hba.conf
   lineinfile:
     path: /etc/postgresql/12/main/pg_hba.conf
-    line: "{{ item }}"
-  with_items: "{{ postgresql_extra_hba_entries }}"
-  notify: restart postgresql
-  become: yes
-  become_user: root
-
-- name: Setup tuning parameters postgresql.conf
-  lineinfile:
-    path: /etc/postgresql/12/main/postgresql.conf
-    regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }} = {{ item.value }}"
-  with_items: "{{ postgresql_tuning_parameters }}"
+    line: "host all all {{ postgresql_private_network_cidr }} md5"
+  when: postgresql_private_network_cidr
   notify: restart postgresql
   become: yes
   become_user: root
@@ -94,6 +112,16 @@
   become: yes
   become_user: postgres
 
+- name: Create database extensions
+  postgresql_ext:
+    db: "{{ item[0].name }}"
+    name: "{{ item[1] }}"
+  with_nested:
+    - "{{ postgresql_databases }}"
+    - "{{ postgresql_extensions }}"
+  become: yes
+  become_user: postgres
+
 - name: Setup firewall rules
   ufw:
     rule: "{{ item.rule }}"
@@ -101,6 +129,6 @@
   with_items:
     - rule: allow
       port: 5432
-  when: postgresql_listen_addresses
+  when: postgresql_private_network_ip
   become: yes
   become_user: root

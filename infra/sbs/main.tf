@@ -1,9 +1,19 @@
-# virtually hosted on the bloggulus droplet
+resource "digitalocean_droplet" "sbs" {
+  image  = "ubuntu-20-04-x64"
+  name   = "sbs"
+  region = "nyc1"
+  size   = "s-1vcpu-1gb"
+
+  ssh_keys = [
+    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
+  ]
+}
 
 resource "digitalocean_record" "sbs_a" {
   domain = digitalocean_domain.sbs.name
   type   = "A"
   name   = "@"
+#  value  = digitalocean_droplet.sbs.ipv4_address
   value  = "165.227.202.218"
   ttl    = "3600"
 }

@@ -4,13 +4,11 @@
 # NOTE: don't use a mount point directly: use a subdir
 postgresql_data_directory: ~
 
-# addresses to listen for incoming connections
-# NOTE: this will usually be "localhost" plus a private network IP
-postgresql_listen_addresses: []
+# server private network IP (if applicable)
+postgresql_private_network_ip: ~
 
-# extra entries to add the pg_hba.conf file
-# NOTE: this can be used to further enforce a private network
-postgresql_extra_hba_entries: []
+# server private network CIDR (if applicable)
+postgresql_private_network_cidr: ~
 
 # database tuning params based on:
 # https://pgtune.leopard.in.ua/
@@ -25,3 +23,7 @@ postgresql_users: []
 postgresql_databases: []
 #  - name: foobar
 #    owner: postgres
+
+# list of extensions to enable
+postgresql_extensions:
+  - pg_stat_statements

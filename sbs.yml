@@ -1,6 +1,8 @@
 ---
 
-# virtually hosted on bloggulus-web droplet
 - hosts: sbs
   roles:
-    - web_app
+    - server
+    - agent
+    - caddy
+#    - sbs
