@@ -1,9 +1,5 @@
 # unused domains live here to prevent squatting
 
-resource "digitalocean_domain" "sbs" {
-  name = "shallowbrooksoftware.com"
-}
-
 resource "digitalocean_domain" "sandbox" {
   name = "shallowbrooksandbox.com"
 }

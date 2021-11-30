@@ -9,6 +9,11 @@ resource "digitalocean_droplet" "sbs" {
   ]
 }
 
+# NOTE: copy to all domains.tf files if unused
+resource "digitalocean_domain" "sbs" {
+  name = "shallowbrooksoftware.com"
+}
+
 resource "digitalocean_record" "sbs_a" {
   domain = digitalocean_domain.sbs.name
   type   = "A"

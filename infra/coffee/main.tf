@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "coffee" {
 }
 
 # owner: wesley
-# NOTE: move back to sbs/domains.tf if unused
+# NOTE: copy to all domains.tf files if unused
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
 }
@@ -43,7 +43,7 @@ resource "digitalocean_record" "daileybrue_caa_letsencrypt" {
 }
 
 # owner: wesley
-# NOTE: move back to sbs/domains.tf if unused
+# NOTE: copy to all domains.tf files if unused
 resource "digitalocean_domain" "whosbuying" {
   name = "whosbuying.coffee"
 }
