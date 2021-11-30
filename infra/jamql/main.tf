@@ -9,7 +9,7 @@ resource "linode_instance" "jamql" {
   ]
 }
 
-# NOTE: copy to all domains.tf files if unused
+# NOTE: move back to linode/domains.tf if unused
 resource "linode_domain" "jamql" {
   type      = "master"
   domain    = "jamql.com"

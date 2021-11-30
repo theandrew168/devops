@@ -9,7 +9,7 @@ resource "digitalocean_droplet" "sbs" {
   ]
 }
 
-# NOTE: copy to all domains.tf files if unused
+# NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "sbs" {
   name = "shallowbrooksoftware.com"
 }

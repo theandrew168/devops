@@ -46,7 +46,7 @@ resource "digitalocean_droplet" "bloggulus_web" {
   ]
 }
 
-# NOTE: copy to all domains.tf files if unused
+# NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "bloggulus" {
   name = "bloggulus.com"
 }
