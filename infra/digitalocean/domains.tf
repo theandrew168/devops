@@ -43,3 +43,7 @@ resource "digitalocean_domain" "crawdata_net" {
 resource "digitalocean_domain" "crawdata_org" {
   name = "crawdata.org"
 }
+
+resource "digitalocean_domain" "dsmfactor" {
+  name = "dsmfactor.app"
+}
