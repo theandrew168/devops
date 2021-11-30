@@ -15,6 +15,8 @@ resource "digitalocean_droplet" "cortex" {
   ]
 }
 
+# hosted on a subdomain of shallowbrooksoftware.com
+
 resource "digitalocean_record" "cortex_a" {
   domain = "shallowbrooksoftware.com"
   type   = "A"

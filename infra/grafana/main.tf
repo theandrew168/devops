@@ -9,6 +9,8 @@ resource "digitalocean_droplet" "grafana" {
   ]
 }
 
+# hosted on a subdomain of shallowbrooksoftware.com
+
 resource "digitalocean_record" "grafana_a" {
   domain = "shallowbrooksoftware.com"
   type   = "A"

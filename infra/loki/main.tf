@@ -15,6 +15,8 @@ resource "digitalocean_droplet" "loki" {
   ]
 }
 
+# hosted on a subdomain of shallowbrooksoftware.com
+
 resource "digitalocean_record" "loki_a" {
   domain = "shallowbrooksoftware.com"
   type   = "A"

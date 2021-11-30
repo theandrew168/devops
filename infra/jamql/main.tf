@@ -1,11 +1,3 @@
-# TODO: should these live elsewhere?
-# linking records by domain ID makes a multi-proj dir structure fussy
-resource "linode_domain" "jamql" {
-  type      = "master"
-  domain    = "jamql.com"
-  soa_email = "info@shallowbrooksoftware.com"
-}
-
 resource "linode_instance" "jamql" {
   label  = "jamql"
   image  = "linode/ubuntu20.04"
@@ -15,6 +7,13 @@ resource "linode_instance" "jamql" {
   authorized_keys = [
     chomp(file("${path.module}/../ssh_keys/andrew_macbook.pub")),
   ]
+}
+
+# NOTE: move back to ????? if unused
+resource "linode_domain" "jamql" {
+  type      = "master"
+  domain    = "jamql.com"
+  soa_email = "info@shallowbrooksoftware.com"
 }
 
 resource "linode_domain_record" "jamql_a" {

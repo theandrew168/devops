@@ -10,6 +10,12 @@ resource "digitalocean_droplet" "coffee" {
   ]
 }
 
+# owner: wesley
+# NOTE: move back to sbs/domains.tf if unused
+resource "digitalocean_domain" "daileybrue" {
+  name = "daileybrue.coffee"
+}
+
 resource "digitalocean_record" "daileybrue_a" {
   domain = "daileybrue.coffee"
   type   = "A"
@@ -34,6 +40,12 @@ resource "digitalocean_record" "daileybrue_caa_letsencrypt" {
   ttl    = "3600"
   flags  = "0"
   tag    = "issue"
+}
+
+# owner: wesley
+# NOTE: move back to sbs/domains.tf if unused
+resource "digitalocean_domain" "whosbuying" {
+  name = "whosbuying.coffee"
 }
 
 resource "digitalocean_record" "whosbuying_a" {

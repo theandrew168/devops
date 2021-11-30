@@ -46,8 +46,13 @@ resource "digitalocean_droplet" "bloggulus_web" {
   ]
 }
 
+# NOTE: move back to sbs/domains.tf if unused
+resource "digitalocean_domain" "bloggulus" {
+  name = "bloggulus.com"
+}
+
 resource "digitalocean_record" "bloggulus_a_web" {
-  domain = "bloggulus.com"
+  domain = digitalocean_domain.bloggulus.name
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.bloggulus_web.ipv4_address
@@ -55,7 +60,7 @@ resource "digitalocean_record" "bloggulus_a_web" {
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
-  domain = "bloggulus.com"
+  domain = digitalocean_domain.bloggulus.name
   type   = "CNAME"
   name   = "www"
   value  = "@"
@@ -63,7 +68,7 @@ resource "digitalocean_record" "bloggulus_cname_www" {
 }
 
 resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
-  domain = "bloggulus.com"
+  domain = digitalocean_domain.bloggulus.name
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."
