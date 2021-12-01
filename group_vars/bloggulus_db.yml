@@ -15,7 +15,7 @@ agent_postgresql_connection_uri: !vault |
   38326337346230366136393465366339373965636232666163616433353935333738383332323461
   3035
 
-postgresql_data_dir: /mnt/bloggulus_db/bloggulus
+postgresql_data_dir: /mnt/bloggulus_db/data
 postgresql_private_network_ip: 10.0.0.3
 postgresql_private_network_cidr: 10.0.0.0/24
 

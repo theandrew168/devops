@@ -43,6 +43,8 @@
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
   with_items:
+    - name: password_encryption
+      value: scram-sha-256
     - name: shared_preload_libraries
       value: pg_stat_statements
     - name: track_activity_query_size
@@ -86,7 +88,7 @@
 - name: Setup remote access entry in pg_hba.conf
   lineinfile:
     path: "{{ postgresql_conf_dir }}/pg_hba.conf"
-    line: "host all all {{ postgresql_private_network_cidr }} md5"
+    line: "host all all {{ postgresql_private_network_cidr }} scram-sha-256"
   when: postgresql_private_network_cidr
   notify: restart postgresql
   become: yes
