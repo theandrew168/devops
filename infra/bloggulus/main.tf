@@ -51,6 +51,14 @@ resource "digitalocean_domain" "bloggulus" {
   name = "bloggulus.com"
 }
 
+resource "digitalocean_record" "bloggulus_a_db" {
+  domain = digitalocean_domain.bloggulus.name
+  type   = "A"
+  name   = "db"
+  value  = digitalocean_droplet.bloggulus_db.ipv4_address_private
+  ttl    = "3600"
+}
+
 resource "digitalocean_record" "bloggulus_a_web" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"
