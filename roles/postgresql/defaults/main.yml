@@ -1,8 +1,17 @@
 ---
 
+# postgresql version (not really customizable)
+postgresql_version: 12
+
+# postgresql bin directory (not really customizable)
+postgresql_bin_dir: /usr/lib/postgresql/{{ postgresql_version }}/bin
+
+# postgresql conf directory (not really customizable)
+postgresql_conf_dir: /etc/postgresql/{{ postgresql_version }}/main
+
 # directory to hold postgresql data
 # NOTE: don't use a mount point directly: use a subdir
-postgresql_data_directory: ~
+postgresql_data_dir: ~
 
 # server private network IP (if applicable)
 postgresql_private_network_ip: ~

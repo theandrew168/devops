@@ -1,13 +1,16 @@
 ---
 
-# Version to install
+# postgresql client version (not really customizable)
+pg2s3_psql_version: 12
+
+# version to install
 pg2s3_version: 0.1.1
 
-# Target operating system
+# target operating system
 pg2s3_os: linux
 
-# Target architecture
+# target architecture
 pg2s3_arch: amd64
 
-# Config file contents
+# config file contents
 pg2s3_config: ~

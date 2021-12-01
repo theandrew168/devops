@@ -3,7 +3,8 @@
 - name: Install dependencies
   apt:
     name:
-      - postgresql-client-12
+      - postgresql-client-{{ pg2s3_psql_version }}
+      - postgresql-client-common
     update_cache: yes
   become: yes
   become_user: root

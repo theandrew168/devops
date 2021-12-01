@@ -3,9 +3,9 @@
 - name: Install postgresql (and psycopg2)
   apt:
     name:
-      - postgresql-12
+      - postgresql-{{ postgresql_version }}
       - postgresql-contrib
-      - postgresql-client-12
+      - postgresql-client-{{ postgresql_version }}
       - postgresql-client-common
       - python3-psycopg2
     update_cache: yes
@@ -14,32 +14,32 @@
 
 - name: Setup permissions for data directory
   file:
-    path: "{{ postgresql_data_directory }}"
+    path: "{{ postgresql_data_dir }}"
     mode: "0700"
     owner: postgres
     group: postgres
     state: directory
-  when: postgresql_data_directory
+  when: postgresql_data_dir
   become: yes
   become_user: root
 
 - name: Check if database is initialized
   stat:
-    path: "{{ postgresql_data_directory }}/PG_VERSION"
+    path: "{{ postgresql_data_dir }}/PG_VERSION"
   register: pg_version
-  when: postgresql_data_directory
+  when: postgresql_data_dir
   become: yes
   become_user: root
 
-- name: Ensure postgresql database is initialized.
-  command: "/usr/lib/postgresql/12/bin/initdb -D {{ postgresql_data_directory }}"
-  when: postgresql_data_directory and (not pg_version.stat.exists)
+- name: Ensure postgresql database is initialized
+  command: "{{ postgresql_bin_dir }}/initdb -D {{ postgresql_data_dir }}"
+  when: postgresql_data_dir and (not pg_version.stat.exists)
   become: yes
   become_user: postgres
 
 - name: Setup general settings in postgresql.conf
   lineinfile:
-    path: /etc/postgresql/12/main/postgresql.conf
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
   with_items:
@@ -55,7 +55,7 @@
 
 - name: Setup tuning parameters postgresql.conf
   lineinfile:
-    path: /etc/postgresql/12/main/postgresql.conf
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = {{ item.value }}"
   with_items: "{{ postgresql_tuning_parameters }}"
@@ -65,17 +65,17 @@
 
 - name: Setup data directory in postgresql.conf
   lineinfile:
-    path: /etc/postgresql/12/main/postgresql.conf
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?data_directory"
-    line: "data_directory = '{{ postgresql_data_directory }}'"
-  when: postgresql_data_directory
+    line: "data_directory = '{{ postgresql_data_dir }}'"
+  when: postgresql_data_dir
   notify: restart postgresql
   become: yes
   become_user: root
 
 - name: Setup listen addresses in postgresql.conf
   lineinfile:
-    path: /etc/postgresql/12/main/postgresql.conf
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?listen_addresses"
     line: "listen_addresses = 'localhost,{{ postgresql_private_network_ip }}'"
   when: postgresql_private_network_ip
@@ -85,7 +85,7 @@
 
 - name: Setup remote access entry in pg_hba.conf
   lineinfile:
-    path: /etc/postgresql/12/main/pg_hba.conf
+    path: "{{ postgresql_conf_dir }}/pg_hba.conf"
     line: "host all all {{ postgresql_private_network_cidr }} md5"
   when: postgresql_private_network_cidr
   notify: restart postgresql
