@@ -56,6 +56,7 @@
       - python3-venv
       - ripgrep
       - rlwrap
+      - socat
       - sqlite3
       - traceroute
       - tree
