@@ -88,7 +88,7 @@
 - name: Setup remote access entry in pg_hba.conf
   lineinfile:
     path: "{{ postgresql_conf_dir }}/pg_hba.conf"
-    line: "host all all {{ postgresql_private_network_cidr }} scram-sha-256"
+    line: "hostssl all all {{ postgresql_private_network_cidr }} scram-sha-256"
   when: postgresql_private_network_cidr
   notify: restart postgresql
   become: yes
