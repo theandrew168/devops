@@ -2,7 +2,6 @@
 Ansible role for installing and configuring a [PostgreSQL](https://www.postgresql.org/) database cluster
 
 ## TODO
-* Default password encrypt to scram-sha-256 (conf and hba)
 * Enable TLS and enforce hostssl for remote logins
 * Auto tune based on specs and usage
 
