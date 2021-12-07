@@ -18,8 +18,7 @@ resource "digitalocean_record" "sbs_a" {
   domain = digitalocean_domain.sbs.name
   type   = "A"
   name   = "@"
-#  value  = digitalocean_droplet.sbs.ipv4_address
-  value  = "165.227.202.218"
+  value  = digitalocean_droplet.sbs.ipv4_address
   ttl    = "3600"
 }
 

@@ -1,0 +1,13 @@
+---
+
+# Version to install
+sbs_version: 0.0.6
+
+# Target operating system
+sbs_os: linux
+
+# Target architecture
+sbs_arch: amd64
+
+# Config file contents
+sbs_config: ~

@@ -1,8 +1,8 @@
 ---
 
-- name: restart web app
+- name: restart sbs
   systemd:
-    name: "{{ web_app_name }}"
+    name: sbs
     state: restarted
     daemon_reload: yes
   become: yes

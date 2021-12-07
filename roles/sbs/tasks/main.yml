@@ -1,0 +1,29 @@
+---
+
+- name: Install sbs
+  apt:
+    deb: https://github.com/theandrew168/sbs-website/releases/download/v{{ sbs_version }}/sbs_{{ sbs_version }}_{{ sbs_os }}_{{ sbs_arch }}.deb
+    update_cache: yes
+  notify: restart sbs
+  become: yes
+  become_user: root
+
+- name: Setup sbs config file
+  copy:
+    content: "{{ sbs_config }}"
+    dest: /etc/sbs.conf
+    mode: "0640"
+    owner: root
+    group: sbs
+  notify: restart sbs
+  become: yes
+  become_user: root
+
+- name: Start and enable sbs
+  systemd:
+    name: sbs
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
