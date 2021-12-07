@@ -14,11 +14,6 @@ caddy_config:
       - bloggulus.com
       - www.bloggulus.com
     proxy_port: 5000
-  # virtually host sbs website
-  - hostnames:
-      - shallowbrooksoftware.com
-      - www.shallowbrooksoftware.com
-    proxy_port: 5002
 
 bloggulus_config: !vault |
   $ANSIBLE_VAULT;1.1;AES256

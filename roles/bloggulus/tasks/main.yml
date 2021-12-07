@@ -1,9 +1,19 @@
 ---
 
-- name: Install bloggulus
+- name: Install bloggulus (latest)
   apt:
-    deb: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_version }}_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
+    deb: https://github.com/theandrew168/bloggulus/releases/latest/download/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
     update_cache: yes
+  when: bloggulus_version == 'latest'
+  notify: restart bloggulus
+  become: yes
+  become_user: root
+
+- name: Install bloggulus (version)
+  apt:
+    deb: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
+    update_cache: yes
+  when: bloggulus_version != 'latest'
   notify: restart bloggulus
   become: yes
   become_user: root

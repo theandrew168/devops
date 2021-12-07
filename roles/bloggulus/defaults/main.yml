@@ -1,7 +1,7 @@
 ---
 
 # Version to install
-bloggulus_version: 0.0.5
+bloggulus_version: latest
 
 # Target operating system
 bloggulus_os: linux
