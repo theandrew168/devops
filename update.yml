@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  tasks:
+    - name: Update and upgrade packages
+      apt:
+        name: "*"
+        update_cache: yes
+      become: yes
+      become_user: root

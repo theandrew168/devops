@@ -26,5 +26,5 @@ bloggulus_web
 [coffee]
 68.183.108.238
 
-[seahorse]
-192.168.1.19
+#[seahorse]
+#192.168.1.19
