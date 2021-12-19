@@ -135,6 +135,8 @@
   with_items:
     - name: UsePAM
       value: "yes"
+    - name: PermitRootLogin
+      value: "prohibit-password"
     - name: PubkeyAuthentication
       value: "yes"
     - name: PasswordAuthentication
