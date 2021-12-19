@@ -1,5 +1,7 @@
 ---
 
+server_hostname: bloggulus-web
+
 agent_redis_address: localhost:6379
 agent_scrape_configs:
   - name: bloggulus-caddy

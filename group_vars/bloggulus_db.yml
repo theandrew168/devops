@@ -1,5 +1,6 @@
 ---
 
+server_hostname: bloggulus-db
 server_mounted_volumes:
   - /mnt/bloggulus_db
 

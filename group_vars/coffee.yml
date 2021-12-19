@@ -1,5 +1,7 @@
 ---
 
+server_hostname: coffee
+
 agent_scrape_configs:
   - name: coffee-caddy
     target: localhost:2019

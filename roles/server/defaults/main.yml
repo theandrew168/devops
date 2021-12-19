@@ -1,4 +1,7 @@
 ---
 
+# server hostname
+server_hostname: ~
+
 # list of mounted volumes
 server_mounted_volumes: []

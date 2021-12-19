@@ -7,6 +7,30 @@
   become: yes
   become_user: root
 
+- name: Set hostname (transient)
+  hostname:
+    name: "{{ server_hostname }}"
+  when: server_hostname
+  become: yes
+  become_user: root
+
+- name: Set hostname (/etc/hostname)
+  copy:
+    dest: /etc/hostname
+    content: "{{ server_hostname }}\n"
+  when: server_hostname
+  become: yes
+  become_user: root
+
+- name: Set hostname (/etc/hosts)
+  template:
+    src: hosts.j2
+    dest: /etc/hosts
+    mode: "0644"
+  when: server_hostname
+  become: yes
+  become_user: root
+
 - name: Ensure en_US.UTF-8 locale is available
   locale_gen:
     name: en_US.UTF-8

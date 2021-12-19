@@ -1,5 +1,7 @@
 ---
 
+server_hostname: loki
+
 agent_scrape_configs:
   - name: loki-caddy
     target: localhost:2019

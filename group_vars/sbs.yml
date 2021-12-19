@@ -1,5 +1,7 @@
 ---
 
+server_hostname: sbs
+
 agent_scrape_configs:
   - name: sbs-caddy
     target: localhost:2019

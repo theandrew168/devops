@@ -1,5 +1,7 @@
 ---
 
+server_hostname: grafana
+
 agent_scrape_configs:
   - name: grafana-caddy
     target: localhost:2019

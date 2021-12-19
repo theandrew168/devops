@@ -1,5 +1,7 @@
 ---
 
+server_hostname: jamql
+
 agent_scrape_configs:
   - name: jamql-caddy
     target: localhost:2019
