@@ -7,7 +7,6 @@ Some ideas to make this role better / more secure:
 * Only initial run must be ran as root (or manual? nahhh)
 * Disable root password (done)
 * SSH only permits pubkey auth (done)
-* SSH on non-standard port (2121?)
 * Connect to servers using a non-root user
 * Require a sudo password for become tasks
 * Document new server prep steps (per admin)
@@ -24,5 +23,5 @@ Some ideas to make this role better / more secure:
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `server_hostname` | `~` | Server hostname |
-| `server_admins` | `[]` | List of admin users |
+| `server_admin_users` | `[]` | List of admin users |
 | `server_mounted_volumes` | `[]` | List of mounted volumes |

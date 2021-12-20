@@ -1,5 +1,5 @@
 {{ ansible_managed | comment }}
 
-{% for public_key in public_keys %}
+{% for public_key in item.public_keys %}
 {{ public_key }}
 {% endfor %}

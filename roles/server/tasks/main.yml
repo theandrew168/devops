@@ -159,3 +159,31 @@
     state: enabled
   become: yes
   become_user: root
+
+- name: Create admin user
+  user:
+    name: "{{ item.name }}"
+    create_home: yes
+    shell: /bin/bash
+    groups: sudo
+  with_items: "{{ server_admin_users }}"
+  become: yes
+  become_user: root
+
+- name: Create admin user .ssh directory
+  file:
+    path: /home/{{ item.name }}/.ssh/
+    state: directory
+    mode: "0700"
+  with_items: "{{ server_admin_users }}"
+  become: yes
+  become_user: "{{ item.name }}"
+
+- name: Create admin user authorized_keys file
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ item.name }}/.ssh/authorized_keys
+    mode: "0600"
+  with_items: "{{ server_admin_users }}"
+  become: yes
+  become_user: "{{ item.name }}"

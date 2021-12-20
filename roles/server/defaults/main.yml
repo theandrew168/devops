@@ -3,9 +3,9 @@
 # server hostname
 server_hostname: ~
 
-# list of admin users with keys: username, public_keys
-server_admins: []
-#  - username: andrew
+# list of admin users with keys: name, public_keys
+server_admin_users: []
+#  - name: andrew
 #    public_keys:
 #      - ssh-rsa AAAAB3NzaC1y...
 #      - ssh-rsa AAAAB3NzaC1y...
