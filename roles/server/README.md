@@ -24,4 +24,5 @@ Some ideas to make this role better / more secure:
 | Variable | Default | Description |
 | -------- | ------- | ----------- |
 | `server_hostname` | `~` | Server hostname |
+| `server_admins` | `[]` | List of admin users |
 | `server_mounted_volumes` | `[]` | List of mounted volumes |

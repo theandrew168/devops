@@ -3,5 +3,13 @@
 # server hostname
 server_hostname: ~
 
+# list of admin users with keys: username, public_keys
+server_admins: []
+#  - username: andrew
+#    public_keys:
+#      - ssh-rsa AAAAB3NzaC1y...
+#      - ssh-rsa AAAAB3NzaC1y...
+#      - ssh-rsa AAAAB3NzaC1y...
+
 # list of mounted volumes
 server_mounted_volumes: []

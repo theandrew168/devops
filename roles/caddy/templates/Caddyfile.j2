@@ -1,3 +1,5 @@
+{{ ansible_managed | comment }}
+
 {% for config in caddy_config %}
 {% for hostname in config.hostnames[:-1] %}
 {{ hostname }},
