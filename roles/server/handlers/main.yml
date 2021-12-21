@@ -1,13 +1,5 @@
 ---
 
-- name: reload sshd
-  systemd:
-    name: sshd
-    state: reloaded
-    daemon_reload: yes
-  become: yes
-  become_user: root
-
 - name: restart systemd-journald
   systemd:
     name: systemd-journald

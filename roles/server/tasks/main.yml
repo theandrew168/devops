@@ -1,11 +1,136 @@
 ---
 
+- name: Ensure at least one admin users is configured
+  fail:
+    msg: At least one admin user must be configured
+  when: not server_admin_users
+
+
+# lock down SSH and the root user ASAP
+
 - name: Disable root password
   user:
     name: root
     password: '*'
   become: yes
   become_user: root
+
+- name: Enforce pubkey as only SSH auth method
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} {{ item.value }}"
+  with_items:
+    - name: UsePAM
+      value: "yes"
+    - name: PubkeyAuthentication
+      value: "yes"
+    - name: PasswordAuthentication
+      value: "no"
+    - name: ChallengeResponseAuthentication
+      value: "no"
+  register: sshd_config
+  become: yes
+  become_user: root
+
+- name: Reload sshd
+  systemd:
+    name: sshd
+    state: reloaded
+    daemon_reload: yes
+  when: sshd_config.changed
+  become: yes
+  become_user: root
+
+- name: Limit SSH login attempts
+  ufw:
+    rule: limit
+    port: "22"
+  become: yes
+  become_user: root
+
+- name: Start and enable ufw
+  ufw:
+    state: enabled
+  become: yes
+  become_user: root
+
+
+# create admin users
+
+- name: Create admin user
+  user:
+    name: "{{ item.name }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+    password: ""
+    update_password: on_create
+  register: admin_users
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: root
+
+- name: Expire admin user password
+  command: passwd -e {{ item.name }}
+  when: item.changed
+  with_items: "{{ admin_users.results }}"
+  no_log: yes
+  become: yes
+  become_user: root
+
+- name: Create admin user .ssh directory
+  file:
+    path: /home/{{ item.name }}/.ssh/
+    state: directory
+    mode: "0700"
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: "{{ item.name }}"
+
+- name: Setup admin user authorized_keys file
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ item.name }}/.ssh/authorized_keys
+    mode: "0600"
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: "{{ item.name }}"
+
+
+# no more SSH as root after this point
+
+- name: Disable root login via SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} {{ item.value }}"
+  with_items:
+    - name: PermitRootLogin
+      value: "no"
+  register: sshd_config
+  become: yes
+  become_user: root
+
+- name: Reload sshd
+  systemd:
+    name: sshd
+    state: reloaded
+    daemon_reload: yes
+  when: sshd_config.changed
+  become: yes
+  become_user: root
+
+- name: Ensure a non-root ansible user is being used
+  fail:
+    msg: Only non-root ansible users can proceed
+  when: ansible_ssh_user == "root"
+
+
+# general config
 
 - name: Set hostname (transient)
   hostname:
@@ -58,6 +183,20 @@
   become: yes
   become_user: root
 
+- name: Limit journald log sizes
+  lineinfile:
+    path: /etc/systemd/journald.conf
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }}={{ item.value }}"
+  with_items:
+    - name: SystemMaxUse
+      value: 50M
+    - name: SystemMaxFileSize
+      value: 10M
+  notify: restart systemd-journald
+  become: yes
+  become_user: root
+
 - name: Set permissions on mounted volumes
   file:
     path: "{{ item }}"
@@ -93,13 +232,6 @@
   become: yes
   become_user: root
 
-- name: Make vim the default text editor
-  alternatives:
-    name: editor
-    path: /usr/bin/vim.basic
-  become: yes
-  become_user: root
-
 - name: Configure unattended upgrades
   template:
     src: "{{ item.src }}"
@@ -113,77 +245,9 @@
   become: yes
   become_user: root
 
-- name: Limit journald log sizes
-  lineinfile:
-    path: /etc/systemd/journald.conf
-    regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }}={{ item.value }}"
-  with_items:
-    - name: SystemMaxUse
-      value: 50M
-    - name: SystemMaxFileSize
-      value: 10M
-  notify: restart systemd-journald
+- name: Make vim the default text editor :)
+  alternatives:
+    name: editor
+    path: /usr/bin/vim.basic
   become: yes
   become_user: root
-
-- name: Enforce pubkey as only SSH auth method
-  lineinfile:
-    path: /etc/ssh/sshd_config
-    regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }} {{ item.value }}"
-  with_items:
-    - name: UsePAM
-      value: "yes"
-    - name: PermitRootLogin
-      value: "prohibit-password"
-    - name: PubkeyAuthentication
-      value: "yes"
-    - name: PasswordAuthentication
-      value: "no"
-    - name: ChallengeResponseAuthentication
-      value: "no"
-  notify: reload sshd
-  become: yes
-  become_user: root
-
-- name: Limit SSH login attempts
-  ufw:
-    rule: limit
-    port: "22"
-  become: yes
-  become_user: root
-
-- name: Start and enable ufw
-  ufw:
-    state: enabled
-  become: yes
-  become_user: root
-
-- name: Create admin user
-  user:
-    name: "{{ item.name }}"
-    create_home: yes
-    shell: /bin/bash
-    groups: sudo
-  with_items: "{{ server_admin_users }}"
-  become: yes
-  become_user: root
-
-- name: Create admin user .ssh directory
-  file:
-    path: /home/{{ item.name }}/.ssh/
-    state: directory
-    mode: "0700"
-  with_items: "{{ server_admin_users }}"
-  become: yes
-  become_user: "{{ item.name }}"
-
-- name: Create admin user authorized_keys file
-  template:
-    src: authorized_keys.j2
-    dest: /home/{{ item.name }}/.ssh/authorized_keys
-    mode: "0600"
-  with_items: "{{ server_admin_users }}"
-  become: yes
-  become_user: "{{ item.name }}"

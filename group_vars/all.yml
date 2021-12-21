@@ -1,7 +1,7 @@
 ---
 
 server_admin_users:
-  - name: andrew
+  - name: derz
     public_keys:
       - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQC2pxgD5JcvMAbAfaWa4gtdQDxEnlNqkKn3MCg0WOplzhjS/ZbSPZBaoC0yr72JpDTRJemdV29+sBFaa/mB0aDQaJVkkgUPYYeBnodIjvfNQqejTnei0yMBwEIBr6LyBcNX6Dm6+dD62ATSKEsvReT4nLpw7Be3NI3DXwcJOTypZXfMydqkkWcytYr3LVTOlZORzVa6w5Q/kyq4uKQ+ytEcZ56tdlroHNRUqdaSZIZ4+EcnevNOVKa0RANI28G42shBV4F8l9smC+F2eNtoyCRpMTO+VmqfEGf9+h/tbNoI40lKW3xeBT3JCYFplOQIlFhK07ri/yFoeXcmNSRdVNUAwyviT6YOQ3DLH9G76K4D9STXedjs1hYBSxOU2N9si8zFIPIkIPF+fxBNX0A83avL5Xp2MSqGCbPP67ShGV7XxAP0vWp7TVokg86Ik2+s1cTVbwGypgnOGBG0B79qeLkzFNPKv/eJRHDCQ4VtGFPNjt26oh/Ah6im1J0VuU6vBeM= steve@skarmory.local
 
