@@ -70,8 +70,11 @@ export ANSIBLE_VAULT_PASSWORD_FILE="$HOME/.vault_pass.txt"
 ```
 
 ## Usage
-In general, setting up a server for app hosting involves three steps: use Terraform to create the droplet and associated a hostname, use Ansible to configure the server, then setup secrets to grant [GitHub Actions](https://github.com/features/actions) access to the droplet.
-The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup firewall rules, GitHub access keys, systemd units, etc.
+In general, setting up a server for app hosting involves two steps:
+1. use Terraform to create the droplet and associated hostname
+2. use Ansible to configure the server
+
+The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup the SSH configuration, firewall rules, unattended ugprades, etc.
 
 ### Terraform
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
