@@ -74,7 +74,7 @@ In general, setting up a server for app hosting involves two steps:
 1. use Terraform to create the droplet and associated hostname
 2. use Ansible to configure the server
 
-The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup the SSH configuration, firewall rules, unattended ugprades, etc.
+The Ansible playbook only needs to be executed once (when the droplet is initially created) to setup the SSH server config, firewall rules, unattended ugprades, etc.
 
 ### Terraform
 The Terraform workflow is quite simple: use the [plan command](https://www.terraform.io/docs/cli/commands/plan.html) to see what changes are pending and then the [apply command](https://www.terraform.io/docs/cli/commands/apply.html) to apply them.
