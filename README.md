@@ -87,5 +87,5 @@ terraform apply -refresh-only
 Next, we need to run Ansible to get the server ready for hosting an application.
 Note that this only has to happen once when the droplet is first created.
 ```
-ansible-playbook -i hosts -u <admin_user> --ask-become-pass foobar.yml
+ansible-playbook -i hosts -u <user> --ask-become-pass foobar.yml
 ```
