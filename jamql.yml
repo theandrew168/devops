@@ -3,5 +3,4 @@
 - hosts: jamql
   roles:
     - server
-    - agent
     - caddy

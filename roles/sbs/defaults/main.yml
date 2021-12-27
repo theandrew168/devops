@@ -1,7 +1,7 @@
 ---
 
 # Version to install
-sbs_version: 0.0.6
+sbs_version: 0.0.7
 
 # Target operating system
 sbs_os: linux

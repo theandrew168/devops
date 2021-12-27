@@ -3,5 +3,4 @@
 - hosts: coffee
   roles:
     - server
-    - agent
     - caddy

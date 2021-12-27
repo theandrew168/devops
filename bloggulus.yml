@@ -3,7 +3,6 @@
 - hosts: bloggulus
   roles:
     - server
-    - agent
 
 - hosts: bloggulus_db
   roles:

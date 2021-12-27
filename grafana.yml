@@ -1,8 +1,0 @@
----
-
-- hosts: grafana
-  roles:
-    - server
-    - agent
-    - caddy
-    - grafana

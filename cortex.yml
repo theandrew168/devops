@@ -1,8 +1,0 @@
----
-
-- hosts: cortex
-  roles:
-    - server
-    - agent
-    - caddy
-    - cortex

@@ -3,5 +3,4 @@
 - hosts: seahorse
   roles:
     - server
-    - agent
     - seahorse

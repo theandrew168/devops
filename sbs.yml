@@ -3,6 +3,5 @@
 - hosts: sbs
   roles:
     - server
-    - agent
     - caddy
     - sbs
