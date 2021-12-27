@@ -1,9 +1,19 @@
 ---
 
-- name: Install sbs
+- name: Install sbs (latest)
   apt:
-    deb: https://github.com/theandrew168/sbs-website/releases/download/v{{ sbs_version }}/sbs_{{ sbs_version }}_{{ sbs_os }}_{{ sbs_arch }}.deb
+    deb: https://github.com/theandrew168/sbs-website/releases/latest/download//sbs_{{ sbs_os }}_{{ sbs_arch }}.deb
     update_cache: yes
+  when: sbs_version == "latest"
+  notify: restart sbs
+  become: yes
+  become_user: root
+
+- name: Install sbs (version)
+  apt:
+    deb: https://github.com/theandrew168/sbs-website/releases/download/v{{ sbs_version }}/sbs_{{ sbs_os }}_{{ sbs_arch }}.deb
+    update_cache: yes
+  when: sbs_version != "latest"
   notify: restart sbs
   become: yes
   become_user: root
