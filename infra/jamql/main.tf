@@ -1,7 +1,7 @@
 resource "linode_instance" "jamql" {
   label  = "jamql"
   image  = "linode/ubuntu20.04"
-  region = "us-central"
+  region = "us-southeast"
   type   = "g6-nanode-1"
 
   authorized_keys = [

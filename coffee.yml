@@ -1,6 +1,0 @@
----
-
-- hosts: coffee
-  roles:
-    - server
-    - caddy

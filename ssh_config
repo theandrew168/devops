@@ -4,7 +4,5 @@ Host bloggulus-web
     HostName 165.227.202.218
 Host bloggulus-db
     HostName 143.244.168.177
-Host coffee
-    HostName 68.183.108.238
 Host jamql
-    HostName 173.255.197.119
+    HostName 170.187.155.222

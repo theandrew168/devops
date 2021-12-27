@@ -208,6 +208,7 @@
 - name: Install common system tools
   apt:
     name:
+      - acl
       - build-essential
       - haveged
       - htop

@@ -2,12 +2,6 @@
 
 server_hostname: sbs
 
-agent_scrape_configs:
-  - name: sbs-caddy
-    target: localhost:2019
-  - name: sbs
-    target: localhost:5000
-
 caddy_config:
   - hostnames:
       - shallowbrooksoftware.com
