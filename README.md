@@ -90,7 +90,7 @@ terraform apply -refresh-only
 Next, we need to run Ansible to get the server ready for hosting an application.
 Note that this only has to happen once when the droplet is first created.
 
-The first time Ansible is ran against a new server, it must be run as `root`.
+The first time Ansible is ran against a new server, it must be done as `root`.
 However, the first tasks executed create at least one admin user that must be used for all future invocations.
 The baseline [server role](https://github.com/theandrew168/devops/tree/master/roles/server) will abort after admin creation if the Ansible user is still `root`.
 ```
