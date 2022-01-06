@@ -1,9 +1,0 @@
----
-
-- name: restart cortex
-  systemd:
-    name: cortex
-    state: restarted
-    daemon_reload: yes
-  become: yes
-  become_user: root
