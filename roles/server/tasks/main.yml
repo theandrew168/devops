@@ -1,6 +1,6 @@
 ---
 
-- name: Ensure at least one admin users is configured
+- name: Ensure at least one admin user is configured
   fail:
     msg: At least one admin user must be configured
   when: not server_admin_users
