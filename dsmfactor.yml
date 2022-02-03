@@ -1,0 +1,5 @@
+---
+
+- hosts: dsmfactor
+  roles:
+    - server

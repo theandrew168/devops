@@ -72,12 +72,6 @@ resource "linode_domain" "crawdata_org" {
   soa_email = "info@shallowbrooksoftware.com"
 }
 
-resource "linode_domain" "dsmfactor" {
-  type      = "master"
-  domain    = "dsmfactor.app"
-  soa_email = "info@shallowbrooksoftware.com"
-}
-
 # owner: wesley
 resource "linode_domain" "daileybrue" {
   type      = "master"
