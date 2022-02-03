@@ -6,3 +6,5 @@ Host bloggulus-db
     HostName 143.244.168.177
 Host jamql
     HostName 170.187.155.222
+Host dsmfactor
+    HostName 170.187.156.142
