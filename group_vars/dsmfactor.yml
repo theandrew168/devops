@@ -1,3 +1,61 @@
 ---
 
 server_hostname: dsmfactor
+
+mariadb_root_password: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  30333237646339623861636466643162326335626161643361396666323234626564353861343666
+  3835303663633230333436343130396161333439383031340a303337363536343961333939666637
+  66383463626461303034643631316565646261616465653033646562336334383466346663346237
+  3738306637333264360a343364663135326534366231353637323034313933626664313936346632
+  3831
+
+mariadb_databases:
+  - name: dsmfactor
+
+mariadb_users:
+  - username: dsmfactor
+    privileges: dsmfactor.*:ALL
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      35373766636539313239366265333564626639326466383235633835616631366433363030393066
+      6630633238353634643637363064616636343539333037320a353738346437346166623764313431
+      64363838303762363336653833636133333938636331623937376466616630333937646334343131
+      3735353665373564650a653735623533616266663938396161316538303065663431343463373838
+      3362
+
+caddy_config: |
+  dsmfactor.app,
+  www.dsmfactor.app {
+    tls info@shallowbrooksoftware.com
+
+    # PHP FastCGI config
+    php_fastcgi unix//run/php/php7.4-fpm.sock
+
+    # file server location and config
+    root * /var/www/dsmfactor.app
+    encode zstd gzip
+    file_server
+
+    # disallowed routes
+    @disallowed {
+      path /xmlrpc.php
+      path *.sql
+      path /wp-content/uploads/*.php
+    }
+    rewrite @disallowed '/index.php'
+
+    header {
+      # disable FLoC tracking
+      Permissions-Policy interest-cohort=()
+
+      # enable HSTS
+      Strict-Transport-Security max-age=31536000;
+
+      # disable clients from sniffing the media type
+      X-Content-Type-Options nosniff
+
+      # keep referrer data off of HTTP connections
+      Referrer-Policy no-referrer-when-downgrade
+    }
+  }

@@ -2,6 +2,7 @@
 
 - hosts: dsmfactor
   roles:
-    - server
+#    - server
+    - mariadb
     - redis
-#    - caddy
+    - caddy

@@ -1,0 +1,14 @@
+---
+
+# mariadb root password
+mariadb_root_password: ~
+
+# list of dicts with keys: name
+mariadb_databases: []
+#  - name: wordpress
+
+# list of dicts with keys: username, password, privileges
+mariadb_users: []
+#  - username: wordpress
+#    password: wordpress
+#    privileges: wordpress.*:ALL

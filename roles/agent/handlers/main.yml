@@ -1,9 +1,0 @@
----
-
-- name: restart grafana-agent
-  systemd:
-    name: grafana-agent
-    state: restarted
-    daemon_reload: yes
-  become: yes
-  become_user: root

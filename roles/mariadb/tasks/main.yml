@@ -1,0 +1,71 @@
+---
+
+- name: Install mariadb
+  apt:
+    name:
+      - mariadb-client
+      - mariadb-server
+      - python3-pymysql
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Start and enable mariadb
+  systemd:
+    name: mariadb
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
+
+- name: Set root password
+  mysql_user:
+    name: root
+    password: "{{ mariadb_root_password }}"
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+    check_implicit_admin: yes
+  become: yes
+  become_user: root
+
+- name: Remove anonymous user accounts
+  mysql_user:
+    name: ""
+    host_all: yes
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+  become: yes
+  become_user: root
+
+- name: Remove the test database
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+  become: yes
+  become_user: root
+
+- name: Create databases
+  mysql_db:
+    name: "{{ item.name }}"
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+  with_items: "{{ mariadb_databases }}"
+  become: yes
+  become_user: root
+
+- name: Create users
+  mysql_user:
+    name: "{{ item.username }}"
+    password: "{{ item.password }}"
+    priv: "{{ item.privileges }}"
+    state: present
+    login_user: root
+    login_password: "{{ mariadb_root_password }}"
+  with_items: "{{ mariadb_users }}"
+  become: yes
+  become_user: root
