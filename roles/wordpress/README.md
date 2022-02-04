@@ -2,4 +2,6 @@
 Ansible role for installing [WordPress](https://wordpress.org/)
 
 ## Configuration
-No variables necessary.
+| Variable | Default | Description |
+| -------- | ------- | ----------- |
+| `wordpress_config` | `~` | WordPress config file contents |

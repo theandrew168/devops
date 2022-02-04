@@ -25,6 +25,7 @@
     password: "{{ mariadb_root_password }}"
     login_user: root
     login_password: "{{ mariadb_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
     check_implicit_admin: yes
   become: yes
   become_user: root
@@ -52,7 +53,6 @@
   mysql_db:
     name: "{{ item.name }}"
     encoding: "{{ item.encoding }}"
-    collation: "{{ item.collation }}"
     state: present
     login_user: root
     login_password: "{{ mariadb_root_password }}"

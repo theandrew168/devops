@@ -1,6 +1,6 @@
 ---
 
-- name: Install PHP and modules
+- name: Install php and modules
   apt:
     name:
       - php
@@ -19,6 +19,47 @@
   become: yes
   become_user: root
 
-# download WP latest to /var/www/{{ wordpress_site_name }}
-# chown -R www-data:www-data
-# copy wp-config.php 0600
+- name: Create directory for wordpress files
+  file:
+    path: /var/www/wordpress
+    owner: www-data
+    group: www-data
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Check if wordpress is installed
+  stat:
+    path: "/var/www/wordpress/wp-config-sample.php"
+  register: wp_config_sample
+  become: yes
+  become_user: root
+
+- name: Download and extract wordpress
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: /var/www
+    remote_src: yes
+  when: not wp_config_sample.stat.exists
+  become: yes
+  become_user: root
+
+- name: Update ownership of wordpress files
+  file:
+    path: /var/www/wordpress
+    owner: www-data
+    group: www-data
+    recurse: yes
+  become: yes
+  become_user: root
+
+- name: Setup wordpress config file
+  template:
+    src: wp-config.php.j2
+    dest: /var/www/wordpress/wp-config.php
+    mode: "0600"
+    owner: www-data
+    group: www-data
+  when: wordpress_config
+  become: yes
+  become_user: root
