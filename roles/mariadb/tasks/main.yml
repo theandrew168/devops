@@ -53,6 +53,7 @@
   mysql_db:
     name: "{{ item.name }}"
     encoding: "{{ item.encoding }}"
+    collation: "{{ item.collation }}"
     state: present
     login_user: root
     login_password: "{{ mariadb_root_password }}"
@@ -69,5 +70,6 @@
     login_user: root
     login_password: "{{ mariadb_root_password }}"
   with_items: "{{ mariadb_users }}"
+  no_log: yes
   become: yes
   become_user: root

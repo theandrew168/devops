@@ -13,6 +13,7 @@ mariadb_root_password: !vault |
 mariadb_databases:
   - name: wordpress
     encoding: utf8
+    collation: utf8mb4_general_ci
 
 mariadb_users:
   - username: wordpress
