@@ -2,11 +2,11 @@
 
 server_hostname: bloggulus-web
 
-caddy_config:
-  - hostnames:
-      - bloggulus.com
-      - www.bloggulus.com
-    proxy_port: 5000
+caddy_config: |
+  bloggulus.com,
+  www.bloggulus.com {
+    reverse_proxy 127.0.0.1:5000
+  }
 
 bloggulus_config: !vault |
   $ANSIBLE_VAULT;1.1;AES256

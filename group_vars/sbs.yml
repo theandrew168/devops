@@ -2,11 +2,11 @@
 
 server_hostname: sbs
 
-caddy_config:
-  - hostnames:
-      - shallowbrooksoftware.com
-      - www.shallowbrooksoftware.com
-    proxy_port: 5000
+caddy_config: |
+  shallowbrooksoftware.com,
+  www.shallowbrooksoftware.com {
+    reverse_proxy 127.0.0.1:5000
+  }
 
 sbs_config: !vault |
   $ANSIBLE_VAULT;1.1;AES256

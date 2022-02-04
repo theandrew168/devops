@@ -2,11 +2,11 @@
 
 server_hostname: jamql
 
-caddy_config:
-  - hostnames:
-      - jamql.com
-      - www.jamql.com
-    proxy_port: 5000
+caddy_config: |
+  jamql.com,
+  www.jamql.com {
+    reverse_proxy 127.0.0.1:5000
+  }
 
 jamql_config: !vault |
   $ANSIBLE_VAULT;1.1;AES256

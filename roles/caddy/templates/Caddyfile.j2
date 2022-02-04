@@ -1,15 +1,3 @@
 {{ ansible_managed | comment }}
 
-{% for config in caddy_config %}
-{% for hostname in config.hostnames[:-1] %}
-{{ hostname }},
-{% endfor %}
-{{ config.hostnames[-1] }} {
-	reverse_proxy 127.0.0.1:{{ config.proxy_port }}
-{% if 'proxy_auth' in config %}
-	basicauth {
-		{{ config.proxy_auth.username }} {{ config.proxy_auth.password }}
-	}
-{% endif %}
-}
-{% endfor %}
+{{ caddy_config }}
