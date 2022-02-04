@@ -1,9 +1,8 @@
 ---
 
-- name: Install php and modules
+- name: Install php dependencies
   apt:
     name:
-      - php
       - php-curl
       - php-fpm
       - php-gd
