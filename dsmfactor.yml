@@ -2,7 +2,7 @@
 
 - hosts: dsmfactor
   roles:
-#    - server
+    - server
     - mariadb
-    - redis
+    - wordpress
     - caddy

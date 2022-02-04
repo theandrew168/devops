@@ -12,6 +12,8 @@ mariadb_root_password: !vault |
 
 mariadb_databases:
   - name: dsmfactor
+    encoding: utf8
+    collation: utf8_unicode_ci
 
 mariadb_users:
   - username: dsmfactor

@@ -51,6 +51,8 @@
 - name: Create databases
   mysql_db:
     name: "{{ item.name }}"
+    encoding: "{{ item.encoding }}"
+    collation: "{{ item.collation }}"
     state: present
     login_user: root
     login_password: "{{ mariadb_root_password }}"

@@ -1,0 +1,24 @@
+---
+
+- name: Install PHP and modules
+  apt:
+    name:
+      - php
+      - php-curl
+      - php-fpm
+      - php-gd
+      - php-imagick
+      - php-intl
+      - php-mbstring
+      - php-mysql
+      - php-soap
+      - php-xml
+      - php-xmlrpc
+      - php-zip
+    update_cache: yes
+  become: yes
+  become_user: root
+
+# download WP latest to /var/www/{{ wordpress_site_name }}
+# chown -R www-data:www-data
+# copy wp-config.php 0600
