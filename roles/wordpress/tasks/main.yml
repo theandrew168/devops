@@ -10,6 +10,7 @@
       - php-intl
       - php-mbstring
       - php-mysql
+      - php-redis
       - php-soap
       - php-xml
       - php-xmlrpc
