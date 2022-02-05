@@ -53,13 +53,23 @@
   become: yes
   become_user: root
 
-- name: Setup wordpress config file
+- name: Setup initial wordpress config file
   template:
     src: wp-config.php.j2
     dest: /var/www/wordpress/wp-config.php
     mode: "0600"
     owner: www-data
     group: www-data
-  when: wordpress_config
+  when: wordpress_config and (not wp_config_sample.stat.exists)
+  become: yes
+  become_user: root
+
+- name: Download and setup adminer
+  get_url:
+    url: https://github.com/vrana/adminer/releases/download/v4.8.1/adminer-4.8.1.php
+    dest: /var/www/wordpress/adminer.php
+    mode: "0644"
+    owner: www-data
+    group: www-data
   become: yes
   become_user: root

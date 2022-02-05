@@ -47,6 +47,11 @@ caddy_config: |
     }
     rewrite @disallowed '/index.php'
 
+    # require basic auth for adminer
+    basicauth /adminer.php {
+      derz JDJhJDE0JEoyR2IxZzNlaklXT1Ywdm9DVmpKWWVsWnRYREMzVG1FaDZFOFJDM0NJZGpTLnRJc3c5UW1D
+    }
+
     header {
       # disable FLoC tracking
       Permissions-Policy interest-cohort=()
