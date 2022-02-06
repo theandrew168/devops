@@ -6,7 +6,7 @@ mariadb_root_password: ~
 # list of dicts with keys: name, encoding, collation
 mariadb_databases: []
 #  - name: wordpress
-#    encoding: utf8
+#    encoding: utf8mb4
 #    collation: utf8mb4_unicode_ci
 
 # list of dicts with keys: username, password, privileges
