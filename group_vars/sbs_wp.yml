@@ -29,8 +29,6 @@ mariadb_users:
 caddy_config: |
   shallowbrooksandbox.com,
   www.shallowbrooksandbox.com {
-    tls info@shallowbrooksoftware.com
-
     # PHP FastCGI config
     php_fastcgi unix//run/php/php7.4-fpm.sock
 
