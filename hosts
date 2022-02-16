@@ -1,18 +1,15 @@
-[sbs]
-137.184.16.166
+[bloggulus_db]
+143.244.168.177
 
 [bloggulus_web]
 165.227.202.218
-
-[bloggulus_db]
-143.244.168.177
 
 [bloggulus:children]
 bloggulus_db
 bloggulus_web
 
-[jamql]
-170.187.155.222
+[sbs]
+137.184.16.166
 
-[dsmfactor]
-45.79.252.221
+[sbs_wp]
+137.184.72.213

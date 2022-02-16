@@ -1,6 +1,6 @@
 ---
 
-- hosts: dsmfactor
+- hosts: sbs_wp
   roles:
     - server
     - mariadb

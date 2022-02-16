@@ -1,9 +1,5 @@
 # unused domains live here to prevent squatting
 
-resource "digitalocean_domain" "sandbox" {
-  name = "shallowbrooksandbox.com"
-}
-
 resource "digitalocean_domain" "jamql" {
   name = "jamql.com"
 }
@@ -46,4 +42,16 @@ resource "digitalocean_domain" "crawdata_org" {
 
 resource "digitalocean_domain" "dsmfactor" {
   name = "dsmfactor.app"
+}
+
+# owner: wesley
+# NOTE: move back to digitalocean/domains.tf if unused
+resource "digitalocean_domain" "daileybrue" {
+  name = "daileybrue.coffee"
+}
+
+# owner: wesley
+# NOTE: move back to digitalocean/domains.tf if unused
+resource "digitalocean_domain" "whosbuying" {
+  name = "whosbuying.coffee"
 }

@@ -1,6 +1,6 @@
 ---
 
-server_hostname: dsmfactor
+server_hostname: shallowbrooksandbox
 
 mariadb_root_password: !vault |
   $ANSIBLE_VAULT;1.1;AES256
@@ -27,8 +27,8 @@ mariadb_users:
       3362
 
 caddy_config: |
-  dsmfactor.app,
-  www.dsmfactor.app {
+  shallowbrooksandbox.com,
+  www.shallowbrooksandbox.com {
     tls info@shallowbrooksoftware.com
 
     # PHP FastCGI config
