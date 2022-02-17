@@ -56,7 +56,6 @@ resource "digitalocean_record" "bloggulus_a_db" {
   type   = "A"
   name   = "db"
   value  = digitalocean_droplet.bloggulus_db.ipv4_address_private
-  ttl    = "3600"
 }
 
 resource "digitalocean_record" "bloggulus_a_web" {
@@ -64,7 +63,6 @@ resource "digitalocean_record" "bloggulus_a_web" {
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.bloggulus_web.ipv4_address
-  ttl    = "3600"
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
@@ -72,7 +70,6 @@ resource "digitalocean_record" "bloggulus_cname_www" {
   type   = "CNAME"
   name   = "www"
   value  = "@"
-  ttl    = "43200"
 }
 
 resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
@@ -80,7 +77,6 @@ resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."
-  ttl    = "3600"
   flags  = "0"
   tag    = "issue"
 }

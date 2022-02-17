@@ -19,7 +19,6 @@ resource "digitalocean_record" "sbs_a" {
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.sbs.ipv4_address
-  ttl    = "3600"
 }
 
 resource "digitalocean_record" "sbs_cname_www" {
@@ -27,7 +26,6 @@ resource "digitalocean_record" "sbs_cname_www" {
   type   = "CNAME"
   name   = "www"
   value  = "@"
-  ttl    = "43200"
 }
 
 resource "digitalocean_record" "sbs_caa_letsencrypt" {
@@ -35,7 +33,6 @@ resource "digitalocean_record" "sbs_caa_letsencrypt" {
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."
-  ttl    = "3600"
   flags  = "0"
   tag    = "issue"
 }
