@@ -3,14 +3,7 @@
 - hosts: bloggulus
   roles:
     - server
-
-- hosts: bloggulus_db
-  roles:
     - postgresql
     - pg2s3
-
-- hosts: bloggulus_web
-  roles:
-    - redis
-    - caddy
     - bloggulus
+    - caddy

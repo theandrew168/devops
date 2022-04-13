@@ -4,12 +4,6 @@ resource "digitalocean_spaces_bucket" "bloggulus" {
   acl    = "private"
 }
 
-resource "digitalocean_vpc" "bloggulus" {
-  name     = "bloggulus"
-  region   = "nyc1"
-  ip_range = "10.0.0.0/24"
-}
-
 resource "digitalocean_volume" "bloggulus_db" {
   name   = "bloggulus-db"
   region = "nyc1"
@@ -18,12 +12,11 @@ resource "digitalocean_volume" "bloggulus_db" {
   initial_filesystem_type = "ext4"
 }
 
-resource "digitalocean_droplet" "bloggulus_db" {
+resource "digitalocean_droplet" "bloggulus" {
   image    = "ubuntu-20-04-x64"
-  name     = "bloggulus-db"
+  name     = "bloggulus"
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
-  vpc_uuid = digitalocean_vpc.bloggulus.id
 
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
@@ -34,35 +27,16 @@ resource "digitalocean_droplet" "bloggulus_db" {
   ]
 }
 
-resource "digitalocean_droplet" "bloggulus_web" {
-  image    = "ubuntu-20-04-x64"
-  name     = "bloggulus-web"
-  region   = "nyc1"
-  size     = "s-1vcpu-1gb"
-  vpc_uuid = digitalocean_vpc.bloggulus.id
-
-  ssh_keys = [
-    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
-  ]
-}
-
 # NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "bloggulus" {
   name = "bloggulus.com"
 }
 
-resource "digitalocean_record" "bloggulus_a_db" {
-  domain = digitalocean_domain.bloggulus.name
-  type   = "A"
-  name   = "db"
-  value  = digitalocean_droplet.bloggulus_db.ipv4_address_private
-}
-
-resource "digitalocean_record" "bloggulus_a_web" {
+resource "digitalocean_record" "bloggulus_a" {
   domain = digitalocean_domain.bloggulus.name
   type   = "A"
   name   = "@"
-  value  = digitalocean_droplet.bloggulus_web.ipv4_address
+  value  = digitalocean_droplet.bloggulus.ipv4_address
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {

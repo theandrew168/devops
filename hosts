@@ -1,12 +1,5 @@
-[bloggulus_db]
-143.244.168.177
-
-[bloggulus_web]
-165.227.202.218
-
-[bloggulus:children]
-bloggulus_db
-bloggulus_web
+[bloggulus]
+159.223.151.73
 
 [sbs]
 137.184.16.166

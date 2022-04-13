@@ -1,6 +1,4 @@
-Host bloggulus-db
-    HostName 143.244.168.177
-Host bloggulus-web
-    HostName 165.227.202.218
+Host bloggulus
+    HostName 159.223.151.73
 Host sbs
     HostName 137.184.16.166
