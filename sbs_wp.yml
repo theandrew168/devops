@@ -1,9 +1,0 @@
----
-
-- hosts: sbs_wp
-  roles:
-    - server
-    - mariadb
-    - redis
-    - wordpress
-    - caddy

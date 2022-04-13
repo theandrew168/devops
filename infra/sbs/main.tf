@@ -1,3 +1,9 @@
+resource "digitalocean_spaces_bucket" "sbs_backup" {
+  name   = "sbs-backup"
+  region = "nyc3"
+  acl    = "private"
+}
+
 resource "digitalocean_droplet" "sbs" {
   image  = "ubuntu-20-04-x64"
   name   = "sbs"

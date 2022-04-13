@@ -4,5 +4,3 @@ Host bloggulus-web
     HostName 165.227.202.218
 Host sbs
     HostName 137.184.16.166
-Host sbs-wp
-    HostName 137.184.72.213
