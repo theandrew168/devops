@@ -5,9 +5,11 @@ server_mounted_volumes:
   - /mnt/dripfile_db_test
 
 caddy_config: |
-  test.dripfile.com,
-  www.test.dripfile.com {
+  test.dripfile.com {
     reverse_proxy 127.0.0.1:5000
+  }
+  www.test.dripfile.com {
+    redir https://test.dripfile.com{uri} permanent
   }
 
 postgresql_data_dir: /mnt/dripfile_db_test/data
