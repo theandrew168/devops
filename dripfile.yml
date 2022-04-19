@@ -1,6 +1,6 @@
 ---
 
-- hosts: dripfile_test
+- hosts: dripfile
   roles:
     - server
     - postgresql

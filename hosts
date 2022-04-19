@@ -4,5 +4,8 @@
 [sbs]
 137.184.16.166
 
+[dripfile:children]
+dripfile_test
+
 [dripfile_test]
 157.230.60.120

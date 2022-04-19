@@ -27,6 +27,10 @@ postgresql_databases:
   - name: dripfile
     owner: dripfile
 
+postgresql_extensions:
+  - pg_stat_statements
+  - citext
+
 # DB Version: 12
 # OS Type: linux
 # DB Type: web
