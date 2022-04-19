@@ -1,0 +1,61 @@
+---
+
+server_hostname: dripfile-test
+server_mounted_volumes:
+  - /mnt/dripfile_db_test
+
+caddy_config: |
+  test.dripfile.com,
+  www.test.dripfile.com {
+    reverse_proxy 127.0.0.1:5000
+  }
+
+postgresql_data_dir: /mnt/dripfile_db_test/data
+
+postgresql_users:
+  - username: dripfile
+    password: !vault |
+      $ANSIBLE_VAULT;1.1;AES256
+      65626563386135343864386666323436623632653639636435326231646536356362306564336238
+      3930313532646534393336353939373538303932333466660a643763373137323430343832613831
+      66636434313764393032653933663464316636663362363035663938393731363663316231386163
+      3736386138663739660a326164383632353637323964343061633966363965383734636137366137
+      31656233383835333135356132653132393232613465306163386338633230666633663363313730
+      3365636538363864326664376266623938666162396464346533
+
+postgresql_databases:
+  - name: dripfile
+    owner: dripfile
+
+# DB Version: 12
+# OS Type: linux
+# DB Type: web
+# Total Memory (RAM): 1 GB
+# CPUs num: 1
+# Connections num: 50
+# Data Storage: san
+postgresql_tuning_parameters:
+  - name: max_connections
+    value: 50
+  - name: shared_buffers
+    value: 256MB
+  - name: effective_cache_size
+    value: 768MB
+  - name: maintenance_work_mem
+    value: 64MB
+  - name: checkpoint_completion_target
+    value: 0.9
+  - name: wal_buffers
+    value: 7864kB
+  - name: default_statistics_target
+    value: 100
+  - name: random_page_cost
+    value: 1.1
+  - name: effective_io_concurrency
+    value: 300
+  - name: work_mem
+    value: 2621kB
+  - name: min_wal_size
+    value: 1GB
+  - name: max_wal_size
+    value: 4GB

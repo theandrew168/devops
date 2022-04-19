@@ -1,0 +1,7 @@
+---
+
+- hosts: dripfile_test
+  roles:
+    - server
+    - postgresql
+    - caddy
