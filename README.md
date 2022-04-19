@@ -46,6 +46,7 @@ Additionally, a few more vars are needed in order to interact with DigitalOcean 
 ```
 export SPACES_ACCESS_KEY_ID="spaces_key_from_web_console"
 export SPACES_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
+```
 
 ### Terraform Init
 The only thing left to do now is initialize Terraform for each project:
