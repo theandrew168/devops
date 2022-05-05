@@ -4,6 +4,12 @@
 [sbs]
 137.184.16.166
 
+[jamql]
+159.223.135.47
+
+[sandbox]
+159.89.49.37
+
 [dripfile:children]
 dripfile_test
 

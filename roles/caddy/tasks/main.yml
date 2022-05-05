@@ -19,7 +19,6 @@
 - name: Setup caddy apt repo
   apt_repository:
     repo: "{{ item }}"
-    update_cache: no
   with_items:
     - "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
     - "deb-src https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"

@@ -1,9 +1,5 @@
 # unused domains live here to prevent squatting
 
-resource "digitalocean_domain" "jamql" {
-  name = "jamql.com"
-}
-
 resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }

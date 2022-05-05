@@ -1,0 +1,9 @@
+---
+
+- hosts: sandbox
+  roles:
+    - server
+    - mariadb
+    - redis
+    - wordpress
+    - caddy

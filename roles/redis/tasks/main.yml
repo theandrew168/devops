@@ -7,9 +7,17 @@
   become: yes
   become_user: root
 
+- name: Setup redis apt repo key
+  apt_key:
+    url: https://packages.redis.io/gpg
+  become: yes
+  become_user: root
+
 - name: Setup redis apt repo
   apt_repository:
-    repo: ppa:redislabs/redis
+    repo: "{{ item }}"
+  with_items:
+    - "deb https://packages.redis.io/deb jammy main"
   become: yes
   become_user: root
 
