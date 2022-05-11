@@ -19,6 +19,20 @@
   become: yes
   become_user: root
 
+- name: Configure PHP
+  lineinfile:
+    path: /etc/php/8.1/fpm/php.ini
+    regexp: "^{{ item.name }}"
+    line: "{{ item.name }} = {{ item.value }}"
+  with_items:
+    - name: post_max_size
+      value: 64M
+    - name: upload_max_filesize
+      value: 64M
+  notify: restart php-fpm
+  become: yes
+  become_user: root
+
 - name: Create directory for wordpress files
   file:
     path: /var/www/wordpress
