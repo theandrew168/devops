@@ -9,9 +9,3 @@
 
 [sandbox]
 159.89.49.37
-
-[dripfile:children]
-dripfile_test
-
-[dripfile_test]
-157.230.60.120

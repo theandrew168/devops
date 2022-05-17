@@ -1,7 +1,0 @@
----
-
-- hosts: dripfile
-  roles:
-    - server
-    - postgresql
-    - caddy
