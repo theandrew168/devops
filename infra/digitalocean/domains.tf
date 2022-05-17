@@ -1,5 +1,9 @@
 # unused domains live here to prevent squatting
 
+resource "digitalocean_domain" "dripfile" {
+  name = "dripfile.com"
+}
+
 resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }
