@@ -48,6 +48,14 @@ resource "digitalocean_domain" "dsmfactor" {
   name = "dsmfactor.app"
 }
 
+resource "digitalocean_domain" "isthisdoneyet" {
+  name = "isthisdoneyet.com"
+}
+
+resource "digitalocean_domain" "isthisticketdoneyet" {
+  name = "isthisticketdoneyet.com"
+}
+
 # owner: wesley
 # NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "daileybrue" {

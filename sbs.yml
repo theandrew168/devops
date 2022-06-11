@@ -1,7 +1,0 @@
----
-
-- hosts: sbs
-  roles:
-    - server
-    - caddy
-    - sbs
