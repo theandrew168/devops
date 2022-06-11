@@ -52,6 +52,10 @@ resource "digitalocean_domain" "isthisdoneyet" {
   name = "isthisdoneyet.com"
 }
 
+resource "digitalocean_domain" "isthistaskdoneyet" {
+  name = "isthistaskdoneyet.com"
+}
+
 resource "digitalocean_domain" "isthisticketdoneyet" {
   name = "isthisticketdoneyet.com"
 }
