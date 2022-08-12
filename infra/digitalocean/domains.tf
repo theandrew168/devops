@@ -12,10 +12,6 @@ resource "digitalocean_domain" "thebrosmakeagame" {
   name = "thebrosmakeagame.com"
 }
 
-resource "digitalocean_domain" "derzchat" {
-  name = "derzchat.com"
-}
-
 resource "digitalocean_domain" "derzfiles" {
   name = "derzfiles.com"
 }
