@@ -92,7 +92,7 @@ First run against a new server:
 ansible-playbook -i hosts -u root foobar.yml
 ```
 
-All subsequent runs:
+After manually logging into a server and setting your password:
 ```
 ansible-playbook -i hosts -u <user> --ask-become-pass foobar.yml
 ```

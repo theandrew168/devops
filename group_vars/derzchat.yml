@@ -1,0 +1,9 @@
+---
+
+server_hostname: derzchat
+
+caddy_config: |
+  derzchat.com,
+  www.derzchat.com {
+    reverse_proxy 127.0.0.1:5000
+  }

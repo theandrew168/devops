@@ -1,0 +1,6 @@
+---
+
+- hosts: derzchat
+  roles:
+    - server
+    - caddy
