@@ -56,6 +56,10 @@ resource "digitalocean_domain" "isthisticketdoneyet" {
   name = "isthisticketdoneyet.com"
 }
 
+resource "digitalocean_domain" "sourdoughsoftware" {
+  name = "sourdoughsoftware.com"
+}
+
 # owner: wesley
 # NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "daileybrue" {
