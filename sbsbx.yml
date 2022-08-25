@@ -1,0 +1,7 @@
+---
+
+- hosts: sbsbx
+  roles:
+    - server
+    - redis
+    - caddy
