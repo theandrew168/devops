@@ -1,7 +1,0 @@
----
-
-- hosts: derzchat
-  roles:
-    - server
-    - redis
-    - caddy

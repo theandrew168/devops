@@ -60,6 +60,10 @@ resource "digitalocean_domain" "sourdoughsoftware" {
   name = "sourdoughsoftware.com"
 }
 
+resource "digitalocean_domain" "derzchat" {
+  name = "derzchat.com"
+}
+
 # owner: wesley
 # NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "daileybrue" {
