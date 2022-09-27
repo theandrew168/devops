@@ -9,10 +9,21 @@
   become: yes
   become_user: root
 
-- name: Install pg2s3
+- name: Install pg2s3 (latest)
   apt:
-    deb: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_version }}_{{ pg2s3_os }}_{{ pg2s3_arch }}.deb
+    deb: https://github.com/theandrew168/pg2s3/releases/latest/download/pg2s3_{{ pg2s3_os }}_{{ pg2s3_arch }}.deb
     update_cache: yes
+  when: pg2s3_version == "latest"
+  notify: restart pg2s3
+  become: yes
+  become_user: root
+
+- name: Install pg2s3 (version)
+  apt:
+    deb: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_os }}_{{ pg2s3_arch }}.deb
+    update_cache: yes
+  when: pg2s3_version != "latest"
+  notify: restart pg2s3
   become: yes
   become_user: root
 

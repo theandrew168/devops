@@ -4,7 +4,7 @@
 pg2s3_postgresql_client_version: 12
 
 # version to install
-pg2s3_version: 0.1.2
+pg2s3_version: latest
 
 # target operating system
 pg2s3_os: linux
