@@ -8,6 +8,14 @@
 
 # lock down SSH and the root user ASAP
 
+- name: Upgrade base packages
+  apt:
+    upgrade: yes
+    update_cache: yes
+  when: ansible_ssh_user == "root"
+  become: yes
+  become_user: root
+
 - name: Disable root password
   user:
     name: root

@@ -13,7 +13,7 @@ resource "digitalocean_volume" "bloggulus_db" {
 }
 
 resource "digitalocean_droplet" "bloggulus" {
-  image    = "ubuntu-20-04-x64"
+  image    = "ubuntu-22-04-x64"
   name     = "bloggulus"
   region   = "nyc1"
   size     = "s-1vcpu-1gb"

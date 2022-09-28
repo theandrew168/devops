@@ -1,7 +1,7 @@
 ---
 
 # postgresql client version (not really customizable)
-pg2s3_postgresql_client_version: 12
+pg2s3_postgresql_client_version: 14
 
 # version to install
 pg2s3_version: latest
