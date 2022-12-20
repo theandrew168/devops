@@ -4,10 +4,30 @@ resource "digitalocean_spaces_bucket" "digimontcg_backup" {
   acl    = "private"
 }
 
-resource "digitalocean_spaces_bucket" "digimontcg_images" {
-  name   = "digimontcg-images"
+resource "digitalocean_spaces_bucket" "digimontcg_cdn" {
+  name   = "digimontcg-cdn"
   region = "nyc3"
-  acl    = "private"
+  acl    = "public-read"
+
+  cors_rule {
+    allowed_methods = ["GET", "HEAD"]
+    allowed_origins = ["*"]
+  }
+}
+
+resource "digitalocean_certificate" "digimontcg_cdn" {
+  name    = "digimontcg-cdn"
+  type    = "lets_encrypt"
+  domains = [
+    "digimontcg.online",
+    "cdn.digimontcg.online",
+  ]
+}
+
+resource "digitalocean_cdn" "digimontcg_cdn" {
+  origin           = digitalocean_spaces_bucket.digimontcg_cdn.bucket_domain_name
+  custom_domain    = "cdn.digimontcg.online"
+  certificate_name = digitalocean_certificate.digimontcg_cdn.name
 }
 
 resource "digitalocean_volume" "digimontcg_db" {
