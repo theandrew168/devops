@@ -3,6 +3,4 @@
 - hosts: digimontcg
   roles:
     - server
-    - postgresql
-    - pg2s3
     - caddy
