@@ -1,43 +1,3 @@
-resource "digitalocean_spaces_bucket" "digimontcg_backup" {
-  name   = "digimontcg-backup"
-  region = "nyc3"
-  acl    = "private"
-}
-
-resource "digitalocean_spaces_bucket" "digimontcg_cdn" {
-  name   = "digimontcg-cdn"
-  region = "nyc3"
-  acl    = "public-read"
-
-  cors_rule {
-    allowed_methods = ["GET", "HEAD"]
-    allowed_origins = ["*"]
-  }
-}
-
-resource "digitalocean_certificate" "digimontcg_cdn" {
-  name    = "digimontcg-cdn"
-  type    = "lets_encrypt"
-  domains = [
-    "digimontcg.online",
-    "cdn.digimontcg.online",
-  ]
-}
-
-resource "digitalocean_cdn" "digimontcg_cdn" {
-  origin           = digitalocean_spaces_bucket.digimontcg_cdn.bucket_domain_name
-  custom_domain    = "cdn.digimontcg.online"
-  certificate_name = digitalocean_certificate.digimontcg_cdn.name
-}
-
-resource "digitalocean_volume" "digimontcg_db" {
-  name   = "digimontcg-db"
-  region = "nyc1"
-  size   = 50
-
-  initial_filesystem_type = "ext4"
-}
-
 resource "digitalocean_droplet" "digimontcg" {
   image    = "ubuntu-22-04-x64"
   name     = "digimontcg"
@@ -46,10 +6,6 @@ resource "digitalocean_droplet" "digimontcg" {
 
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
-  ]
-
-  volume_ids = [
-    digitalocean_volume.digimontcg_db.id,
   ]
 }
 
