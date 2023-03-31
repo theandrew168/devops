@@ -1,9 +1,0 @@
----
-
-server_hostname: digimontcg
-
-caddy_config: |
-  digimontcg.online,
-  www.digimontcg.online {
-    reverse_proxy 127.0.0.1:5000
-  }

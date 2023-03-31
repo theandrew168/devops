@@ -64,14 +64,16 @@ resource "digitalocean_domain" "derzchat" {
   name = "derzchat.com"
 }
 
+resource "digitalocean_domain" "digimontcg" {
+  name = "digimontcg.online"
+}
+
 # owner: wesley
-# NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "daileybrue" {
   name = "daileybrue.coffee"
 }
 
 # owner: wesley
-# NOTE: move back to digitalocean/domains.tf if unused
 resource "digitalocean_domain" "whosbuying" {
   name = "whosbuying.coffee"
 }

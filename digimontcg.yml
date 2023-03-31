@@ -1,6 +1,0 @@
----
-
-- hosts: digimontcg
-  roles:
-    - server
-    - caddy
