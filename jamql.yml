@@ -1,7 +1,0 @@
----
-
-- hosts: jamql
-  roles:
-    - server
-    - caddy
-    - jamql

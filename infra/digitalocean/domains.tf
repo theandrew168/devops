@@ -1,5 +1,13 @@
 # unused domains live here to prevent squatting
 
+resource "digitalocean_domain" "sbsbx" {
+  name = "sbsbx.com"
+}
+
+resource "digitalocean_domain" "jamql" {
+  name = "jamql.com"
+}
+
 resource "digitalocean_domain" "sandbox" {
   name = "shallowbrooksandbox.com"
 }
@@ -18,10 +26,6 @@ resource "digitalocean_domain" "derzfiles" {
 
 resource "digitalocean_domain" "simpleriscv" {
   name = "simpleriscv.org"
-}
-
-resource "digitalocean_domain" "nwrsolutions" {
-  name = "nwr.solutions"
 }
 
 resource "digitalocean_domain" "crawdata_dev" {

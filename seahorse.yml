@@ -1,6 +1,0 @@
----
-
-- hosts: seahorse
-  roles:
-    - server
-    - seahorse
