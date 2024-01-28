@@ -57,7 +57,7 @@
   become: yes
   become_user: root
 
-# Without this, no connections will be allowed since all ports default to closed.
+# Without this, no connections will be allowed since all ports closed by default.
 - name: Limit login attempts
   ufw:
     rule: limit
