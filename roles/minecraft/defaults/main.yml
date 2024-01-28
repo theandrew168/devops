@@ -1,0 +1,19 @@
+---
+
+# Minecraft era (alpha, beta, classic, or release)
+minecraft_era: beta
+
+# Version to install
+minecraft_version: b1.7.3
+
+# Minecraft server data directory
+minecraft_data_dir: ~
+
+# Minecraft server JVM options
+minecraft_jvm_opts: ~
+
+# Config file contents (server.properties)
+minecraft_config: ~
+
+# Allowed users (by Mojang/Microsoft username)
+minecraft_users: ~

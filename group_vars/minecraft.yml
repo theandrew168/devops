@@ -1,0 +1,33 @@
+---
+
+server_hostname: minecraft
+server_mounted_volumes:
+  - /mnt/minecraft_data
+
+minecraft_era: beta
+minecraft_version: b1.7.3
+minecraft_data_dir: /mnt/minecraft_data/data
+minecraft_jvm_opts: -Xms1536M -Xmx1536M
+
+minecraft_config: |
+  allow-flight=false
+  allow-nether=true
+  level-name=world
+  level-seed=Glacier
+  max-players=5
+  online-mode=false
+  pvp=false
+  server-ip=
+  server-port=25565
+  spawn-animals=true
+  spawn-monsters=true
+  view-distance=10
+  white-list=true
+
+minecraft_users: !vault |
+  $ANSIBLE_VAULT;1.1;AES256
+  34363030643366343235346334333233386139383432653432663662646636343633666136313561
+  6364336139356562353635316661313632353531393566360a323165623733306339636532616264
+  30656334326466633232633262386439346230653466303962393538306137373430366162643739
+  3361643666663230630a393336643963323261656133363261663464653464386563323961363062
+  6438

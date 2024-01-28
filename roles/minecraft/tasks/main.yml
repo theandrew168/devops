@@ -1,0 +1,85 @@
+---
+
+- name: Install dependencies
+  apt:
+    name:
+      - default-jre-headless
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Create minecraft user
+  user:
+    name: minecraft
+  become: yes
+  become_user: root
+
+- name: Setup permissions for data directory
+  file:
+    path: "{{ minecraft_data_dir }}"
+    mode: "0700"
+    owner: minecraft
+    group: minecraft
+    state: directory
+  when: minecraft_data_dir
+  become: yes
+  become_user: root
+
+- name: Download server jar
+  get_url:
+    url: https://files.betacraft.uk/server-archive/{{ minecraft_era }}/{{ minecraft_version }}.jar
+    dest: "{{ minecraft_data_dir}}/{{ minecraft_version }}.jar"
+    owner: minecraft
+    group: minecraft
+    mode: "0640"
+  become: yes
+  become_user: root
+
+- name: Setup config file
+  copy:
+    content: "{{ minecraft_config }}"
+    dest: "{{ minecraft_data_dir }}/server.properties"
+    mode: "0640"
+    owner: minecraft
+    group: minecraft
+  notify: restart minecraft
+  become: yes
+  become_user: root
+
+- name: Setup allowed users file
+  copy:
+    content: "{{ minecraft_users }}"
+    dest: "{{ minecraft_data_dir }}/white-list.txt"
+    mode: "0640"
+    owner: minecraft
+    group: minecraft
+  notify: restart minecraft
+  become: yes
+  become_user: root
+
+# Without this, no connections will be allowed since all ports default to closed.
+- name: Limit login attempts
+  ufw:
+    rule: limit
+    port: "25565"
+    proto: tcp
+  become: yes
+  become_user: root
+
+- name: Setup systemd service file
+  template:
+    src: minecraft.service.j2
+    dest: /etc/systemd/system/minecraft.service
+    mode: "0644"
+  notify: restart minecraft
+  become: yes
+  become_user: root
+
+- name: Start and enable minecraft
+  systemd:
+    name: minecraft
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

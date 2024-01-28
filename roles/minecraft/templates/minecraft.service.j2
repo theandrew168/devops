@@ -1,0 +1,16 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=minecraft
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+User=minecraft
+Group=minecraft
+WorkingDirectory={{ minecraft_data_dir }}
+ExecStart=java {{ minecraft_jvm_opts }} -jar {{ minecraft_data_dir}}/{{ minecraft_version }}.jar
+
+[Install]
+WantedBy=multi-user.target

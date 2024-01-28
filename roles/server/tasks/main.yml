@@ -54,6 +54,7 @@
   ufw:
     rule: limit
     port: "22"
+    proto: tcp
   become: yes
   become_user: root
 
