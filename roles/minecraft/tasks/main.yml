@@ -29,9 +29,9 @@
   get_url:
     url: https://files.betacraft.uk/server-archive/{{ minecraft_era }}/{{ minecraft_version }}.jar
     dest: "{{ minecraft_data_dir}}/{{ minecraft_version }}.jar"
+    mode: "0640"
     owner: minecraft
     group: minecraft
-    mode: "0640"
   become: yes
   become_user: root
 
