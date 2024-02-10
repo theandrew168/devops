@@ -57,12 +57,23 @@
   become: yes
   become_user: root
 
-# Without this, no connections will be allowed since all ports are closed by default.
-- name: Limit login attempts
+- name: Limit login attempts (all IP addresses)
   ufw:
     rule: limit
     port: "25565"
     proto: tcp
+  when: not minecraft_allowed_ips
+  become: yes
+  become_user: root
+
+- name: Limit login attempts (allowed IP addresses)
+  ufw:
+    rule: limit
+    src: "{{ item }}"
+    port: "25565"
+    proto: tcp
+  with_items: "{{ minecraft_allowed_ips }}"
+  no_log: yes
   become: yes
   become_user: root
 

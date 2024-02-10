@@ -12,3 +12,4 @@ Beta 1.7.3 server.properties [reference](https://old.reddit.com/r/GoldenAgeMinec
 | `minecraft_jvm_opts` | `~` | Minecraft server JVM options |
 | `minecraft_config` | `~` | Config file contents (server.properties) |
 | `minecraft_users` | `~` | Allowed users (by Mojang/Microsoft username) |
+| `minecraft_allowed_ips` | `[]` | Allowed IP addresses / ranges (allow all if empty) |

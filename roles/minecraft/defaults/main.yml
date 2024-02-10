@@ -17,3 +17,6 @@ minecraft_config: ~
 
 # Allowed users (by Mojang/Microsoft username)
 minecraft_users: ~
+
+# Allowed IP addresses / ranges (allow all if empty)
+minecraft_allowed_ips: []
