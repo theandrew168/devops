@@ -1,0 +1,25 @@
+---
+server_hostname: metrics
+server_mounted_volumes:
+  - /mnt/metrics_data
+
+prometheus_data_dir: /mnt/metrics_data/prometheus
+
+# https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+prometheus_config: |
+  global:
+    scrape_interval: 15s
+  scrape_configs:
+    - job_name: prometheus
+      static_configs:
+        - targets: ['localhost:9090']
+    - job_name: bloggulus
+      scheme: https
+      static_configs:
+        - targets: ['bloggulus.com']
+
+# https://caddyserver.com/docs/caddyfile
+caddy_config: |
+  metrics.sbsbx.com {
+    reverse_proxy 127.0.0.1:9090
+  }

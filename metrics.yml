@@ -1,0 +1,6 @@
+---
+- hosts: metrics
+  roles:
+    - server
+    - prometheus
+    - caddy

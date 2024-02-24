@@ -7,10 +7,10 @@ resource "digitalocean_volume" "minecraft_data" {
 }
 
 resource "digitalocean_droplet" "minecraft" {
-  image    = "ubuntu-22-04-x64"
-  name     = "minecraft"
-  region   = "nyc1"
-  size     = "s-2vcpu-2gb"
+  image  = "ubuntu-22-04-x64"
+  name   = "minecraft"
+  region = "nyc1"
+  size   = "s-2vcpu-2gb"
 
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",

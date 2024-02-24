@@ -1,0 +1,19 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=prometheus
+Documentation=https://prometheus.io/
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User=prometheus
+Group=prometheus
+ExecStart=prometheus --config.file=/etc/prometheus.yml --storage.tsdb.path={{ prometheus_data_dir }}
+ExecReload=/bin/kill -HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target

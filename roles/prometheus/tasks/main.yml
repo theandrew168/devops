@@ -1,0 +1,81 @@
+---
+- name: Create prometheus group
+  group:
+    name: prometheus
+    system: true
+  become: yes
+  become_user: root
+
+- name: Create prometheus user
+  user:
+    name: prometheus
+    group: prometheus
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: yes
+  become_user: root
+
+- name: Setup permissions for data directory
+  file:
+    path: "{{ prometheus_data_dir }}"
+    mode: "0700"
+    owner: prometheus
+    group: prometheus
+    state: directory
+  become: yes
+  become_user: root
+
+- name: Download and extract prometheus
+  unarchive:
+    remote_src: yes
+    src: https://github.com/prometheus/prometheus/releases/download/v{{ prometheus_version }}/prometheus-{{ prometheus_version }}.{{ prometheus_os }}-{{ prometheus_arch }}.tar.gz
+    dest: /tmp
+    creates: /tmp/prometheus-{{ prometheus_version }}.{{ prometheus_os }}-{{ prometheus_arch }}/prometheus
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+
+- name: Copy prometheus binary
+  copy:
+    remote_src: yes
+    src: /tmp/prometheus-{{ prometheus_version }}.{{ prometheus_os }}-{{ prometheus_arch }}/prometheus
+    dest: /usr/local/bin/prometheus
+    mode: "0755"
+    owner: root
+    group: root
+  notify: restart prometheus
+  become: yes
+  become_user: root
+
+- name: Setup prometheus config file
+  copy:
+    content: "{{ prometheus_config }}"
+    dest: /etc/prometheus.yml
+    mode: "0640"
+    owner: root
+    group: prometheus
+  notify: reload prometheus
+  become: yes
+  become_user: root
+
+- name: Create prometheus systemd service
+  template:
+    src: prometheus.service.j2
+    dest: /etc/systemd/system/prometheus.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart prometheus
+  become: yes
+  become_user: root
+
+- name: Start and enable prometheus
+  systemd:
+    name: prometheus
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
