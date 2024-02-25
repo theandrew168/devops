@@ -3,12 +3,13 @@ server_hostname: metrics
 server_mounted_volumes:
   - /mnt/metrics_data
 
-prometheus_data_dir: /mnt/metrics_data/prometheus
+prometheus_data_retention: 90d
+prometheus_data_directory: /mnt/metrics_data/prometheus
 
 # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 prometheus_config: |
   global:
-    scrape_interval: 15s
+    scrape_interval: 5s
   scrape_configs:
     - job_name: metrics_prometheus
       scheme: https

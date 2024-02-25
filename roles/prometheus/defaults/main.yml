@@ -8,8 +8,11 @@ prometheus_os: linux
 # target architecture
 prometheus_arch: amd64
 
-# metrics data directory
-prometheus_data_dir: ~
+# prometheus data retention
+prometheus_data_retention: 15d
+
+# prometheus data directory
+prometheus_data_directory: ~
 
 # config file contents
 prometheus_config: ~

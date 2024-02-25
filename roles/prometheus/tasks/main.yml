@@ -18,7 +18,7 @@
 
 - name: Setup permissions for data directory
   file:
-    path: "{{ prometheus_data_dir }}"
+    path: "{{ prometheus_data_directory }}"
     mode: "0700"
     owner: prometheus
     group: prometheus
