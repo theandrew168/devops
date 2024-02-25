@@ -16,14 +16,8 @@ postgres_exporter_env: !vault |
   38366631663833336266323465353237306164353637343565646137643836386639
 
 caddy_config: |
-  {
-    servers {
-      metrics
-    }
-  }
   bloggulus.com,
   www.bloggulus.com {
-    metrics /caddy/metrics
     handle_path /server/* {
       reverse_proxy 127.0.0.1:9100
     }

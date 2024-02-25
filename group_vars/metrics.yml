@@ -9,15 +9,10 @@ prometheus_data_directory: /mnt/metrics_data/prometheus
 # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 prometheus_config: |
   global:
-    scrape_interval: 15s
+    scrape_interval: 5s
   scrape_configs:
     - job_name: metrics_prometheus
       scheme: https
-      static_configs:
-        - targets: ['metrics.sbsbx.com']
-    - job_name: metrics_caddy
-      scheme: https
-      metrics_path: /caddy/metrics
       static_configs:
         - targets: ['metrics.sbsbx.com']
     - job_name: metrics_server
@@ -27,11 +22,6 @@ prometheus_config: |
         - targets: ['metrics.sbsbx.com']
     - job_name: bloggulus_web
       scheme: https
-      static_configs:
-        - targets: ['bloggulus.com']
-    - job_name: bloggulus_caddy
-      scheme: https
-      metrics_path: /caddy/metrics
       static_configs:
         - targets: ['bloggulus.com']
     - job_name: bloggulus_server
@@ -59,13 +49,7 @@ grafana_config: |
 
 # https://caddyserver.com/docs/caddyfile
 caddy_config: |
-  {
-    servers {
-      metrics
-    }
-  }
   metrics.sbsbx.com {
-    metrics /caddy/metrics
     handle_path /server/* {
       reverse_proxy 127.0.0.1:9100
     }
