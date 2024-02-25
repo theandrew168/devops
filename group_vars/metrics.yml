@@ -9,7 +9,7 @@ prometheus_data_directory: /mnt/metrics_data/prometheus
 # https://prometheus.io/docs/prometheus/latest/configuration/configuration/
 prometheus_config: |
   global:
-    scrape_interval: 5s
+    scrape_interval: 15s
   scrape_configs:
     - job_name: metrics_prometheus
       scheme: https
