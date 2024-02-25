@@ -10,16 +10,21 @@ prometheus_config: |
   global:
     scrape_interval: 15s
   scrape_configs:
-    - job_name: prometheus
+    - job_name: metrics_prometheus
       scheme: https
       static_configs:
         - targets: ['metrics.sbsbx.com']
-    - job_name: prometheus_caddy
+    - job_name: metrics_caddy
       scheme: https
       metrics_path: /caddy/metrics
       static_configs:
         - targets: ['metrics.sbsbx.com']
-    - job_name: bloggulus
+    - job_name: metrics_server
+      scheme: https
+      metrics_path: /server/metrics
+      static_configs:
+        - targets: ['metrics.sbsbx.com']
+    - job_name: bloggulus_web
       scheme: https
       static_configs:
         - targets: ['bloggulus.com']
@@ -28,6 +33,16 @@ prometheus_config: |
       metrics_path: /caddy/metrics
       static_configs:
         - targets: ['bloggulus.com']
+    - job_name: bloggulus_server
+      scheme: https
+      metrics_path: /server/metrics
+      static_configs:
+        - targets: ['bloggulus.com']
+    - job_name: minecraft_server
+      scheme: https
+      metrics_path: /server/metrics
+      static_configs:
+        - targets: ['mc.sbsbx.com']
 
 # https://caddyserver.com/docs/caddyfile
 caddy_config: |
@@ -38,5 +53,8 @@ caddy_config: |
   }
   metrics.sbsbx.com {
     metrics /caddy/metrics
+    handle_path /server/* {
+      reverse_proxy 127.0.0.1:9100
+    }
     reverse_proxy 127.0.0.1:9090
   }

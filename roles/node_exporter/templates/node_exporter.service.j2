@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=node_exporter
+Documentation=https://github.com/prometheus/node_exporter
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User=node_exporter
+Group=node_exporter
+ExecStart=node_exporter
+
+[Install]
+WantedBy=multi-user.target

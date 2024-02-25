@@ -1,8 +1,8 @@
 ---
-
 - hosts: bloggulus
   roles:
     - server
+    - node_exporter
     - postgresql
     - pg2s3
     - bloggulus

@@ -12,6 +12,9 @@ caddy_config: |
   bloggulus.com,
   www.bloggulus.com {
     metrics /caddy/metrics
+    handle_path /server/* {
+      reverse_proxy 127.0.0.1:9100
+    }
     reverse_proxy 127.0.0.1:5000
   }
 

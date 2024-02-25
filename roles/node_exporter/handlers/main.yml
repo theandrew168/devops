@@ -1,0 +1,8 @@
+---
+- name: restart node_exporter
+  systemd:
+    name: node_exporter
+    state: restarted
+    daemon_reload: yes
+  become: yes
+  become_user: root

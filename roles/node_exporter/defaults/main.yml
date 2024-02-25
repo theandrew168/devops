@@ -1,0 +1,9 @@
+---
+# version to install
+node_exporter_version: 1.7.0
+
+# target operating system
+node_exporter_os: linux
+
+# target architecture
+node_exporter_arch: amd64

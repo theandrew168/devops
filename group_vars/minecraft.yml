@@ -1,8 +1,14 @@
 ---
-
 server_hostname: minecraft
 server_mounted_volumes:
   - /mnt/minecraft_data
+
+caddy_config: |
+  mc.sbsbx.com {
+    handle_path /server/* {
+      reverse_proxy 127.0.0.1:9100
+    }
+  }
 
 minecraft_era: beta
 minecraft_version: b1.7.3

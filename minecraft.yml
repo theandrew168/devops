@@ -1,6 +1,7 @@
 ---
-
 - hosts: minecraft
   roles:
     - server
+    - node_exporter
+    - caddy
     - minecraft
