@@ -1,12 +1,17 @@
 ---
-
 server_hostname: bloggulus
 server_mounted_volumes:
   - /mnt/bloggulus_db
 
 caddy_config: |
+  {
+    servers {
+      metrics
+    }
+  }
   bloggulus.com,
   www.bloggulus.com {
+    metrics /caddy/metrics
     reverse_proxy 127.0.0.1:5000
   }
 
