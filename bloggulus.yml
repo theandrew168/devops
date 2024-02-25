@@ -4,6 +4,7 @@
     - server
     - node_exporter
     - postgresql
+    - postgres_exporter
     - pg2s3
     - bloggulus
     - caddy

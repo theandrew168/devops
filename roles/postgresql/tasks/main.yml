@@ -1,5 +1,4 @@
 ---
-
 - name: Install postgresql (and psycopg2)
   apt:
     name:
@@ -55,7 +54,7 @@
   become: yes
   become_user: root
 
-- name: Setup tuning parameters postgresql.conf
+- name: Setup tuning parameters in postgresql.conf
   lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"

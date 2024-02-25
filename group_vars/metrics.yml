@@ -38,6 +38,11 @@ prometheus_config: |
       metrics_path: /server/metrics
       static_configs:
         - targets: ['bloggulus.com']
+    - job_name: bloggulus_database
+      scheme: https
+      metrics_path: /database/metrics
+      static_configs:
+        - targets: ['bloggulus.com']
     - job_name: minecraft_server
       scheme: https
       metrics_path: /server/metrics

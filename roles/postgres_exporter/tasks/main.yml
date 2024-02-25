@@ -1,0 +1,71 @@
+---
+- name: Create postgres_exporter group
+  group:
+    name: postgres_exporter
+    system: true
+  become: yes
+  become_user: root
+
+- name: Create postgres_exporter user
+  user:
+    name: postgres_exporter
+    group: postgres_exporter
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: yes
+  become_user: root
+
+- name: Download and extract postgres_exporter
+  unarchive:
+    remote_src: yes
+    src: https://github.com/prometheus-community/postgres_exporter/releases/download/v{{ postgres_exporter_version }}/postgres_exporter-{{ postgres_exporter_version }}.{{ postgres_exporter_os }}-{{ postgres_exporter_arch }}.tar.gz
+    dest: /tmp
+    creates: /tmp/postgres_exporter-{{ postgres_exporter_version }}.{{ postgres_exporter_os }}-{{ postgres_exporter_arch }}/postgres_exporter
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+
+- name: Copy postgres_exporter binary
+  copy:
+    remote_src: yes
+    src: /tmp/postgres_exporter-{{ postgres_exporter_version }}.{{ postgres_exporter_os }}-{{ postgres_exporter_arch }}/postgres_exporter
+    dest: /usr/local/bin/postgres_exporter
+    mode: "0755"
+    owner: root
+    group: root
+  notify: restart postgres_exporter
+  become: yes
+  become_user: root
+
+- name: Setup postgres_exporter environment file
+  copy:
+    content: "{{ postgres_exporter_env }}"
+    dest: /etc/postgres_exporter.env
+    mode: "0640"
+    owner: root
+    group: postgres_exporter
+  notify: restart postgres_exporter
+  become: yes
+  become_user: root
+
+- name: Create postgres_exporter systemd service
+  template:
+    src: postgres_exporter.service.j2
+    dest: /etc/systemd/system/postgres_exporter.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart postgres_exporter
+  become: yes
+  become_user: root
+
+- name: Start and enable postgres_exporter
+  systemd:
+    name: postgres_exporter
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

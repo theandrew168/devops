@@ -1,0 +1,12 @@
+---
+# version to install
+postgres_exporter_version: 0.15.0
+
+# target operating system
+postgres_exporter_os: linux
+
+# target architecture
+postgres_exporter_arch: amd64
+
+# environment file content
+postgres_exporter_env: ~
