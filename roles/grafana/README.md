@@ -1,8 +1,9 @@
 # grafana
-Ansible role for installing [Grafana](https://grafana.com/oss/grafana/)
+
+Ansible role for installing and configuring [Grafana](https://grafana.com/oss/grafana/)
 
 ## Configuration
-| Variable | Default | Description |
-| -------- | ------- | ----------- |
-| `grafana_hostname` | `~` | Hostname where Grafana is hosted |
-| `grafana_smtp_config` | `~` | Grafana SMTP configuration (optional) |
+
+| Variable         | Default | Description          |
+| ---------------- | ------- | -------------------- |
+| `grafana_config` | `~`     | Config file contents |

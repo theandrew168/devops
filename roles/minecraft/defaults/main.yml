@@ -1,22 +1,21 @@
 ---
-
-# Minecraft era (alpha, beta, classic, or release)
+# minecraft era (alpha, beta, classic, or release)
 minecraft_era: beta
 
-# Version to install
+# version to install
 minecraft_version: b1.7.3
 
-# Minecraft server data directory
+# minecraft server data directory
 minecraft_data_dir: ~
 
-# Minecraft server JVM options
+# minecraft server JVM options
 minecraft_jvm_opts: ~
 
-# Config file contents (server.properties)
+# config file contents (server.properties)
 minecraft_config: ~
 
-# Allowed users (by Mojang/Microsoft username)
+# allowed users (by Mojang/Microsoft username)
 minecraft_users: ~
 
-# Allowed IP addresses / ranges (allow all if empty)
+# allowed IP addresses / ranges (allow all if empty)
 minecraft_allowed_ips: []

@@ -1,12 +1,3 @@
 ---
-
-# Hostname where Grafana is hosted
-grafana_hostname: ~
-
-# Grafana SMTP configuration
-grafana_smtp_config: ~
-#  from_addr: foo@example.com
-#  from_name: Foo Grafana
-#  hostname: smtp.example.com
-#  username: foousername
-#  password: foopassword
+# config file contents
+grafana_config: ~

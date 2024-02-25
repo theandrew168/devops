@@ -4,4 +4,5 @@
     - server
     - node_exporter
     - prometheus
+    - grafana
     - caddy

@@ -1,13 +1,12 @@
 ---
-
-# Version to install
+# version to install
 bloggulus_version: latest
 
-# Target operating system
+# target operating system
 bloggulus_os: linux
 
-# Target architecture
+# target architecture
 bloggulus_arch: amd64
 
-# Config file contents
+# config file contents
 bloggulus_config: ~
