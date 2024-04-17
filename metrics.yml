@@ -1,8 +1,0 @@
----
-- hosts: metrics
-  roles:
-    - server
-    - node_exporter
-    - prometheus
-    - grafana
-    - caddy
