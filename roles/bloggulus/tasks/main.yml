@@ -1,19 +1,62 @@
 ---
-
-- name: Install bloggulus (latest)
-  apt:
-    deb: https://github.com/theandrew168/bloggulus/releases/latest/download/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
-    update_cache: yes
-  when: bloggulus_version == "latest"
-  notify: restart bloggulus
+- name: Create bloggulus group
+  group:
+    name: bloggulus
+    system: true
   become: yes
   become_user: root
 
-- name: Install bloggulus (version)
-  apt:
-    deb: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.deb
-    update_cache: yes
+- name: Create bloggulus user
+  user:
+    name: bloggulus
+    group: bloggulus
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: yes
+  become_user: root
+
+- name: Create tmp directory for release files
+  file:
+    path: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
+    state: directory
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+
+- name: Download and extract bloggulus (latest)
+  unarchive:
+    remote_src: yes
+    src: https://github.com/theandrew168/bloggulus/releases/latest/download/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.tar.gz
+    dest: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
+    creates: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
+    owner: root
+    group: root
+  when: bloggulus_version == "latest"
+  become: yes
+  become_user: root
+
+- name: Download and extract bloggulus (version)
+  unarchive:
+    remote_src: yes
+    src: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.tar.gz
+    dest: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
+    creates: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
+    owner: root
+    group: root
   when: bloggulus_version != "latest"
+  become: yes
+  become_user: root
+
+- name: Copy bloggulus binary
+  copy:
+    remote_src: yes
+    src: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
+    dest: /usr/local/bin/bloggulus
+    mode: "0755"
+    owner: root
+    group: root
   notify: restart bloggulus
   become: yes
   become_user: root
@@ -25,6 +68,17 @@
     mode: "0640"
     owner: root
     group: bloggulus
+  notify: restart bloggulus
+  become: yes
+  become_user: root
+
+- name: Create bloggulus systemd service
+  template:
+    src: bloggulus.service.j2
+    dest: /etc/systemd/system/bloggulus.service
+    mode: "0644"
+    owner: root
+    group: root
   notify: restart bloggulus
   become: yes
   become_user: root
