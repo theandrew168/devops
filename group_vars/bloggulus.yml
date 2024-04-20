@@ -3,27 +3,9 @@ server_hostname: bloggulus
 server_mounted_volumes:
   - /mnt/bloggulus_db
 
-postgres_exporter_env: !vault |
-  $ANSIBLE_VAULT;1.1;AES256
-  35343431346136633335346465363131393133336636643863636632626361326465663931343565
-  6639653664316530323361666632613164333539623665310a393665323630366431336339636566
-  65376366363865303534626162623137346261666435373433326663636239323532353039346262
-  3134373936653937610a643265633537323234343663353733393438656334643062373936663933
-  38393837353335636530316365643938663231373432383433633839316139646461613339303362
-  65323765343461366265356164643665643365643732353237326630323238666331353466656435
-  31373735363066316431376561336632356530646138636231656133666164653532386134393737
-  30313038343532653836663935626665656237363762643739633966393732343832656164316365
-  38366631663833336266323465353237306164353637343565646137643836386639
-
 caddy_config: |
   bloggulus.com,
   www.bloggulus.com {
-    handle_path /server/* {
-      reverse_proxy 127.0.0.1:9100
-    }
-    handle_path /database/* {
-      reverse_proxy 127.0.0.1:9187
-    }
     reverse_proxy 127.0.0.1:5000
   }
 
@@ -44,10 +26,10 @@ postgresql_databases:
   - name: bloggulus
     owner: bloggulus
 
-# DB Version: 12
+# DB Version: 14
 # OS Type: linux
 # DB Type: web
-# Total Memory (RAM): 1 GB
+# Total Memory (RAM): 512 MB
 # CPUs num: 1
 # Connections num: 50
 # Data Storage: san
@@ -55,23 +37,23 @@ postgresql_tuning_parameters:
   - name: max_connections
     value: 50
   - name: shared_buffers
-    value: 256MB
+    value: 128MB
   - name: effective_cache_size
-    value: 768MB
+    value: 384MB
   - name: maintenance_work_mem
-    value: 64MB
+    value: 32MB
   - name: checkpoint_completion_target
     value: 0.9
   - name: wal_buffers
-    value: 7864kB
+    value: 3932kB
   - name: default_statistics_target
     value: 100
   - name: random_page_cost
     value: 1.1
   - name: effective_io_concurrency
-    value: 300
+    value: 200
   - name: work_mem
-    value: 2621kB
+    value: 1310kB
   - name: min_wal_size
     value: 1GB
   - name: max_wal_size

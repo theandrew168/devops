@@ -1,8 +1,0 @@
----
-- hosts: bloggulus_dev
-  roles:
-    - server
-    - postgresql
-    - redis
-    - bloggulus
-    - caddy

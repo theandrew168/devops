@@ -7,7 +7,7 @@ resource "digitalocean_spaces_bucket" "bloggulus" {
 resource "digitalocean_volume" "bloggulus_db" {
   name   = "bloggulus-db"
   region = "nyc1"
-  size   = 50
+  size   = 10
 
   initial_filesystem_type = "ext4"
 }
@@ -16,8 +16,7 @@ resource "digitalocean_droplet" "bloggulus" {
   image    = "ubuntu-22-04-x64"
   name     = "bloggulus"
   region   = "nyc1"
-  size     = "s-1vcpu-1gb"
-#  size     = "s-1vcpu-512mb-10gb"
+  size     = "s-1vcpu-512mb-10gb"
 
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
