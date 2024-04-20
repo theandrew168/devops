@@ -17,6 +17,7 @@ resource "digitalocean_droplet" "bloggulus" {
   name     = "bloggulus"
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
+#  size     = "s-1vcpu-512mb-10gb"
 
   ssh_keys = [
     "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
@@ -27,27 +28,22 @@ resource "digitalocean_droplet" "bloggulus" {
   ]
 }
 
-# NOTE: move back to digitalocean/domains.tf if unused
-resource "digitalocean_domain" "bloggulus" {
-  name = "bloggulus.com"
-}
-
 resource "digitalocean_record" "bloggulus_a" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "A"
   name   = "@"
   value  = digitalocean_droplet.bloggulus.ipv4_address
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "CNAME"
   name   = "www"
   value  = "@"
 }
 
 resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
-  domain = digitalocean_domain.bloggulus.name
+  domain = "bloggulus.com"
   type   = "CAA"
   name   = "@"
   value  = "letsencrypt.org."

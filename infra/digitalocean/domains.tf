@@ -1,4 +1,8 @@
-# unused domains live here to prevent squatting
+# all domains live here to prevent squatting
+
+resource "digitalocean_domain" "bloggulus" {
+  name = "bloggulus.com"
+}
 
 resource "digitalocean_domain" "sbsbx" {
   name = "sbsbx.com"
