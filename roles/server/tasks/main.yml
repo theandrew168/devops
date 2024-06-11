@@ -199,9 +199,7 @@
     line: "{{ item.name }}={{ item.value }}"
   with_items:
     - name: SystemMaxUse
-      value: 50M
-    - name: SystemMaxFileSize
-      value: 10M
+      value: 1G
   notify: restart systemd-journald
   become: yes
   become_user: root
