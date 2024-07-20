@@ -1,0 +1,7 @@
+- name: Set permissions on mounted volumes
+  file:
+    path: "{{ item }}"
+    mode: "0755"
+  with_items: "{{ server_mounted_volumes }}"
+  become: yes
+  become_user: root

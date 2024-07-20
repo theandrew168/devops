@@ -1,0 +1,117 @@
+# lock down SSH and the root user ASAP
+
+- name: Disable root password
+  user:
+    name: root
+    password: "*"
+  become: yes
+  become_user: root
+
+- name: Enforce pubkey as only SSH auth method
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} {{ item.value }}"
+  with_items:
+    - name: UsePAM
+      value: "yes"
+    - name: PubkeyAuthentication
+      value: "yes"
+    - name: PasswordAuthentication
+      value: "no"
+    - name: ChallengeResponseAuthentication
+      value: "no"
+  register: sshd_config
+  become: yes
+  become_user: root
+
+- name: Reload sshd
+  systemd:
+    name: sshd
+    state: reloaded
+    daemon_reload: yes
+  when: sshd_config.changed
+  become: yes
+  become_user: root
+
+- name: Limit SSH login attempts
+  ufw:
+    rule: limit
+    port: "22"
+    proto: tcp
+  become: yes
+  become_user: root
+
+- name: Start and enable ufw
+  ufw:
+    state: enabled
+  become: yes
+  become_user: root
+
+# create admin users
+
+- name: Create admin users
+  user:
+    name: "{{ item.name }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+    password: ""
+    update_password: on_create
+  register: admin_users
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: root
+
+- name: Expire admin user passwords
+  command:
+    cmd: passwd -e {{ item.name }}
+  when: item.changed
+  with_items: "{{ admin_users.results }}"
+  no_log: yes
+  become: yes
+  become_user: root
+
+- name: Create admin user .ssh directories
+  file:
+    path: /home/{{ item.name }}/.ssh/
+    state: directory
+    mode: "0700"
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: "{{ item.name }}"
+
+- name: Setup admin user authorized_keys files
+  template:
+    src: authorized_keys.j2
+    dest: /home/{{ item.name }}/.ssh/authorized_keys
+    mode: "0600"
+  with_items: "{{ server_admin_users }}"
+  no_log: yes
+  become: yes
+  become_user: "{{ item.name }}"
+
+# no more SSH as root after this point
+
+- name: Disable root login via SSH
+  lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} {{ item.value }}"
+  with_items:
+    - name: PermitRootLogin
+      value: "no"
+  register: sshd_config
+  become: yes
+  become_user: root
+
+- name: Reload sshd
+  systemd:
+    name: sshd
+    state: reloaded
+    daemon_reload: yes
+  when: sshd_config.changed
+  become: yes
+  become_user: root

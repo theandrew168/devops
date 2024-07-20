@@ -1,0 +1,41 @@
+- name: Install common system tools
+  apt:
+    name:
+      - acl
+      - build-essential
+      - dos2unix
+      - haveged
+      - htop
+      - iptables
+      - libsystemd-dev
+      - lsof
+      - ncdu
+      - net-tools
+      - python3
+      - python3-venv
+      - ripgrep
+      - rlwrap
+      - socat
+      - sqlite3
+      - traceroute
+      - tree
+      - ufw
+      - unattended-upgrades
+      - unzip
+      - vim
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Configure unattended upgrades
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "0644"
+  with_items:
+    - src: 20auto-upgrades.j2
+      dest: /etc/apt/apt.conf.d/20auto-upgrades
+    - src: 50unattended-upgrades.j2
+      dest: /etc/apt/apt.conf.d/50unattended-upgrades
+  become: yes
+  become_user: root
