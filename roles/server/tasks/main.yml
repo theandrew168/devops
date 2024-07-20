@@ -1,10 +1,10 @@
 ---
-
 - name: Ensure at least one admin user is configured
   fail:
     msg: At least one admin user must be configured
   when: not server_admin_users
 
+# auth
 
 # lock down SSH and the root user ASAP
 
@@ -19,7 +19,7 @@
 - name: Disable root password
   user:
     name: root
-    password: '*'
+    password: "*"
   become: yes
   become_user: root
 
@@ -64,7 +64,6 @@
   become: yes
   become_user: root
 
-
 # create admin users
 
 - name: Create admin user
@@ -82,7 +81,8 @@
   become_user: root
 
 - name: Expire admin user password
-  command: passwd -e {{ item.name }}
+  command:
+    cmd: passwd -e {{ item.name }}
   when: item.changed
   with_items: "{{ admin_users.results }}"
   no_log: yes
@@ -108,7 +108,6 @@
   no_log: yes
   become: yes
   become_user: "{{ item.name }}"
-
 
 # no more SSH as root after this point
 
@@ -138,8 +137,7 @@
     msg: Only non-root ansible users can proceed
   when: ansible_ssh_user == "root"
 
-
-# general config
+# hostname
 
 - name: Set hostname (transient)
   hostname:
@@ -166,6 +164,8 @@
   become: yes
   become_user: root
 
+# locale
+
 - name: Ensure en_US.UTF-8 locale is available
   locale_gen:
     name: en_US.UTF-8
@@ -174,14 +174,16 @@
   become_user: root
 
 - name: Check current system locale
-  command: localectl status
+  command:
+    cmd: localectl status
   register: locale_status
   changed_when: no
   become: yes
   become_user: root
 
 - name: Set system locale
-  command: localectl set-locale en_US.UTF-8
+  command:
+    cmd: localectl set-locale en_US.UTF-8
   when: "'LANG=en_US.UTF-8' not in locale_status.stdout"
   become: yes
   become_user: root
@@ -191,6 +193,8 @@
     name: Etc/UTC
   become: yes
   become_user: root
+
+# systemd
 
 - name: Limit journald log sizes
   lineinfile:
@@ -204,6 +208,8 @@
   become: yes
   become_user: root
 
+# volumes
+
 - name: Set permissions on mounted volumes
   file:
     path: "{{ item }}"
@@ -211,6 +217,63 @@
   with_items: "{{ server_mounted_volumes }}"
   become: yes
   become_user: root
+
+# swap
+
+- name: Create swapfile
+  command:
+    cmd: fallocate -l 1G /swapfile
+    creates: /swapfile
+  register: create_swapfile
+  become: yes
+  become_user: root
+
+- name: Set swapfile permissions
+  file:
+    path: /swapfile
+    mode: 0600
+  become: yes
+  become_user: root
+
+- name: Initialize swapfile
+  command:
+    cmd: mkswap /swapfile
+  when: create_swapfile is changed
+  become: yes
+  become_user: root
+
+- name: Enable swapfile
+  command:
+    cmd: swapon /swapfile
+  when: create_swapfile is changed
+  become: yes
+  become_user: root
+
+- name: Add swapfile to fstab
+  mount:
+    name: none
+    src: /swapfile
+    fstype: swap
+    opts: sw
+    state: present
+  become: yes
+  become_user: root
+
+- name: Configure swappiness
+  sysctl:
+    name: vm.swappiness
+    value: 10
+  become: yes
+  become_user: root
+
+- name: Configure vfs_cache_pressure
+  sysctl:
+    name: vm.vfs_cache_pressure
+    value: 50
+  become: yes
+  become_user: root
+
+# packages
 
 - name: Install common system tools
   apt:
@@ -253,6 +316,8 @@
       dest: /etc/apt/apt.conf.d/50unattended-upgrades
   become: yes
   become_user: root
+
+# vim
 
 - name: Make vim the default text editor :)
   alternatives:

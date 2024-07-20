@@ -31,7 +31,8 @@
   become_user: root
 
 - name: Ensure postgresql database is initialized
-  command: "{{ postgresql_bin_dir }}/initdb -D {{ postgresql_data_dir }}"
+  command:
+    cmd: "{{ postgresql_bin_dir }}/initdb -D {{ postgresql_data_dir }}"
   when: postgresql_data_dir and (not pg_version.stat.exists)
   become: yes
   become_user: postgres
