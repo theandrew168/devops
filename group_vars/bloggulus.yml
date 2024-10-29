@@ -4,6 +4,16 @@ server_mounted_volumes:
   - /mnt/bloggulus_db
 
 caddy_config: |
+  {
+    servers {
+      timeouts {
+        read_body   10s
+        read_header 5s
+        write       30s
+        idle        5m
+      }
+    }
+  }
   bloggulus.com,
   www.bloggulus.com {
     reverse_proxy 127.0.0.1:5000
