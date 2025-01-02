@@ -14,8 +14,10 @@ caddy_config: |
       }
     }
   }
-  bloggulus.com,
   www.bloggulus.com {
+    redir https://bloggulus.com{uri} permanent
+  }
+  bloggulus.com {
     reverse_proxy 127.0.0.1:5000
   }
 
