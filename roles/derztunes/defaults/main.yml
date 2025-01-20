@@ -1,0 +1,6 @@
+---
+# version to install
+derztunes_version: latest
+
+# config file contents
+derztunes_config: ~

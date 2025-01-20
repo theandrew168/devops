@@ -1,0 +1,101 @@
+---
+- name: Install java
+  apt:
+    name:
+      - default-jre-headless
+    update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Create derztunes group
+  group:
+    name: derztunes
+    system: true
+  become: yes
+  become_user: root
+
+- name: Create derztunes user
+  user:
+    name: derztunes
+    group: derztunes
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: yes
+  become_user: root
+
+#- name: Create tmp directory for release files
+#  file:
+#    path: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}
+#    state: directory
+#    owner: root
+#    group: root
+#  become: yes
+#  become_user: root
+#
+#- name: Download and extract derztunes (latest)
+#  unarchive:
+#    remote_src: yes
+#    src: https://github.com/theandrew168/derztunes/releases/latest/download/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}.tar.gz
+#    dest: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}
+#    creates: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}/derztunes
+#    owner: root
+#    group: root
+#  when: derztunes_version == "latest"
+#  become: yes
+#  become_user: root
+#
+#- name: Download and extract derztunes (version)
+#  unarchive:
+#    remote_src: yes
+#    src: https://github.com/theandrew168/derztunes/releases/download/v{{ derztunes_version }}/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}.tar.gz
+#    dest: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}
+#    creates: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}/derztunes
+#    owner: root
+#    group: root
+#  when: derztunes_version != "latest"
+#  become: yes
+#  become_user: root
+#
+#- name: Copy derztunes binary
+#  copy:
+#    remote_src: yes
+#    src: /tmp/derztunes_{{ derztunes_os }}_{{ derztunes_arch }}/derztunes
+#    dest: /usr/local/bin/derztunes
+#    mode: "0755"
+#    owner: root
+#    group: root
+#  notify: restart derztunes
+#  become: yes
+#  become_user: root
+
+- name: Setup derztunes config file
+  copy:
+    content: "{{ derztunes_config }}"
+    dest: /etc/derztunes.edn
+    mode: "0640"
+    owner: root
+    group: derztunes
+  notify: restart derztunes
+  become: yes
+  become_user: root
+
+- name: Create derztunes systemd service
+  template:
+    src: derztunes.service.j2
+    dest: /etc/systemd/system/derztunes.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart derztunes
+  become: yes
+  become_user: root
+
+- name: Start and enable derztunes
+  systemd:
+    name: derztunes
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root

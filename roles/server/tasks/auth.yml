@@ -25,9 +25,9 @@
   become: yes
   become_user: root
 
-- name: Reload sshd
+- name: Reload SSH server
   systemd:
-    name: sshd
+    name: ssh
     state: reloaded
     daemon_reload: yes
   when: sshd_config.changed
@@ -107,9 +107,9 @@
   become: yes
   become_user: root
 
-- name: Reload sshd
+- name: Reload SSH server
   systemd:
-    name: sshd
+    name: ssh
     state: reloaded
     daemon_reload: yes
   when: sshd_config.changed

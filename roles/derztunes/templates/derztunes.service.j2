@@ -1,0 +1,18 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=derztunes
+Documentation=https://github.com/theandrew168/derztunes
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User=derztunes
+Group=derztunes
+ExecStart=java -jar /usr/local/bin/derztunes.jar -conf /etc/derztunes.edn
+
+[Install]
+WantedBy=multi-user.target
