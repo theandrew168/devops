@@ -38,6 +38,8 @@ postgresql_users:
 postgresql_databases:
   - name: derztunes
     owner: derztunes
+  - name: demo
+    owner: derztunes
 
 # DB Version: 16
 # OS Type: linux
