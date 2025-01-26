@@ -4,6 +4,12 @@ resource "digitalocean_spaces_bucket" "derztunes" {
   acl    = "private"
 }
 
+resource "digitalocean_spaces_bucket" "derztunes_demo" {
+  name   = "derztunes-demo"
+  region = "nyc3"
+  acl    = "private"
+}
+
 resource "digitalocean_volume" "derztunes_db" {
   name   = "derztunes-db"
   region = "nyc1"
