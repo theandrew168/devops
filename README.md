@@ -143,7 +143,7 @@ Afterward, I like to re-run the Ansible playbook for the server to ensure everyt
 ### PostgreSQL
 
 Often, upgrading Ubuntu Server will include a newer version of PostgreSQL.
-Using this newer databaser version requires a few extra steps:
+Using this newer database version requires a few extra steps:
 
 ```
 # stop pg2s3 while performing the upgrade
