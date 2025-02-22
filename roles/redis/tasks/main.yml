@@ -1,5 +1,4 @@
 ---
-
 - name: Enable overcommit_memory in sysctl
   sysctl:
     name: vm.overcommit_memory
@@ -17,7 +16,7 @@
   apt_repository:
     repo: "{{ item }}"
   with_items:
-    - "deb https://packages.redis.io/deb jammy main"
+    - "deb https://packages.redis.io/deb noble main"
   become: yes
   become_user: root
 

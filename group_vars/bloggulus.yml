@@ -21,7 +21,6 @@ caddy_config: |
     reverse_proxy 127.0.0.1:5000
   }
 
-postgresql_version: 14
 postgresql_data_dir: /mnt/bloggulus_db/data
 
 postgresql_users:

@@ -85,6 +85,15 @@
   become: yes
   become_user: root
 
+- name: Setup port in postgresql.conf
+  lineinfile:
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
+    regexp: "^#?port"
+    line: "port = 5432"
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
 - name: Setup remote access entry in pg_hba.conf
   lineinfile:
     path: "{{ postgresql_conf_dir }}/pg_hba.conf"
