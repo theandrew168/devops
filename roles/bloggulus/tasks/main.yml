@@ -83,9 +83,29 @@
   become: yes
   become_user: root
 
-- name: Start and enable bloggulus
+- name: Start and enable bloggulus.service
   systemd:
-    name: bloggulus
+    name: bloggulus.service
+    state: started
+    enabled: yes
+    daemon_reload: yes
+  become: yes
+  become_user: root
+
+- name: Create bloggulus systemd socket
+  template:
+    src: bloggulus.socket.j2
+    dest: /etc/systemd/system/bloggulus.socket
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart bloggulus
+  become: yes
+  become_user: root
+
+- name: Start and enable bloggulus.socket
+  systemd:
+    name: bloggulus.socket
     state: started
     enabled: yes
     daemon_reload: yes

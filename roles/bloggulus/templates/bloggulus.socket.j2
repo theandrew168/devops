@@ -1,0 +1,10 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=bloggulus
+
+[Socket]
+ListenStream=127.0.0.1:5000
+
+[Install]
+WantedBy=sockets.target
