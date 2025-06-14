@@ -49,3 +49,27 @@ resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
   flags  = "0"
   tag    = "issue"
 }
+
+// DNS records for svelte.bloggulus.com
+resource "digitalocean_record" "svelte_bloggulus_a" {
+  domain = "bloggulus.com"
+  type   = "A"
+  name   = "svelte"
+  value  = digitalocean_droplet.bloggulus.ipv4_address
+}
+
+resource "digitalocean_record" "svelte_bloggulus_cname_www" {
+  domain = "bloggulus.com"
+  type   = "CNAME"
+  name   = "www.svelte"
+  value  = "svelte."
+}
+
+resource "digitalocean_record" "svelte_bloggulus_caa_letsencrypt" {
+  domain = "bloggulus.com"
+  type   = "CAA"
+  name   = "svelte"
+  value  = "letsencrypt.org."
+  flags  = "0"
+  tag    = "issue"
+}
