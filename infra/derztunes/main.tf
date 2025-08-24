@@ -56,27 +56,3 @@ resource "digitalocean_record" "derztunes_caa_letsencrypt" {
   flags  = "0"
   tag    = "issue"
 }
-
-// DNS records for demo.derztunes.com
-resource "digitalocean_record" "derztunes_demo_a" {
-  domain = "derztunes.com"
-  type   = "A"
-  name   = "demo"
-  value  = digitalocean_droplet.derztunes.ipv4_address
-}
-
-resource "digitalocean_record" "derztunes_demo_cname_www" {
-  domain = "derztunes.com"
-  type   = "CNAME"
-  name   = "www.demo"
-  value  = "demo."
-}
-
-resource "digitalocean_record" "derztunes_demo_caa_letsencrypt" {
-  domain = "derztunes.com"
-  type   = "CAA"
-  name   = "demo"
-  value  = "letsencrypt.org."
-  flags  = "0"
-  tag    = "issue"
-}
