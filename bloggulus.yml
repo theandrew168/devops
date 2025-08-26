@@ -4,6 +4,6 @@
     - server
     - postgresql
     - pg2s3
-    - bloggulus
     - mfd
+    - bloggulus
     - caddy

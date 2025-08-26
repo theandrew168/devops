@@ -33,3 +33,11 @@
     group: root
   become: yes
   become_user: root
+
+- name: Deploy the application
+  command: mfd deploy
+  args:
+    chdir: "{{ mfd_config_path | dirname }}"
+    creates: "{{ mfd_config_path | dirname }}/active"
+  become: yes
+  become_user: root
