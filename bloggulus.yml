@@ -4,6 +4,5 @@
     - server
     - postgresql
     - pg2s3
-    - redis
     - bloggulus
     - caddy
