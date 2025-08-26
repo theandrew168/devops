@@ -1,0 +1,5 @@
+---
+- hosts: sbsbx
+  roles:
+    # - server
+    - nodejs

@@ -1,15 +1,5 @@
 ---
 
-- name: Install dependencies
-  apt:
-    name:
-      - apt-transport-https
-      - debian-archive-keyring
-      - debian-keyring
-    update_cache: yes
-  become: yes
-  become_user: root
-
 - name: Setup caddy apt repo key
   apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key

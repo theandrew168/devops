@@ -2,7 +2,11 @@
   apt:
     name:
       - acl
+      - apt-transport-https
       - build-essential
+      - curl
+      - debian-archive-keyring
+      - debian-keyring
       - dos2unix
       - haveged
       - htop
@@ -16,6 +20,7 @@
       - ripgrep
       - rlwrap
       - socat
+      - software-properties-common
       - sqlite3
       - traceroute
       - tree
@@ -23,6 +28,7 @@
       - unattended-upgrades
       - unzip
       - vim
+      - wget
     update_cache: yes
   become: yes
   become_user: root

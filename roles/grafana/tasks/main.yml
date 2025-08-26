@@ -1,14 +1,4 @@
 ---
-- name: Install dependencies
-  apt:
-    name:
-      - apt-transport-https
-      - software-properties-common
-      - wget
-    update_cache: yes
-  become: yes
-  become_user: root
-
 - name: Setup grafana apt repo key
   apt_key:
     url: https://apt.grafana.com/gpg.key

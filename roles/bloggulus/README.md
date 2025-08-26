@@ -1,6 +1,6 @@
 # bloggulus
 
-Ansible role for installing and configuring the [bloggulus](https://github.com/theandrew168/bloggulus-svelte) web application
+Ansible role for installing and configuring the [bloggulus](https://github.com/theandrew168/bloggulus-svelte) web application.
 
 ## Configuration
 
