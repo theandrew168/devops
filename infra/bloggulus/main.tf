@@ -37,7 +37,7 @@ resource "digitalocean_record" "bloggulus_a" {
   domain = "bloggulus.com"
   type   = "A"
   name   = "@"
-  value  = digitalocean_droplet.bloggulus.ipv4_address
+  value  = digitalocean_reserved_ip.bloggulus.ip_address
 }
 
 resource "digitalocean_record" "bloggulus_cname_www" {
