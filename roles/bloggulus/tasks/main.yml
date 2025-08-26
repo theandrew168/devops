@@ -16,51 +16,6 @@
   become: yes
   become_user: root
 
-- name: Create tmp directory for release files
-  file:
-    path: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
-    state: directory
-    owner: root
-    group: root
-  become: yes
-  become_user: root
-
-- name: Download and extract bloggulus (latest)
-  unarchive:
-    remote_src: yes
-    src: https://github.com/theandrew168/bloggulus/releases/latest/download/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.tar.gz
-    dest: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
-    creates: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
-    owner: root
-    group: root
-  when: bloggulus_version == "latest"
-  become: yes
-  become_user: root
-
-- name: Download and extract bloggulus (version)
-  unarchive:
-    remote_src: yes
-    src: https://github.com/theandrew168/bloggulus/releases/download/v{{ bloggulus_version }}/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}.tar.gz
-    dest: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}
-    creates: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
-    owner: root
-    group: root
-  when: bloggulus_version != "latest"
-  become: yes
-  become_user: root
-
-- name: Copy bloggulus binary
-  copy:
-    remote_src: yes
-    src: /tmp/bloggulus_{{ bloggulus_os }}_{{ bloggulus_arch }}/bloggulus
-    dest: /usr/local/bin/bloggulus
-    mode: "0755"
-    owner: root
-    group: root
-  notify: restart bloggulus
-  become: yes
-  become_user: root
-
 - name: Setup bloggulus config file
   copy:
     content: "{{ bloggulus_config }}"

@@ -2,17 +2,20 @@
 
 [Unit]
 Description=bloggulus
-Documentation=https://github.com/theandrew168/bloggulus
+Documentation=https://github.com/theandrew168/bloggulus-svelte
 After=network.target network-online.target
 Requires=network-online.target
 
 [Service]
-Type=notify
+Type=simple
 Restart=on-failure
 RestartSec=5
 User=bloggulus
 Group=bloggulus
-ExecStart=bloggulus -conf /etc/bloggulus.conf
+WorkingDirectory=/usr/local/src/bloggulus-svelte/active
+Environment="BLOGGULUS_CONF=/etc/bloggulus.conf"
+ExecStartPre=npm run migrate
+ExecStart=node build/
 
 [Install]
 WantedBy=multi-user.target

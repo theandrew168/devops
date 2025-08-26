@@ -1,10 +1,12 @@
 {{ ansible_managed | comment }}
 
 [Unit]
-Description=bloggulus
+Description=bloggulus socket
+Documentation=https://github.com/theandrew168/bloggulus-svelte
+PartOf=bloggulus.service
 
 [Socket]
-ListenStream=127.0.0.1:5000
+ListenStream=127.0.0.1:3000
 
 [Install]
 WantedBy=sockets.target

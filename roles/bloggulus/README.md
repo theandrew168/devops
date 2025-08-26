@@ -1,12 +1,9 @@
 # bloggulus
 
-Ansible role for installing and configuring the [bloggulus](https://github.com/theandrew168/bloggulus) web application
+Ansible role for installing and configuring the [bloggulus](https://github.com/theandrew168/bloggulus-svelte) web application
 
 ## Configuration
 
 | Variable            | Default  | Description             |
 | ------------------- | -------- | ----------------------- |
-| `bloggulus_version` | `latest` | Version to install      |
-| `bloggulus_os`      | `linux`  | Target operating system |
-| `bloggulus_arch`    | `amd64`  | Target architecture     |
 | `bloggulus_config`  | `~`      | Config file contents    |
