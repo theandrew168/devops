@@ -1,0 +1,35 @@
+---
+- name: Install mfd (latest)
+  apt:
+    deb: https://github.com/theandrew168/mfd/releases/latest/download/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
+    update_cache: yes
+  when: mfd_version == "latest"
+  become: yes
+  become_user: root
+
+- name: Install mfd (version)
+  apt:
+    deb: https://github.com/theandrew168/mfd/releases/download/v{{ mfd_version }}/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
+    update_cache: yes
+  when: mfd_version != "latest"
+  become: yes
+  become_user: root
+
+- name: Create mfd config directory
+  file:
+    path: "{{ mfd_config_path | dirname }}"
+    state: directory
+    owner: root
+    group: root
+  become: yes
+  become_user: root
+
+- name: Setup mfd config file
+  copy:
+    content: "{{ mfd_config }}"
+    dest: "{{ mfd_config_path }}"
+    mode: "0640"
+    owner: root
+    group: root
+  become: yes
+  become_user: root

@@ -1,0 +1,15 @@
+---
+# version to install
+mfd_version: latest
+
+# target operating system
+mfd_os: linux
+
+# target architecture
+mfd_arch: amd64
+
+# config file path
+mfd_config_path: ~
+
+# config file contents
+mfd_config: ~

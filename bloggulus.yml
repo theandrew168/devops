@@ -5,4 +5,5 @@
     - postgresql
     - pg2s3
     - bloggulus
+    - mfd
     - caddy

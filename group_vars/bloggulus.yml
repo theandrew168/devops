@@ -53,6 +53,7 @@ postgresql_tuning_parameters:
   - name: max_wal_size
     value: 4GB
 
+mfd_config_path: /usr/local/src/bloggulus-svelte/mfd.toml
 mfd_config: |
   [repo]
   url = "https://github.com/theandrew168/bloggulus-svelte"
