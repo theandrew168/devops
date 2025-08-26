@@ -2,6 +2,11 @@ resource "digitalocean_spaces_bucket" "sbs_cdn" {
   name   = "sbs-cdn"
   region = "nyc3"
   acl    = "public-read"
+}
+
+resource "digitalocean_spaces_bucket_cors_configuration" "sbs_cdn" {
+  bucket = digitalocean_spaces_bucket.sbs_cdn.name
+  region = digitalocean_spaces_bucket.sbs_cdn.region
 
   cors_rule {
     allowed_methods = ["GET", "HEAD"]

@@ -13,18 +13,24 @@ resource "digitalocean_volume" "bloggulus_db" {
 }
 
 resource "digitalocean_droplet" "bloggulus" {
-  image    = "ubuntu-22-04-x64"
+  image    = "ubuntu-24-04-x64"
   name     = "bloggulus"
   region   = "nyc1"
   size     = "s-1vcpu-1gb"
 
   ssh_keys = [
-    "9c:f4:8b:a5:4f:97:99:60:79:50:63:61:61:18:bc:d4",
+    "3b:5d:e5:df:aa:ca:62:45:09:ee:76:a6:c4:78:b0:c1",
   ]
 
   volume_ids = [
     digitalocean_volume.bloggulus_db.id,
   ]
+}
+
+# Reserve this droplet's IP to ensure consistent allow-listing.
+resource "digitalocean_reserved_ip" "bloggulus" {
+  droplet_id = digitalocean_droplet.bloggulus.id
+  region     = digitalocean_droplet.bloggulus.region
 }
 
 resource "digitalocean_record" "bloggulus_a" {
@@ -45,30 +51,6 @@ resource "digitalocean_record" "bloggulus_caa_letsencrypt" {
   domain = "bloggulus.com"
   type   = "CAA"
   name   = "@"
-  value  = "letsencrypt.org."
-  flags  = "0"
-  tag    = "issue"
-}
-
-// DNS records for svelte.bloggulus.com
-resource "digitalocean_record" "svelte_bloggulus_a" {
-  domain = "bloggulus.com"
-  type   = "A"
-  name   = "svelte"
-  value  = digitalocean_droplet.bloggulus.ipv4_address
-}
-
-resource "digitalocean_record" "svelte_bloggulus_cname_www" {
-  domain = "bloggulus.com"
-  type   = "CNAME"
-  name   = "www.svelte"
-  value  = "svelte."
-}
-
-resource "digitalocean_record" "svelte_bloggulus_caa_letsencrypt" {
-  domain = "bloggulus.com"
-  type   = "CAA"
-  name   = "svelte"
   value  = "letsencrypt.org."
   flags  = "0"
   tag    = "issue"
