@@ -1,0 +1,19 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=locost
+Documentation=https://github.com/theandrew168/locost
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=5
+User=locost
+Group=locost
+WorkingDirectory=/usr/local/src/locost/active
+ExecStart=node build/
+
+[Install]
+WantedBy=multi-user.target

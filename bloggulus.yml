@@ -2,6 +2,7 @@
 - hosts: bloggulus
   roles:
     - server
+    - nodejs
     - postgresql
     - pg2s3
     - mfd

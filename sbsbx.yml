@@ -1,5 +1,8 @@
 ---
 - hosts: sbsbx
   roles:
-    # - server
+    - server
     - nodejs
+    - mfd
+    - locost
+    - caddy

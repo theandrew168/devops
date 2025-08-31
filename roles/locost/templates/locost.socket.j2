@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=locost socket
+Documentation=https://github.com/theandrew168/locost
+PartOf=locost.service
+
+[Socket]
+ListenStream=127.0.0.1:3000
+
+[Install]
+WantedBy=sockets.target

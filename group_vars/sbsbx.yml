@@ -1,0 +1,28 @@
+mfd_config_path: /usr/local/src/locost/mfd.toml
+mfd_config: |
+  [repo]
+  url = "https://github.com/theandrew168/locost"
+
+  [build]
+  commands = [
+      ["npm", "install"],
+      ["npm", "run", "build"],
+  ]
+
+caddy_config: |
+  {
+    servers {
+      timeouts {
+        read_body   10s
+        read_header 5s
+        write       30s
+        idle        5m
+      }
+    }
+  }
+  www.locost.sbsbx.com {
+    redir https://locost.sbsbx.com{uri} permanent
+  }
+  locost.sbsbx.com {
+    reverse_proxy 127.0.0.1:3000
+  }
