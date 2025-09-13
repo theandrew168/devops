@@ -2,6 +2,7 @@
 - hosts: sbsbx
   roles:
     - server
+    - redis
     - nodejs
     - mfd
     - locost

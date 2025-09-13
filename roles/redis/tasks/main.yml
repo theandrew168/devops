@@ -16,7 +16,7 @@
   apt_repository:
     repo: "{{ item }}"
   with_items:
-    - "deb https://packages.redis.io/deb noble main"
+    - "deb https://packages.redis.io/deb {{ ansible_distribution_release }} main"
   become: yes
   become_user: root
 
@@ -24,6 +24,24 @@
   apt:
     name: redis
     update_cache: yes
+  become: yes
+  become_user: root
+
+- name: Configure maxmemory
+  lineinfile:
+    path: "/etc/redis/redis.conf"
+    regexp: "^(# )?maxmemory "
+    line: "maxmemory {{ redis_maxmemory }}"
+  notify: restart redis
+  become: yes
+  become_user: root
+
+- name: Configure maxmemory-policy
+  lineinfile:
+    path: "/etc/redis/redis.conf"
+    regexp: "^(# )?maxmemory-policy "
+    line: "maxmemory-policy {{ redis_maxmemory_policy }}"
+  notify: restart redis
   become: yes
   become_user: root
 

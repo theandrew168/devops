@@ -12,6 +12,7 @@ Restart=on-failure
 RestartSec=5
 User=locost
 Group=locost
+Environment="LOCOST_REDIS_URL=redis://localhost:6379"
 WorkingDirectory=/usr/local/src/locost/active
 ExecStart=node build/
 

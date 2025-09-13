@@ -1,0 +1,7 @@
+---
+
+# Upper bound on memory usage
+redis_maxmemory: 100mb
+
+# How keys are evicted at max memory
+redis_maxmemory_policy: allkeys-lru
