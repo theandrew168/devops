@@ -4,6 +4,7 @@ server_mounted_volumes:
   - /mnt/bloggulus_db
 
 postgresql_data_dir: /mnt/bloggulus_db/data
+postgresql_unix_domain_socket_only: true
 
 postgresql_users:
   - username: bloggulus
@@ -29,29 +30,29 @@ postgresql_databases:
 # Data Storage: san
 postgresql_tuning_parameters:
   - name: max_connections
-    value: 50
+    value: "50"
   - name: shared_buffers
-    value: 256MB
+    value: "256MB"
   - name: effective_cache_size
-    value: 768MB
+    value: "768MB"
   - name: maintenance_work_mem
-    value: 64MB
+    value: "64MB"
   - name: checkpoint_completion_target
-    value: 0.9
+    value: "0.9"
   - name: wal_buffers
-    value: 7864kB
+    value: "7864kB"
   - name: default_statistics_target
-    value: 100
+    value: "100"
   - name: random_page_cost
-    value: 1.1
+    value: "1.1"
   - name: effective_io_concurrency
-    value: 300
+    value: "300"
   - name: work_mem
-    value: 655kB
+    value: "655kB"
   - name: min_wal_size
-    value: 1GB
+    value: "1GB"
   - name: max_wal_size
-    value: 4GB
+    value: "4GB"
 
 mfd_config_path: /usr/local/src/bloggulus-svelte/mfd.toml
 mfd_config: |

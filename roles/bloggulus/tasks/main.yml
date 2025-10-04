@@ -16,6 +16,15 @@
   become: yes
   become_user: root
 
+- name: Add bloggulus user to the dbuser group
+  user:
+    name: bloggulus
+    groups: dbuser
+    append: yes
+  when: postgresql_unix_domain_socket_only
+  become: yes
+  become_user: root
+
 - name: Setup bloggulus config file
   copy:
     content: "{{ bloggulus_config }}"

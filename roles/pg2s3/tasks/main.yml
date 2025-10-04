@@ -38,6 +38,15 @@
   become: yes
   become_user: root
 
+- name: Add pg2s3 user to the dbuser group
+  user:
+    name: pg2s3
+    groups: dbuser
+    append: yes
+  when: postgresql_unix_domain_socket_only
+  become: yes
+  become_user: root
+
 - name: Start and enable pg2s3
   systemd:
     name: pg2s3

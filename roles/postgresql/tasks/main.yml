@@ -44,13 +44,13 @@
     line: "{{ item.name }} = '{{ item.value }}'"
   with_items:
     - name: password_encryption
-      value: scram-sha-256
+      value: "scram-sha-256"
     - name: shared_preload_libraries
-      value: pg_stat_statements
+      value: "pg_stat_statements"
     - name: track_activity_query_size
-      value: 2048
+      value: "2048"
     - name: pg_stat_statements.track
-      value: all
+      value: "all"
   notify: restart postgresql
   become: yes
   become_user: root
@@ -59,7 +59,7 @@
   lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
-    line: "{{ item.name }} = {{ item.value }}"
+    line: "{{ item.name }} = '{{ item.value }}'"
   with_items: "{{ postgresql_tuning_parameters }}"
   notify: restart postgresql
   become: yes
@@ -85,20 +85,73 @@
   become: yes
   become_user: root
 
-- name: Setup port in postgresql.conf
-  lineinfile:
-    path: "{{ postgresql_conf_dir }}/postgresql.conf"
-    regexp: "^#?port"
-    line: "port = 5432"
-  notify: restart postgresql
-  become: yes
-  become_user: root
-
 - name: Setup remote access entry in pg_hba.conf
   lineinfile:
     path: "{{ postgresql_conf_dir }}/pg_hba.conf"
     line: "hostssl all all {{ postgresql_private_network_cidr }} scram-sha-256"
   when: postgresql_private_network_cidr
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Create dbuser group
+  group:
+    name: dbuser
+    state: present
+  when: postgresql_unix_domain_socket_only
+  become: yes
+  become_user: root
+
+- name: Add postgres user to the dbuser group
+  user:
+    name: postgres
+    groups: dbuser
+    append: yes
+  when: postgresql_unix_domain_socket_only
+  become: yes
+  become_user: root
+
+- name: Setup unix domain socket in postgresql.conf
+  lineinfile:
+    path: "{{ postgresql_conf_dir }}/postgresql.conf"
+    regexp: "^#?{{ item.name }}"
+    line: "{{ item.name }} = '{{ item.value }}'"
+  with_items:
+    # TODO: Uncomment once all conns are migrated to the UDS
+    # - name: listen_addresses
+    #   value: ""
+    - name: unix_socket_directories
+      value: "/var/run/postgresql"
+    - name: unix_socket_group
+      value: "dbuser"
+    - name: unix_socket_permissions
+      value: "0770"
+  when: postgresql_unix_domain_socket_only
+  notify: restart postgresql
+  become: yes
+  become_user: root
+
+- name: Setup unix domain socket access entries in pg_hba.conf
+  copy:
+    dest: "{{ postgresql_conf_dir }}/pg_hba.conf"
+    content: |
+      # DO NOT DISABLE!
+      # If you change this first entry you will need to make sure that the
+      # database superuser can access the database using some other method.
+      # Noninteractive access to all databases is required during automatic
+      # maintenance (custom daily cronjobs, replication, and similar tasks).
+      #
+      # Database administrative login by Unix domain socket
+      local   all             postgres                                peer
+
+      # TYPE  DATABASE        USER            ADDRESS                 METHOD
+
+      # "local" is for Unix domain socket connections only
+      local   all             all                                     scram-sha-256
+      # TODO: Remove once all conns are migrated to the UDS
+      # IPv4 local connections:
+      host    all             all             127.0.0.1/32            scram-sha-256
+  when: postgresql_unix_domain_socket_only
   notify: restart postgresql
   become: yes
   become_user: root

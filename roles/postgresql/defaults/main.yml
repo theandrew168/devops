@@ -19,6 +19,9 @@ postgresql_private_network_ip: ~
 # server private network CIDR (if applicable)
 postgresql_private_network_cidr: ~
 
+# only allow connecting via Unix domain socket
+postgresql_unix_domain_socket_only: ~
+
 # database tuning params based on:
 # https://pgtune.leopard.in.ua/
 postgresql_tuning_parameters: []
