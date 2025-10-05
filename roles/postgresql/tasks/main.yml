@@ -117,9 +117,8 @@
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
   with_items:
-    # TODO: Uncomment once all conns are migrated to the UDS
-    # - name: listen_addresses
-    #   value: ""
+    - name: listen_addresses
+      value: ""
     - name: unix_socket_directories
       value: "/var/run/postgresql"
     - name: unix_socket_group
@@ -148,9 +147,6 @@
 
       # "local" is for Unix domain socket connections only
       local   all             all                                     scram-sha-256
-      # TODO: Remove once all conns are migrated to the UDS
-      # IPv4 local connections:
-      host    all             all             127.0.0.1/32            scram-sha-256
   when: postgresql_unix_domain_socket_only
   notify: restart postgresql
   become: yes
