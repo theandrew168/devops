@@ -4,7 +4,6 @@ server_mounted_volumes:
   - /mnt/bloggulus_db
 
 postgresql_data_dir: /mnt/bloggulus_db/data
-postgresql_unix_domain_socket_only: true
 
 postgresql_users:
   - username: bloggulus
