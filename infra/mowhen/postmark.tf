@@ -11,11 +11,3 @@ resource "digitalocean_record" "mowhen_cname_postmark_bounces" {
   name   = "pm-bounces"
   value  = "pm.mtasv.net."
 }
-
-resource "digitalocean_record" "mowhen_mx_postmark_inbound" {
-  domain   = digitalocean_domain.mowhen.name
-  type     = "MX"
-  name     = "@"
-  value    = "inbound.postmarkapp.com."
-  priority = 10
-}
