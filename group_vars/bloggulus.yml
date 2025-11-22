@@ -65,6 +65,9 @@ mfd_config: |
       ["npm", "run", "build"],
   ]
 
+  [systemd]
+  unit = "bloggulus"
+
 caddy_config: |
   {
     servers {
