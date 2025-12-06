@@ -1,7 +1,0 @@
----
-- hosts: derztunes
-  roles:
-    - server
-    - postgresql
-    - derztunes
-    - caddy
