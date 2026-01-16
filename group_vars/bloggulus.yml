@@ -75,7 +75,7 @@ caddy_config: |
         read_body   10s
         read_header 5s
         write       30s
-        idle        5m
+        idle        60s
       }
     }
   }

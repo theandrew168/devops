@@ -14,6 +14,8 @@ User=bloggulus
 Group=bloggulus
 WorkingDirectory=/usr/local/src/bloggulus-svelte/active
 Environment="BLOGGULUS_CONF=/etc/bloggulus.conf"
+Environment="KEEP_ALIVE_TIMEOUT=65"
+Environment="HEADERS_TIMEOUT=66"
 ExecStartPre=npm run migrate
 ExecStart=node build/
 
