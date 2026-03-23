@@ -1,39 +1,46 @@
 ---
 - name: Ensure at least one admin user is configured
-  fail:
+  ansible.builtin.fail:
     msg: At least one admin user must be configured
-  when: not server_admin_users
+  when: server_admin_users | length == 0
 
 - name: Upgrade base packages
-  apt:
-    upgrade: yes
-    update_cache: yes
+  ansible.builtin.apt:
+    upgrade: true
+    update_cache: true
   when: ansible_ssh_user == "root"
-  become: yes
+  become: true
   become_user: root
 
-- include_tasks: auth.yml
+- name: Include auth tasks
+  ansible.builtin.include_tasks: auth.yml
 
 - name: Ensure a non-root ansible user is being used
-  fail:
+  ansible.builtin.fail:
     msg: Only non-root ansible users can proceed
   when: ansible_ssh_user == "root"
 
-- include_tasks: hostname.yml
+- name: Include hostname tasks
+  ansible.builtin.include_tasks: hostname.yml
 
-- include_tasks: locale.yml
+- name: Include locale tasks
+  ansible.builtin.include_tasks: locale.yml
 
-- include_tasks: systemd.yml
+- name: Include systemd tasks
+  ansible.builtin.include_tasks: systemd.yml
 
-- include_tasks: volumes.yml
+- name: Include volumes tasks
+  ansible.builtin.include_tasks: volumes.yml
 
-- include_tasks: swap.yml
+- name: Include swap tasks
+  ansible.builtin.include_tasks: swap.yml
 
-- include_tasks: packages.yml
+- name: Include packages tasks
+  ansible.builtin.include_tasks: packages.yml
 
 - name: Make vim the default text editor :)
-  alternatives:
+  community.general.alternatives:
     name: editor
     path: /usr/bin/vim.basic
-  become: yes
+  become: true
   become_user: root

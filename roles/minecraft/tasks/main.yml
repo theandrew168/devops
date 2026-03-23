@@ -1,96 +1,96 @@
 ---
 
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - default-jre-headless
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Create minecraft user
-  user:
+  ansible.builtin.user:
     name: minecraft
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup permissions for data directory
-  file:
+  ansible.builtin.file:
     path: "{{ minecraft_data_dir }}"
     mode: "0700"
     owner: minecraft
     group: minecraft
     state: directory
-  when: minecraft_data_dir
-  become: yes
+  when: minecraft_data_dir is truthy
+  become: true
   become_user: root
 
 - name: Download server jar
-  get_url:
+  ansible.builtin.get_url:
     url: https://files.betacraft.uk/server-archive/{{ minecraft_era }}/{{ minecraft_version }}.jar
-    dest: "{{ minecraft_data_dir}}/{{ minecraft_version }}.jar"
+    dest: "{{ minecraft_data_dir }}/{{ minecraft_version }}.jar"
     mode: "0640"
     owner: minecraft
     group: minecraft
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup config file
-  copy:
+  ansible.builtin.copy:
     content: "{{ minecraft_config }}"
     dest: "{{ minecraft_data_dir }}/server.properties"
     mode: "0640"
     owner: minecraft
     group: minecraft
   notify: restart minecraft
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup allowed users file
-  copy:
+  ansible.builtin.copy:
     content: "{{ minecraft_users }}"
     dest: "{{ minecraft_data_dir }}/white-list.txt"
     mode: "0640"
     owner: minecraft
     group: minecraft
   notify: restart minecraft
-  become: yes
+  become: true
   become_user: root
 
 - name: Limit login attempts (all IP addresses)
-  ufw:
+  community.general.ufw:
     rule: limit
     port: "25565"
     proto: tcp
-  when: not minecraft_allowed_ips
-  become: yes
+  when: minecraft_allowed_ips | length == 0
+  become: true
   become_user: root
 
 - name: Limit login attempts (allowed IP addresses)
-  ufw:
+  community.general.ufw:
     rule: limit
     src: "{{ item }}"
     port: "25565"
     proto: tcp
   with_items: "{{ minecraft_allowed_ips }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: root
 
 - name: Setup systemd service file
-  template:
+  ansible.builtin.template:
     src: minecraft.service.j2
     dest: /etc/systemd/system/minecraft.service
     mode: "0644"
   notify: restart minecraft
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable minecraft
-  systemd:
+  ansible.builtin.systemd_service:
     name: minecraft
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root

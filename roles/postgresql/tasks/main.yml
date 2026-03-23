@@ -1,44 +1,44 @@
 ---
 - name: Install postgresql (and psycopg2)
-  apt:
+  ansible.builtin.apt:
     name:
       - postgresql-{{ postgresql_version }}
       - postgresql-contrib
       - postgresql-client-{{ postgresql_version }}
       - postgresql-client-common
       - python3-psycopg2
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Setup permissions for data directory
-  file:
+  ansible.builtin.file:
     path: "{{ postgresql_data_dir }}"
     mode: "0700"
     owner: postgres
     group: postgres
     state: directory
-  when: postgresql_data_dir
-  become: yes
+  when: postgresql_data_dir is truthy
+  become: true
   become_user: root
 
 - name: Check if database is initialized
-  stat:
+  ansible.builtin.stat:
     path: "{{ postgresql_data_dir }}/PG_VERSION"
   register: pg_version
-  when: postgresql_data_dir
-  become: yes
+  when: postgresql_data_dir is truthy
+  become: true
   become_user: root
 
 - name: Ensure postgresql database is initialized
-  command:
+  ansible.builtin.command:
     cmd: "{{ postgresql_bin_dir }}/initdb -D {{ postgresql_data_dir }}"
-  when: postgresql_data_dir and (not pg_version.stat.exists)
-  become: yes
+  when: postgresql_data_dir is truthy and (not pg_version.stat.exists)
+  become: true
   become_user: postgres
 
 - name: Setup general settings in postgresql.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
@@ -52,67 +52,67 @@
     - name: pg_stat_statements.track
       value: "all"
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup tuning parameters in postgresql.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
   with_items: "{{ postgresql_tuning_parameters }}"
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup data directory in postgresql.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?data_directory"
     line: "data_directory = '{{ postgresql_data_dir }}'"
-  when: postgresql_data_dir
+  when: postgresql_data_dir is truthy
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup listen addresses in postgresql.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?listen_addresses"
     line: "listen_addresses = 'localhost,{{ postgresql_private_network_ip }}'"
-  when: postgresql_private_network_ip
+  when: postgresql_private_network_ip is truthy
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup remote access entry in pg_hba.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/pg_hba.conf"
     line: "hostssl all all {{ postgresql_private_network_cidr }} scram-sha-256"
-  when: postgresql_private_network_cidr
+  when: postgresql_private_network_cidr is truthy
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Create dbuser group
-  group:
+  ansible.builtin.group:
     name: dbuser
     state: present
   when: postgresql_unix_domain_socket_only
-  become: yes
+  become: true
   become_user: root
 
 - name: Add postgres user to the dbuser group
-  user:
+  ansible.builtin.user:
     name: postgres
     groups: dbuser
-    append: yes
+    append: true
   when: postgresql_unix_domain_socket_only
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup unix domain socket in postgresql.conf
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "{{ postgresql_conf_dir }}/postgresql.conf"
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} = '{{ item.value }}'"
@@ -127,12 +127,15 @@
       value: "0770"
   when: postgresql_unix_domain_socket_only
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup unix domain socket access entries in pg_hba.conf
-  copy:
+  ansible.builtin.copy:
     dest: "{{ postgresql_conf_dir }}/pg_hba.conf"
+    owner: postgres
+    group: postgres
+    mode: "0600"
     content: |
       # DO NOT DISABLE!
       # If you change this first entry you will need to make sure that the
@@ -149,46 +152,46 @@
       local   all             all                                     scram-sha-256
   when: postgresql_unix_domain_socket_only
   notify: restart postgresql
-  become: yes
+  become: true
   become_user: root
 
 - name: Flush handlers
-  meta: flush_handlers
+  ansible.builtin.meta: flush_handlers
 
 - name: Create cluster users
-  postgresql_user:
+  community.postgresql.postgresql_user:
     name: "{{ item.username }}"
     password: "{{ item.password }}"
   with_items: "{{ postgresql_users }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: postgres
 
 - name: Create cluster databases
-  postgresql_db:
+  community.postgresql.postgresql_db:
     name: "{{ item.name }}"
     owner: "{{ item.owner }}"
   with_items: "{{ postgresql_databases }}"
-  become: yes
+  become: true
   become_user: postgres
 
 - name: Create database extensions
-  postgresql_ext:
-    db: "{{ item[0].name }}"
+  community.postgresql.postgresql_ext:
+    login_db: "{{ item[0].name }}"
     name: "{{ item[1] }}"
   with_nested:
     - "{{ postgresql_databases }}"
     - "{{ postgresql_extensions }}"
-  become: yes
+  become: true
   become_user: postgres
 
 - name: Setup firewall rules
-  ufw:
+  community.general.ufw:
     rule: "{{ item.rule }}"
     port: "{{ item.port }}"
   with_items:
     - rule: allow
       port: 5432
-  when: postgresql_private_network_ip
-  become: yes
+  when: postgresql_private_network_ip is truthy
+  become: true
   become_user: root

@@ -1,43 +1,44 @@
 ---
 - name: Install mfd (latest)
-  apt:
+  ansible.builtin.apt:
     deb: https://github.com/theandrew168/mfd/releases/latest/download/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
-    update_cache: yes
+    update_cache: true
   when: mfd_version == "latest"
-  become: yes
+  become: true
   become_user: root
 
 - name: Install mfd (version)
-  apt:
+  ansible.builtin.apt:
     deb: https://github.com/theandrew168/mfd/releases/download/v{{ mfd_version }}/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
-    update_cache: yes
+    update_cache: true
   when: mfd_version != "latest"
-  become: yes
+  become: true
   become_user: root
 
 - name: Create mfd config directory
-  file:
+  ansible.builtin.file:
     path: "{{ mfd_config_path | dirname }}"
     state: directory
     owner: root
     group: root
-  become: yes
+    mode: "0755"
+  become: true
   become_user: root
 
 - name: Setup mfd config file
-  copy:
+  ansible.builtin.copy:
     content: "{{ mfd_config }}"
     dest: "{{ mfd_config_path }}"
     mode: "0640"
     owner: root
     group: root
-  become: yes
+  become: true
   become_user: root
 
 - name: Deploy the application
-  command: mfd deploy
+  ansible.builtin.command: mfd deploy
   args:
     chdir: "{{ mfd_config_path | dirname }}"
     creates: "{{ mfd_config_path | dirname }}/active"
-  become: yes
+  become: true
   become_user: root

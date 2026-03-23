@@ -1,77 +1,77 @@
 ---
 - name: Create bloggulus group
-  group:
+  ansible.builtin.group:
     name: bloggulus
     system: true
-  become: yes
+  become: true
   become_user: root
 
 - name: Create bloggulus user
-  user:
+  ansible.builtin.user:
     name: bloggulus
     group: bloggulus
     shell: /usr/sbin/nologin
     system: true
     create_home: false
-  become: yes
+  become: true
   become_user: root
 
 - name: Add bloggulus user to the dbuser group
-  user:
+  ansible.builtin.user:
     name: bloggulus
     groups: dbuser
-    append: yes
+    append: true
   when: postgresql_unix_domain_socket_only
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup bloggulus config file
-  copy:
+  ansible.builtin.copy:
     content: "{{ bloggulus_config }}"
     dest: /etc/bloggulus.conf
     mode: "0640"
     owner: root
     group: bloggulus
   notify: restart bloggulus
-  become: yes
+  become: true
   become_user: root
 
 - name: Create bloggulus systemd service
-  template:
+  ansible.builtin.template:
     src: bloggulus.service.j2
     dest: /etc/systemd/system/bloggulus.service
     mode: "0644"
     owner: root
     group: root
   notify: restart bloggulus
-  become: yes
+  become: true
   become_user: root
 
 - name: Create bloggulus systemd socket
-  template:
+  ansible.builtin.template:
     src: bloggulus.socket.j2
     dest: /etc/systemd/system/bloggulus.socket
     mode: "0644"
     owner: root
     group: root
   notify: restart bloggulus
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable bloggulus.socket
-  systemd:
+  ansible.builtin.systemd_service:
     name: bloggulus.socket
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root
 
 - name: Start and enable bloggulus.service
-  systemd:
+  ansible.builtin.systemd_service:
     name: bloggulus.service
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root

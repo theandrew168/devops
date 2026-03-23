@@ -1,9 +1,9 @@
 ---
 
 - name: restart redis
-  systemd:
+  ansible.builtin.systemd_service:
     name: redis-server
     state: restarted
-    daemon_reload: yes
-  become: yes
+    daemon_reload: true
+  become: true
   become_user: root

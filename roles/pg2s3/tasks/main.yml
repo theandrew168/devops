@@ -1,57 +1,57 @@
 ---
 
 - name: Install dependencies
-  apt:
+  ansible.builtin.apt:
     name:
       - postgresql-client-{{ pg2s3_postgresql_client_version }}
       - postgresql-client-common
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Install pg2s3 (latest)
-  apt:
+  ansible.builtin.apt:
     deb: https://github.com/theandrew168/pg2s3/releases/latest/download/pg2s3_{{ pg2s3_os }}_{{ pg2s3_arch }}.deb
-    update_cache: yes
+    update_cache: true
   when: pg2s3_version == "latest"
   notify: restart pg2s3
-  become: yes
+  become: true
   become_user: root
 
 - name: Install pg2s3 (version)
-  apt:
+  ansible.builtin.apt:
     deb: https://github.com/theandrew168/pg2s3/releases/download/v{{ pg2s3_version }}/pg2s3_{{ pg2s3_os }}_{{ pg2s3_arch }}.deb
-    update_cache: yes
+    update_cache: true
   when: pg2s3_version != "latest"
   notify: restart pg2s3
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup pg2s3 config file
-  copy:
+  ansible.builtin.copy:
     content: "{{ pg2s3_config }}"
     dest: /etc/pg2s3.conf
     mode: "0640"
     owner: root
     group: pg2s3
   notify: restart pg2s3
-  become: yes
+  become: true
   become_user: root
 
 - name: Add pg2s3 user to the dbuser group
-  user:
+  ansible.builtin.user:
     name: pg2s3
     groups: dbuser
-    append: yes
+    append: true
   when: postgresql_unix_domain_socket_only
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable pg2s3
-  systemd:
+  ansible.builtin.systemd_service:
     name: pg2s3
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root

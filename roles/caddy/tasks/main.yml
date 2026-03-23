@@ -1,41 +1,41 @@
 ---
 
 - name: Setup caddy apt repo key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup caddy apt repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ item }}"
   with_items:
     - "deb https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
     - "deb-src https://dl.cloudsmith.io/public/caddy/stable/deb/debian any-version main"
-  become: yes
+  become: true
   become_user: root
 
 - name: Install caddy
-  apt:
+  ansible.builtin.apt:
     name: caddy
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Setup caddy config file
-  template:
+  ansible.builtin.template:
     src: Caddyfile.j2
     dest: /etc/caddy/Caddyfile
     mode: "0640"
     owner: root
     group: caddy
-  when: caddy_config
+  when: caddy_config is truthy
   notify: reload caddy
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup firewall rules
-  ufw:
+  community.general.ufw:
     rule: "{{ item.rule }}"
     port: "{{ item.port }}"
   with_items:
@@ -43,14 +43,14 @@
       port: 80
     - rule: allow
       port: 443
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable caddy
-  systemd:
+  ansible.builtin.systemd_service:
     name: caddy
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root

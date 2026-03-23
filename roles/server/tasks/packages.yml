@@ -1,5 +1,5 @@
 - name: Install common system tools
-  apt:
+  ansible.builtin.apt:
     name:
       - acl
       - apt-transport-https
@@ -29,12 +29,12 @@
       - unzip
       - vim
       - wget
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Configure unattended upgrades
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     mode: "0644"
@@ -43,5 +43,5 @@
       dest: /etc/apt/apt.conf.d/20auto-upgrades
     - src: 50unattended-upgrades.j2
       dest: /etc/apt/apt.conf.d/50unattended-upgrades
-  become: yes
+  become: true
   become_user: root

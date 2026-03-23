@@ -1,55 +1,55 @@
 ---
 - name: Enable overcommit_memory in sysctl
-  sysctl:
+  ansible.posix.sysctl:
     name: vm.overcommit_memory
     value: 1
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup redis apt repo key
-  apt_key:
+  ansible.builtin.apt_key:
     url: https://packages.redis.io/gpg
-  become: yes
+  become: true
   become_user: root
 
 - name: Setup redis apt repo
-  apt_repository:
+  ansible.builtin.apt_repository:
     repo: "{{ item }}"
   with_items:
     - "deb https://packages.redis.io/deb {{ ansible_distribution_release }} main"
-  become: yes
+  become: true
   become_user: root
 
 - name: Install redis
-  apt:
+  ansible.builtin.apt:
     name: redis
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   become_user: root
 
 - name: Configure maxmemory
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/redis/redis.conf"
     regexp: "^(# )?maxmemory "
     line: "maxmemory {{ redis_maxmemory }}"
   notify: restart redis
-  become: yes
+  become: true
   become_user: root
 
 - name: Configure maxmemory-policy
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: "/etc/redis/redis.conf"
     regexp: "^(# )?maxmemory-policy "
     line: "maxmemory-policy {{ redis_maxmemory_policy }}"
   notify: restart redis
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable redis
-  systemd:
+  ansible.builtin.systemd_service:
     name: redis-server
     state: started
-    enabled: yes
-    daemon_reload: yes
-  become: yes
+    enabled: true
+    daemon_reload: true
+  become: true
   become_user: root

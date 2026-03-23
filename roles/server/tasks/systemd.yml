@@ -1,5 +1,5 @@
 - name: Limit journald log sizes
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/systemd/journald.conf
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }}={{ item.value }}"
@@ -7,5 +7,5 @@
     - name: SystemMaxUse
       value: 1G
   notify: restart systemd-journald
-  become: yes
+  become: true
   become_user: root

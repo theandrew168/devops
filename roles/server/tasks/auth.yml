@@ -1,14 +1,14 @@
 # lock down SSH and the root user ASAP
 
 - name: Disable root password
-  user:
+  ansible.builtin.user:
     name: root
     password: "*"
-  become: yes
+  become: true
   become_user: root
 
 - name: Enforce pubkey as only SSH auth method
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} {{ item.value }}"
@@ -22,81 +22,81 @@
     - name: ChallengeResponseAuthentication
       value: "no"
   register: sshd_config
-  become: yes
+  become: true
   become_user: root
 
 - name: Reload SSH server
-  systemd:
+  ansible.builtin.systemd_service:
     name: ssh
     state: reloaded
-    daemon_reload: yes
+    daemon_reload: true
   when: sshd_config.changed
-  become: yes
+  become: true
   become_user: root
 
 - name: Limit SSH login attempts
-  ufw:
+  community.general.ufw:
     rule: limit
     port: "22"
     proto: tcp
-  become: yes
+  become: true
   become_user: root
 
 - name: Start and enable ufw
-  ufw:
+  community.general.ufw:
     state: enabled
-  become: yes
+  become: true
   become_user: root
 
 # create admin users
 
 - name: Create admin users
-  user:
+  ansible.builtin.user:
     name: "{{ item.name }}"
     groups: sudo
     shell: /bin/bash
-    create_home: yes
+    create_home: true
     password: ""
     update_password: on_create
   register: admin_users
   with_items: "{{ server_admin_users }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: root
 
 - name: Expire admin user passwords
-  command:
+  ansible.builtin.command:
     cmd: passwd -e {{ item.name }}
   when: item.changed
   with_items: "{{ admin_users.results }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: root
 
 - name: Create admin user .ssh directories
-  file:
+  ansible.builtin.file:
     path: /home/{{ item.name }}/.ssh/
     state: directory
     mode: "0700"
   with_items: "{{ server_admin_users }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: "{{ item.name }}"
 
 - name: Setup admin user authorized_keys files
-  template:
+  ansible.builtin.template:
     src: authorized_keys.j2
     dest: /home/{{ item.name }}/.ssh/authorized_keys
     mode: "0600"
   with_items: "{{ server_admin_users }}"
-  no_log: yes
-  become: yes
+  no_log: true
+  become: true
   become_user: "{{ item.name }}"
 
 # no more SSH as root after this point
 
 - name: Disable root login via SSH
-  lineinfile:
+  ansible.builtin.lineinfile:
     path: /etc/ssh/sshd_config
     regexp: "^#?{{ item.name }}"
     line: "{{ item.name }} {{ item.value }}"
@@ -104,14 +104,14 @@
     - name: PermitRootLogin
       value: "no"
   register: sshd_config
-  become: yes
+  become: true
   become_user: root
 
 - name: Reload SSH server
-  systemd:
+  ansible.builtin.systemd_service:
     name: ssh
     state: reloaded
-    daemon_reload: yes
+    daemon_reload: true
   when: sshd_config.changed
-  become: yes
+  become: true
   become_user: root

@@ -1,1 +1,2 @@
-ansible==11.13.0
+ansible
+ansible-lint

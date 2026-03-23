@@ -1,9 +1,9 @@
 ---
 
 - name: reload caddy
-  systemd:
+  ansible.builtin.systemd_service:
     name: caddy
     state: reloaded
-    daemon_reload: yes
-  become: yes
+    daemon_reload: true
+  become: true
   become_user: root
