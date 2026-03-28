@@ -1,4 +1,21 @@
 ---
+- name: Create mfd group
+  ansible.builtin.group:
+    name: mfd
+    system: true
+  become: true
+  become_user: root
+
+- name: Create mfd user
+  ansible.builtin.user:
+    name: mfd
+    group: mfd
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
 - name: Install mfd (latest)
   ansible.builtin.apt:
     deb: https://github.com/theandrew168/mfd/releases/latest/download/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
@@ -19,9 +36,9 @@
   ansible.builtin.file:
     path: "{{ mfd_config_path | dirname }}"
     state: directory
-    owner: root
-    group: root
-    mode: "0755"
+    owner: mfd
+    group: mfd
+    mode: "0750"
   become: true
   become_user: root
 
@@ -29,9 +46,9 @@
   ansible.builtin.copy:
     content: "{{ mfd_config }}"
     dest: "{{ mfd_config_path }}"
-    mode: "0640"
-    owner: root
-    group: root
+    mode: "0600"
+    owner: mfd
+    group: mfd
   become: true
   become_user: root
 

@@ -1,4 +1,20 @@
 ---
+- name: Create pg2s3 group
+  ansible.builtin.group:
+    name: pg2s3
+    system: true
+  become: true
+  become_user: root
+
+- name: Create pg2s3 user
+  ansible.builtin.user:
+    name: pg2s3
+    group: pg2s3
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
 
 - name: Install dependencies
   ansible.builtin.apt:

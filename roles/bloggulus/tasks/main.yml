@@ -16,6 +16,14 @@
   become: true
   become_user: root
 
+- name: Add bloggulus user to the mfd group
+  ansible.builtin.user:
+    name: bloggulus
+    groups: mfd
+    append: true
+  become: true
+  become_user: root
+
 - name: Add bloggulus user to the dbuser group
   ansible.builtin.user:
     name: bloggulus
