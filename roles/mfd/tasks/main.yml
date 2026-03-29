@@ -16,6 +16,15 @@
   become: true
   become_user: root
 
+- name: Add admin users to the mfd group
+  ansible.builtin.user:
+    name: "{{ item.name }}"
+    groups: mfd
+    append: true
+  with_items: "{{ server_admin_users }}"
+  become: true
+  become_user: root
+
 - name: Install mfd (latest)
   ansible.builtin.apt:
     deb: https://github.com/theandrew168/mfd/releases/latest/download/mfd_{{ mfd_os }}_{{ mfd_arch }}.deb
