@@ -86,6 +86,8 @@ caddy_config: |
     reverse_proxy 127.0.0.1:3000
     header {
       Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+      X-Content-Type-Options "nosniff"
+      X-Frame-Options "DENY"
     }
   }
 
