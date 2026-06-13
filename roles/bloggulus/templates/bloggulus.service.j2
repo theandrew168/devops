@@ -19,5 +19,27 @@ Environment="HEADERS_TIMEOUT=66"
 ExecStartPre=npm run migrate
 ExecStart=node build/
 
+LockPersonality=true
+NoNewPrivileges=true
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+RestrictNamespaces=true
+RestrictRealtime=true
+RestrictSUIDSGID=true
+SystemCallArchitectures=native
+
+PrivateDevices=true
+PrivateTmp=true
+ProtectClock=true
+ProtectControlGroups=true
+ProtectHome=true
+ProtectHostname=true
+ProtectKernelLogs=true
+ProtectKernelModules=true
+ProtectKernelTunables=true
+ProtectSystem=strict
+
+ProtectProc=invisible
+ProcSubset=pid
+
 [Install]
 WantedBy=multi-user.target
