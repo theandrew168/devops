@@ -2,3 +2,27 @@
 server_hostname: sbsbx
 server_mounted_volumes:
   - /mnt/sbsbx_data
+
+grafana_config: |
+  [server]
+  http_addr = 127.0.0.1
+  http_port = 3000
+  root_url = https://melt.sbsbx.com
+
+caddy_config: |
+  {
+    servers {
+      timeouts {
+        read_body   10s
+        read_header 5s
+        write       30s
+        idle        5m
+      }
+    }
+  }
+  www.melt.sbsbx.com {
+    redir https://melt.sbsbx.com{uri} permanent
+  }
+  melt.sbsbx.com {
+    reverse_proxy 127.0.0.1:3000
+  }

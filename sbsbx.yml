@@ -2,3 +2,5 @@
 - hosts: sbsbx
   roles:
     - server
+    - grafana
+    - caddy
