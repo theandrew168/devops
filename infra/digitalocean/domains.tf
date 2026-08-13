@@ -14,10 +14,10 @@ resource "digitalocean_record" "bloggulus_spf" {
 }
 
 resource "digitalocean_record" "bloggulus_dmarc" {
-  domain   = "bloggulus.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  domain = "bloggulus.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 resource "digitalocean_domain" "sbsbx" {
@@ -32,10 +32,10 @@ resource "digitalocean_record" "sbsbx_spf" {
 }
 
 resource "digitalocean_record" "sbsbx_dmarc" {
-  domain   = "sbsbx.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  domain = "sbsbx.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 resource "digitalocean_domain" "jamql" {
@@ -50,28 +50,10 @@ resource "digitalocean_record" "jamql_spf" {
 }
 
 resource "digitalocean_record" "jamql_dmarc" {
-  domain   = "jamql.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
-}
-
-resource "digitalocean_domain" "sandbox" {
-  name = "shallowbrooksandbox.com"
-}
-
-resource "digitalocean_record" "shallowbrooksandbox_spf" {
-  domain = "shallowbrooksandbox.com"
+  domain = "jamql.com"
   type   = "TXT"
-  name   = "@"
-  value  = "v=spf1 -all"
-}
-
-resource "digitalocean_record" "shallowbrooksandbox_dmarc" {
-  domain   = "shallowbrooksandbox.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 resource "digitalocean_domain" "dripfile" {
@@ -86,28 +68,10 @@ resource "digitalocean_record" "dripfile_spf" {
 }
 
 resource "digitalocean_record" "dripfile_dmarc" {
-  domain   = "dripfile.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
-}
-
-resource "digitalocean_domain" "simpleriscv" {
-  name = "simpleriscv.org"
-}
-
-resource "digitalocean_record" "simpleriscv_spf" {
-  domain = "simpleriscv.org"
+  domain = "dripfile.com"
   type   = "TXT"
-  name   = "@"
-  value  = "v=spf1 -all"
-}
-
-resource "digitalocean_record" "simpleriscv_dmarc" {
-  domain   = "simpleriscv.org"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 resource "digitalocean_domain" "crawdata_com" {
@@ -122,46 +86,10 @@ resource "digitalocean_record" "crawdata_com_spf" {
 }
 
 resource "digitalocean_record" "crawdata_com_dmarc" {
-  domain   = "crawdata.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
-}
-
-resource "digitalocean_domain" "crawdata_dev" {
-  name = "crawdata.dev"
-}
-
-resource "digitalocean_record" "crawdata_dev_spf" {
-  domain = "crawdata.dev"
+  domain = "crawdata.com"
   type   = "TXT"
-  name   = "@"
-  value  = "v=spf1 -all"
-}
-
-resource "digitalocean_record" "crawdata_dev_dmarc" {
-  domain   = "crawdata.dev"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
-}
-
-resource "digitalocean_domain" "digimontcg" {
-  name = "digimontcg.online"
-}
-
-resource "digitalocean_record" "digimontcg_spf" {
-  domain = "digimontcg.online"
-  type   = "TXT"
-  name   = "@"
-  value  = "v=spf1 -all"
-}
-
-resource "digitalocean_record" "digimontcg_dmarc" {
-  domain   = "digimontcg.online"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 resource "digitalocean_domain" "derztunes" {
@@ -176,10 +104,64 @@ resource "digitalocean_record" "derztunes_spf" {
 }
 
 resource "digitalocean_record" "derztunes_dmarc" {
-  domain   = "derztunes.com"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  domain = "derztunes.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
+}
+
+resource "digitalocean_domain" "stillwatersoftware" {
+  name = "stillwatersoftware.com"
+}
+
+resource "digitalocean_record" "stillwatersoftware_spf" {
+  domain = "stillwatersoftware.com"
+  type   = "TXT"
+  name   = "@"
+  value  = "v=spf1 -all"
+}
+
+resource "digitalocean_record" "stillwatersoftware_dmarc" {
+  domain = "stillwatersoftware.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
+}
+
+resource "digitalocean_domain" "bugforth" {
+  name = "bugforth.com"
+}
+
+resource "digitalocean_record" "bugforth_spf" {
+  domain = "bugforth.com"
+  type   = "TXT"
+  name   = "@"
+  value  = "v=spf1 -all"
+}
+
+resource "digitalocean_record" "bugforth_dmarc" {
+  domain = "bugforth.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
+}
+
+resource "digitalocean_domain" "cachebatch" {
+  name = "cachebatch.com"
+}
+
+resource "digitalocean_record" "cachebatch_spf" {
+  domain = "cachebatch.com"
+  type   = "TXT"
+  name   = "@"
+  value  = "v=spf1 -all"
+}
+
+resource "digitalocean_record" "cachebatch_dmarc" {
+  domain = "cachebatch.com"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 # owner: wesley
@@ -195,10 +177,10 @@ resource "digitalocean_record" "daileybrue_spf" {
 }
 
 resource "digitalocean_record" "daileybrue_dmarc" {
-  domain   = "daileybrue.coffee"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  domain = "daileybrue.coffee"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }
 
 # owner: wesley
@@ -214,8 +196,8 @@ resource "digitalocean_record" "whosbuying_spf" {
 }
 
 resource "digitalocean_record" "whosbuying_dmarc" {
-  domain   = "whosbuying.coffee"
-  type     = "TXT"
-  name     = "_dmarc"
-  value    = "v=DMARC1; p=reject;"
+  domain = "whosbuying.coffee"
+  type   = "TXT"
+  name   = "_dmarc"
+  value  = "v=DMARC1; p=reject;"
 }

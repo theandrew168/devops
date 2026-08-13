@@ -1,0 +1,4 @@
+---
+server_hostname: sbsbx
+server_mounted_volumes:
+  - /mnt/sbsbx_data

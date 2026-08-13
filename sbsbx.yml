@@ -1,0 +1,4 @@
+---
+- hosts: sbsbx
+  roles:
+    - server
