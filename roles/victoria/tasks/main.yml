@@ -1,0 +1,93 @@
+---
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Create victoria data directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    mode: "0700"
+    owner: victoria
+    group: victoria
+    state: directory
+  loop:
+    - "{{ victoria_metrics_data_dir }}"
+    - "{{ victoria_logs_data_dir }}"
+    - "{{ victoria_traces_data_dir }}"
+  become: true
+  become_user: root
+
+- name: Download and extract victoria binaries
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "{{ item.url }}"
+    dest: /tmp
+    creates: "{{ item.creates }}"
+    owner: root
+    group: root
+  loop:
+    - url: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ victoria_metrics_version }}/victoria-metrics-linux-amd64-{{ victoria_metrics_version }}.tar.gz"
+      creates: /tmp/victoria-metrics-prod
+    - url: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ victoria_logs_version }}/victoria-logs-linux-amd64-{{ victoria_logs_version }}.tar.gz"
+      creates: /tmp/victoria-logs-prod
+    - url: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
+      creates: /tmp/victoria-traces-prod
+  become: true
+  become_user: root
+
+- name: Copy victoria binaries
+  ansible.builtin.copy:
+    remote_src: true
+    src: "/tmp/{{ item }}-prod"
+    dest: "/usr/local/bin/{{ item }}"
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  loop:
+    - victoria-metrics
+    - victoria-logs
+    - victoria-traces
+  notify: "restart {{ item }}"
+  become: true
+  become_user: root
+
+- name: Create victoria systemd services
+  ansible.builtin.template:
+    src: "{{ item }}.service.j2"
+    dest: "/etc/systemd/system/{{ item }}.service"
+    mode: "0644"
+    owner: root
+    group: root
+  notify: "restart {{ item }}"
+  loop:
+    - victoria-metrics
+    - victoria-logs
+    - victoria-traces
+  become: true
+  become_user: root
+
+- name: Start and enable victoria services
+  ansible.builtin.systemd_service:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+    daemon_reload: true
+  loop:
+    - victoria-metrics
+    - victoria-logs
+    - victoria-traces
+  become: true
+  become_user: root

@@ -2,5 +2,6 @@
 - hosts: sbsbx
   roles:
     - server
+    - victoria
     - grafana
     - caddy

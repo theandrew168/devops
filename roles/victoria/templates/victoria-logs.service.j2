@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=victoria-logs
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+User=victoria
+Group=victoria
+ExecStart=/usr/local/bin/victoria-logs -storageDataPath {{ victoria_logs_data_dir }}
+
+[Install]
+WantedBy=multi-user.target
