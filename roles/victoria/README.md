@@ -1,5 +1,5 @@
 # victoria
-Ansible role for installing and configuring the "Victoria Stack": [Metrics](https://docs.victoriametrics.com/), [Logs](https://docs.victoriametrics.com/victorialogs/), and [Traces](https://docs.victoriametrics.com/victoriatraces/)
+Ansible role for installing and configuring the "Victoria Stack": [Metrics](https://docs.victoriametrics.com/victoriametrics/), [Logs](https://docs.victoriametrics.com/victorialogs/), and [Traces](https://docs.victoriametrics.com/victoriatraces/)
 
 ## Configuration
 | Variable | Default | Description |
