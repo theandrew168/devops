@@ -1,4 +1,7 @@
 ---
+# internal (VPC) IP address to listen on
+victoria_internal_listen_host: ~
+
 # version of victoria metrics to install
 victoria_metrics_version: v1.149.0
 

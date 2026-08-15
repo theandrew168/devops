@@ -3,6 +3,7 @@ server_hostname: sbsbx
 server_mounted_volumes:
   - /mnt/sbsbx_data
 
+victoria_internal_listen_host: 10.136.0.4
 victoria_metrics_data_dir: /mnt/sbsbx_data/victoria_metrics
 victoria_logs_data_dir: /mnt/sbsbx_data/victoria_logs
 victoria_traces_data_dir: /mnt/sbsbx_data/victoria_traces

@@ -9,7 +9,7 @@ Requires=network-online.target
 Type=simple
 User=victoria
 Group=victoria
-ExecStart=/usr/local/bin/victoria-traces -storageDataPath {{ victoria_traces_data_dir }}
+ExecStart=/usr/local/bin/victoria-traces -storageDataPath {{ victoria_traces_data_dir }} -httpListenAddr {{ victoria_internal_listen_host }}:10428 -httpListenAddr 127.0.0.1:10429
 
 [Install]
 WantedBy=multi-user.target

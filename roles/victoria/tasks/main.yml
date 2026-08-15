@@ -64,6 +64,24 @@
   become: true
   become_user: root
 
+- name: Setup firewall rules
+  community.general.ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    src: "{{ item.src }}"
+  loop:
+    - rule: allow
+      port: 8428
+      src: "10.136.0.0/16"
+    - rule: allow
+      port: 9428
+      src: "10.136.0.0/16"
+    - rule: allow
+      port: 10428
+      src: "10.136.0.0/16"
+  become: true
+  become_user: root
+
 - name: Create victoria systemd services
   ansible.builtin.template:
     src: "{{ item }}.service.j2"
