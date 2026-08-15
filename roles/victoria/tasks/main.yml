@@ -35,16 +35,16 @@
     remote_src: true
     src: "{{ item.url }}"
     dest: /tmp
-    creates: "{{ item.creates }}"
+    creates: "/tmp/{{ item.name }}-prod"
     owner: root
     group: root
   loop:
-    - url: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ victoria_metrics_version }}/victoria-metrics-linux-amd64-{{ victoria_metrics_version }}.tar.gz"
-      creates: /tmp/victoria-metrics-prod
-    - url: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ victoria_logs_version }}/victoria-logs-linux-amd64-{{ victoria_logs_version }}.tar.gz"
-      creates: /tmp/victoria-logs-prod
-    - url: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
-      creates: /tmp/victoria-traces-prod
+    - name: victoria-metrics
+      url: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ victoria_metrics_version }}/victoria-metrics-linux-amd64-{{ victoria_metrics_version }}.tar.gz"
+    - name: victoria-logs
+      url: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ victoria_logs_version }}/victoria-logs-linux-amd64-{{ victoria_logs_version }}.tar.gz"
+    - name: victoria-traces
+      url: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
   become: true
   become_user: root
 
