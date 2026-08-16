@@ -1,0 +1,9 @@
+---
+# Version of vmagent to install
+vmagent_version: v1.149.0
+
+# IP address of the remote victoria-metrics server
+vmagent_remote_server_ip: ~
+
+# Scrape config file contents (prometheus format)
+vmagent_scrape_config: ~

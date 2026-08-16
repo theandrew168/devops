@@ -16,9 +16,9 @@
   become: true
   become_user: root
 
-- name: Create victoria data directories
+- name: Create victoria-metrics data directory
   ansible.builtin.file:
-    path: "{{ victoria_traces_data_dir }}"
+    path: "{{ victoria_metrics_data_dir }}"
     mode: "0700"
     owner: victoria
     group: victoria
@@ -26,51 +26,51 @@
   become: true
   become_user: root
 
-- name: Download and extract victoria binaries
+- name: Download and extract victoria-metrics binary
   ansible.builtin.unarchive:
     remote_src: true
-    src: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
+    src: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ victoria_metrics_version }}/victoria-metrics-linux-amd64-{{ victoria_metrics_version }}.tar.gz"
     dest: /tmp
-    creates: /tmp/victoria-traces-prod
+    creates: /tmp/victoria-metrics-prod
     owner: root
     group: root
   become: true
   become_user: root
 
-- name: Copy victoria binaries
+- name: Copy victoria-metrics binary
   ansible.builtin.copy:
     remote_src: true
-    src: /tmp/victoria-traces-prod
-    dest: /usr/local/bin/victoria-traces
+    src: /tmp/victoria-metrics-prod
+    dest: /usr/local/bin/victoria-metrics
     mode: "0700"
     owner: victoria
     group: victoria
-  notify: restart victoria-traces
+  notify: restart victoria-metrics
   become: true
   become_user: root
 
 - name: Setup firewall rules
   community.general.ufw:
     rule: allow
-    port: 10428
+    port: 8428
     src: "{{ server_internal_network_cidr }}"
   become: true
   become_user: root
 
-- name: Create victoria-traces systemd service
+- name: Create victoria-metrics systemd service
   ansible.builtin.template:
-    src: victoria-traces.service.j2
-    dest: /etc/systemd/system/victoria-traces.service
+    src: victoria-metrics.service.j2
+    dest: /etc/systemd/system/victoria-metrics.service
     mode: "0644"
     owner: root
     group: root
-  notify: restart victoria-traces
+  notify: restart victoria-metrics
   become: true
   become_user: root
 
-- name: Start and enable victoria-traces service
+- name: Start and enable victoria-metrics service
   ansible.builtin.systemd_service:
-    name: victoria-traces
+    name: victoria-metrics
     state: started
     enabled: true
     daemon_reload: true

@@ -1,4 +1,4 @@
-# victoriatraces
+# victoria_traces
 Ansible role for installing and configuring [VictoriaTraces](https://docs.victoriametrics.com/victoriatraces/)
 
 ## Configuration

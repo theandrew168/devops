@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=vmagent
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+User=victoria
+Group=victoria
+ExecStart=/usr/local/bin/vmagent -promscrape.config=/etc/vmagent_scrape_config.yml -remoteWrite.tmpDataPath=/var/lib/vmagent -remoteWrite.url=http://{{ vmagent_remote_server_ip }}:8428/api/v1/write -httpListenAddr 127.0.0.1:8428
+
+[Install]
+WantedBy=multi-user.target

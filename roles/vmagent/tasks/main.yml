@@ -1,0 +1,90 @@
+---
+# NOTE: Only for vlagent
+# - name: Install systemd-journal-remote
+#   ansible.builtin.apt:
+#     name:
+#       - systemd-journal-remote
+#     update_cache: true
+#   become: true
+#   become_user: root
+
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Download and extract vmagent binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ vmagent_version }}/vmutils-linux-amd64-{{ vmagent_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/vmagent-prod
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+- name: Copy vmagent binary
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/vmagent-prod
+    dest: /usr/local/bin/vmagent
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  notify: restart vmagent
+  become: true
+  become_user: root
+
+- name: Setup vmagent scrape config file
+  ansible.builtin.copy:
+    content: "{{ vmagent_scrape_config }}"
+    dest: /etc/vmagent_scrape_config.yml
+    mode: "0600"
+    owner: victoria
+    group: victoria
+  notify: restart vmagent
+  become: true
+  become_user: root
+
+- name: Create vmagent data directory
+  ansible.builtin.file:
+    path: /var/lib/vmagent
+    state: directory
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  become: true
+  become_user: root
+
+- name: Create vmagent systemd service
+  ansible.builtin.template:
+    src: vmagent.service.j2
+    dest: /etc/systemd/system/vmagent.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart vmagent
+  become: true
+  become_user: root
+
+- name: Start and enable vmagent service
+  ansible.builtin.systemd_service:
+    name: vmagent
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root

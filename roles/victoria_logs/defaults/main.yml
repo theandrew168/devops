@@ -1,7 +1,7 @@
 ---
-# version of victoria logs to install
+# Version of victoria logs to install
 victoria_logs_version: v1.52.0
 
-# directory to hold victoria logs data
+# Directory to hold victoria logs data
 # NOTE: don't use a mount point directly: use a subdir
 victoria_logs_data_dir: ~

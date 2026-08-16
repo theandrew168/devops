@@ -1,4 +1,4 @@
-# victoriametrics
+# victoria_metrics
 Ansible role for installing and configuring [VictoraMetrics](https://docs.victoriametrics.com/victoriametrics/)
 
 ## Configuration

@@ -8,3 +8,5 @@
     - mfd
     - bloggulus
     - caddy
+    - node_exporter
+    - vmagent

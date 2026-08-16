@@ -1,7 +1,7 @@
 ---
-# version of victoria metrics to install
+# Version of victoria metrics to install
 victoria_metrics_version: v1.149.0
 
-# directory to hold victoria metrics data
+# Directory to hold victoria metrics data
 # NOTE: don't use a mount point directly: use a subdir
 victoria_metrics_data_dir: ~

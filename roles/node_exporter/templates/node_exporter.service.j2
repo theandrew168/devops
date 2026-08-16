@@ -12,7 +12,7 @@ Restart=on-failure
 RestartSec=5
 User=node_exporter
 Group=node_exporter
-ExecStart=node_exporter
+ExecStart=node_exporter --web.listen-address="127.0.0.1:9100"
 
 [Install]
 WantedBy=multi-user.target

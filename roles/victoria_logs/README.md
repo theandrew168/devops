@@ -1,4 +1,4 @@
-# victorialogs
+# victoria_logs
 Ansible role for installing and configuring [VictoriaLogs](https://docs.victoriametrics.com/victorialogs/)
 
 ## Configuration
