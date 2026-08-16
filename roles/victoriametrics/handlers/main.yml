@@ -1,0 +1,8 @@
+---
+- name: restart victoria-metrics
+  ansible.builtin.systemd_service:
+    name: victoria-metrics
+    state: restarted
+    daemon_reload: true
+  become: true
+  become_user: root

@@ -9,7 +9,7 @@ Requires=network-online.target
 Type=simple
 User=victoria
 Group=victoria
-ExecStart=/usr/local/bin/victoria-metrics -storageDataPath {{ victoria_metrics_data_dir }} -httpListenAddr {{ victoria_internal_listen_host }}:8428 -httpListenAddr 127.0.0.1:8429
+ExecStart=/usr/local/bin/victoria-metrics -storageDataPath {{ victoria_metrics_data_dir }} -httpListenAddr {{ server_internal_network_ip }}:8428 -httpListenAddr 127.0.0.1:8429
 
 [Install]
 WantedBy=multi-user.target

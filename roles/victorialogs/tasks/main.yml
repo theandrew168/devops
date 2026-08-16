@@ -1,0 +1,78 @@
+---
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Create victoria data directories
+  ansible.builtin.file:
+    path: "{{ victoria_logs_data_dir }}"
+    mode: "0700"
+    owner: victoria
+    group: victoria
+    state: directory
+  become: true
+  become_user: root
+
+- name: Download and extract victoria binaries
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ victoria_logs_version }}/victoria-logs-linux-amd64-{{ victoria_logs_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/victoria-logs-prod
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+- name: Copy victoria binaries
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/victoria-logs-prod
+    dest: /usr/local/bin/victoria-logs
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  notify: restart victoria-logs
+  become: true
+  become_user: root
+
+- name: Setup firewall rules
+  community.general.ufw:
+    rule: allow
+    port: 9428
+    src: "{{ server_internal_network_cidr }}"
+  become: true
+  become_user: root
+
+- name: Create victoria-logs systemd service
+  ansible.builtin.template:
+    src: victoria-logs.service.j2
+    dest: /etc/systemd/system/victoria-logs.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart victoria-logs
+  become: true
+  become_user: root
+
+- name: Start and enable victoria-logs service
+  ansible.builtin.systemd_service:
+    name: victoria-logs
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root

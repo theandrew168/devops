@@ -1,0 +1,7 @@
+---
+# version of victoria traces to install
+victoria_traces_version: v0.10.0
+
+# directory to hold victoria traces data
+# NOTE: don't use a mount point directly: use a subdir
+victoria_traces_data_dir: ~

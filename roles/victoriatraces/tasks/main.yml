@@ -1,0 +1,78 @@
+---
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Create victoria data directories
+  ansible.builtin.file:
+    path: "{{ victoria_traces_data_dir }}"
+    mode: "0700"
+    owner: victoria
+    group: victoria
+    state: directory
+  become: true
+  become_user: root
+
+- name: Download and extract victoria binaries
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/victoria-traces-prod
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+- name: Copy victoria binaries
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/victoria-traces-prod
+    dest: /usr/local/bin/victoria-traces
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  notify: restart victoria-traces
+  become: true
+  become_user: root
+
+- name: Setup firewall rules
+  community.general.ufw:
+    rule: allow
+    port: 10428
+    src: "{{ server_internal_network_cidr }}"
+  become: true
+  become_user: root
+
+- name: Create victoria-traces systemd service
+  ansible.builtin.template:
+    src: victoria-traces.service.j2
+    dest: /etc/systemd/system/victoria-traces.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart victoria-traces
+  become: true
+  become_user: root
+
+- name: Start and enable victoria-traces service
+  ansible.builtin.systemd_service:
+    name: victoria-traces
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root

@@ -1,5 +1,7 @@
 ---
 server_hostname: bloggulus
+server_internal_network_ip: 10.136.0.6
+server_internal_network_cidr: 10.136.0.0/16
 server_mounted_volumes:
   - /mnt/bloggulus_db
 

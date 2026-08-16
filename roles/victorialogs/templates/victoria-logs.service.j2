@@ -9,7 +9,7 @@ Requires=network-online.target
 Type=simple
 User=victoria
 Group=victoria
-ExecStart=/usr/local/bin/victoria-logs -storageDataPath {{ victoria_logs_data_dir }} -httpListenAddr {{ victoria_internal_listen_host }}:9428 -httpListenAddr 127.0.0.1:9429
+ExecStart=/usr/local/bin/victoria-logs -storageDataPath {{ victoria_logs_data_dir }} -httpListenAddr {{ server_internal_network_ip }}:9428 -httpListenAddr 127.0.0.1:9429
 
 [Install]
 WantedBy=multi-user.target

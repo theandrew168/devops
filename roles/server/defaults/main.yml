@@ -1,7 +1,12 @@
 ---
-
 # server hostname
 server_hostname: ~
+
+# internal network IP address
+server_internal_network_ip: ~
+
+# internal network CIDR
+server_internal_network_cidr: ~
 
 # list of admin users with keys: name, public_keys
 server_admin_users: []
