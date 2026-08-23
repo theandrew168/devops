@@ -13,7 +13,7 @@ grafana_config: |
   [server]
   http_addr = 127.0.0.1
   http_port = 3000
-  root_url = https://melt.sbsbx.com
+  root_url = https://patty.sbsbx.com
 
 caddy_config: |
   {
@@ -26,9 +26,9 @@ caddy_config: |
       }
     }
   }
-  www.melt.sbsbx.com {
-    redir https://melt.sbsbx.com{uri} permanent
+  www.patty.sbsbx.com {
+    redir https://patty.sbsbx.com{uri} permanent
   }
-  melt.sbsbx.com {
+  patty.sbsbx.com {
     reverse_proxy 127.0.0.1:3000
   }

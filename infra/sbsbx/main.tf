@@ -45,25 +45,25 @@ resource "digitalocean_record" "sbsbx_caa_letsencrypt" {
   tag    = "issue"
 }
 
-// DNS records for melt.sbsbx.com
-resource "digitalocean_record" "melt_sbsbx_a" {
+// DNS records for patty.sbsbx.com
+resource "digitalocean_record" "patty_sbsbx_a" {
   domain = "sbsbx.com"
   type   = "A"
-  name   = "melt"
+  name   = "patty"
   value  = digitalocean_droplet.sbsbx.ipv4_address
 }
 
-resource "digitalocean_record" "melt_sbsbx_cname_www" {
+resource "digitalocean_record" "patty_sbsbx_cname_www" {
   domain = "sbsbx.com"
   type   = "CNAME"
-  name   = "www.melt"
-  value  = "melt.sbsbx.com."
+  name   = "www.patty"
+  value  = "patty.sbsbx.com."
 }
 
-resource "digitalocean_record" "melt_sbsbx_caa_letsencrypt" {
+resource "digitalocean_record" "patty_sbsbx_caa_letsencrypt" {
   domain = "sbsbx.com"
   type   = "CAA"
-  name   = "melt"
+  name   = "patty"
   value  = "letsencrypt.org."
   flags  = "0"
   tag    = "issue"
