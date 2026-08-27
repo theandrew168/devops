@@ -9,4 +9,5 @@
     - bloggulus
     - caddy
     - node_exporter
+    - postgres_exporter
     - vmagent

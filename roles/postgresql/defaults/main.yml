@@ -1,5 +1,4 @@
 ---
-
 # postgresql version (not really customizable)
 postgresql_version: 16
 
@@ -31,6 +30,11 @@ postgresql_users: []
 #  - username: postgres
 #    password: postgres
 
+# list of dicts with keys: username, group
+postgresql_memberships: []
+#  - username: postgres_exporter
+#    group: pg_monitor
+
 # list of dicts with keys: name, owner
 postgresql_databases: []
 #  - name: foobar
@@ -39,3 +43,5 @@ postgresql_databases: []
 # list of extensions to enable
 postgresql_extensions:
   - pg_stat_statements
+  - pg_buffercache
+  - pgstattuple

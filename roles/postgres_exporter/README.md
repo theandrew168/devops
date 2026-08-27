@@ -4,9 +4,11 @@ Ansible role for installing the Prometheus [postgres_exporter](https://github.co
 
 ## Configuration
 
-| Variable                    | Default  | Description               |
-| --------------------------- | -------- | ------------------------- |
-| `postgres_exporter_version` | `0.15.0` | Version to install        |
-| `postgres_exporter_os`      | `linux`  | Target operating system   |
-| `postgres_exporter_arch`    | `amd64`  | Target architecture       |
-| `postgres_exporter_env`     | `~`      | Environment file contents |
+| Variable                              | Default  | Description               |
+| ------------------------------------- | -------- | ------------------------- |
+| `postgres_exporter_version`           | `0.20.1` | Version to install        |
+| `postgres_exporter_os`                | `linux`  | Target operating system   |
+| `postgres_exporter_arch`              | `amd64`  | Target architecture       |
+| `postgres_exporter_database_uri`      | `amd64`  | Database URI              |
+| `postgres_exporter_database_username` | `amd64`  | Database username         |
+| `postgres_exporter_database_password` | `amd64`  | Database password         |

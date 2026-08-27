@@ -167,6 +167,14 @@
   become: true
   become_user: postgres
 
+- name: Create cluster memberships
+  community.postgresql.postgresql_membership:
+    user: "{{ item.username }}"
+    group: "{{ item.group }}"
+  with_items: "{{ postgresql_memberships }}"
+  become: true
+  become_user: postgres
+
 - name: Create cluster databases
   community.postgresql.postgresql_db:
     name: "{{ item.name }}"

@@ -8,12 +8,12 @@ Requires=network-online.target
 
 [Service]
 Type=simple
-Restart=on-failure
-RestartSec=5
 User=postgres_exporter
 Group=postgres_exporter
-EnvironmentFile=/etc/postgres_exporter.env
-ExecStart=postgres_exporter
+Environment="DATA_SOURCE_URI={{ postgres_exporter_database_uri }}"
+Environment="DATA_SOURCE_USER={{ postgres_exporter_database_username }}"
+Environment="DATA_SOURCE_PASS_FILE=/etc/postgres_exporter_password"
+ExecStart=postgres_exporter --web.listen-address localhost:9187 --collector.stat_statements --collector.long_running_transactions --collector.stat_activity_autovacuum
 
 [Install]
 WantedBy=multi-user.target

@@ -1,6 +1,6 @@
 ---
 # version to install
-postgres_exporter_version: 0.15.0
+postgres_exporter_version: 0.20.1
 
 # target operating system
 postgres_exporter_os: linux
@@ -8,5 +8,11 @@ postgres_exporter_os: linux
 # target architecture
 postgres_exporter_arch: amd64
 
-# environment file content
-postgres_exporter_env: ~
+# maps to DATA_SOURCE_URI, like my_pg_hostname:5432/postgres?sslmode=disable
+postgres_exporter_database_uri: ~
+
+# maps to DATA_SOURCE_USER
+postgres_exporter_database_username: ~
+
+# maps to DATA_SOURCE_PASS
+postgres_exporter_database_password: ~

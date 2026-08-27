@@ -16,6 +16,15 @@
   become: true
   become_user: root
 
+- name: Add postgres_exporter user to the dbuser group
+  ansible.builtin.user:
+    name: postgres_exporter
+    groups: dbuser
+    append: true
+  when: postgresql_unix_domain_socket_only
+  become: true
+  become_user: root
+
 - name: Download and extract postgres_exporter
   ansible.builtin.unarchive:
     remote_src: true
@@ -39,10 +48,10 @@
   become: true
   become_user: root
 
-- name: Setup postgres_exporter environment file
+- name: Setup postgres_exporter password file
   ansible.builtin.copy:
-    content: "{{ postgres_exporter_env }}"
-    dest: /etc/postgres_exporter.env
+    content: "{{ postgres_exporter_database_password }}"
+    dest: /etc/postgres_exporter_password
     mode: "0640"
     owner: root
     group: postgres_exporter
