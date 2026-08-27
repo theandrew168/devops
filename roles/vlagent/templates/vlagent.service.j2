@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=vlagent
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+User=victoria
+Group=victoria
+ExecStart=/usr/local/bin/vlagent -remoteWrite.tmpDataPath=/var/lib/vlagent -remoteWrite.url=http://{{ vlagent_remote_server_ip }}:9428/insert/native -httpListenAddr 127.0.0.1:9428
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,96 @@
+---
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Download and extract vlagent binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ vlagent_version }}/vlutils-linux-amd64-{{ vlagent_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/vlagent-prod
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+- name: Copy vlagent binary
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/vlagent-prod
+    dest: /usr/local/bin/vlagent
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  notify: restart vlagent
+  become: true
+  become_user: root
+
+- name: Create vlagent data directory
+  ansible.builtin.file:
+    path: /var/lib/vlagent
+    state: directory
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  become: true
+  become_user: root
+
+- name: Create vlagent systemd service
+  ansible.builtin.template:
+    src: vlagent.service.j2
+    dest: /etc/systemd/system/vlagent.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart vlagent
+  become: true
+  become_user: root
+
+- name: Start and enable vlagent service
+  ansible.builtin.systemd_service:
+    name: vlagent
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root
+
+- name: Install systemd-journal-remote
+  ansible.builtin.apt:
+    name:
+      - systemd-journal-remote
+    update_cache: true
+  become: true
+  become_user: root
+
+- name: Configure systemd-journal-upload URL
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/journal-upload.conf
+    line: "URL=http://{{ vlagent_remote_server_ip }}:9428/insert/journald"
+    regexp: "^(# )?URL"
+  notify: restart systemd-journal-upload
+  become: true
+  become_user: root
+
+- name: Configure systemd-journal-upload namespace
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/systemd-journal-upload.service
+    line: "ExecStart=/usr/lib/systemd/systemd-journal-upload --save-state --namespace={{ vlagent_log_namespace }}"
+    regexp: "^ExecStart="
+  notify: restart systemd-journal-upload
+  become: true
+  become_user: root

@@ -1,0 +1,9 @@
+---
+# Version of vlagent to install
+vlagent_version: v1.52.0
+
+# IP address of the remote victoria_logs server
+vlagent_remote_server_ip: ~
+
+# Namespace of journald logs to collect
+vlagent_log_namespace: ~

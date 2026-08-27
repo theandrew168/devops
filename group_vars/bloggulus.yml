@@ -44,6 +44,9 @@ vmagent_scrape_config: |
             app: bloggulus
             name: caddy
 
+vlagent_remote_server_ip: 10.136.0.4
+vlagent_log_namespace: bloggulus
+
 postgresql_data_dir: /mnt/bloggulus_db/data
 postgresql_unix_domain_socket_only: true
 
