@@ -12,3 +12,4 @@
     - postgres_exporter
     - vmagent
     - vlagent
+    - vtagent

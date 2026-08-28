@@ -1,0 +1,15 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=vtagent
+After=network.target network-online.target
+Requires=network-online.target
+
+[Service]
+Type=simple
+User=victoria
+Group=victoria
+ExecStart=/usr/local/bin/vtagent -remoteWrite.tmpDataPath=/var/lib/vtagent -remoteWrite.url=http://{{ vtagent_remote_server_ip }}:10428/insert/native -httpListenAddr 127.0.0.1:10428
+
+[Install]
+WantedBy=multi-user.target

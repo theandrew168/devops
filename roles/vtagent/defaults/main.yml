@@ -1,0 +1,6 @@
+---
+# Version of vtagent to install
+vtagent_version: v0.11.0
+
+# IP address of the remote victoria_traces server
+vtagent_remote_server_ip: ~

@@ -1,0 +1,70 @@
+---
+- name: Create victoria group
+  ansible.builtin.group:
+    name: victoria
+    system: true
+  become: true
+  become_user: root
+
+- name: Create victoria user
+  ansible.builtin.user:
+    name: victoria
+    group: victoria
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Download and extract vtagent binary
+  ansible.builtin.unarchive:
+    remote_src: true
+    src: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ vtagent_version }}/vtutils-linux-amd64-{{ vtagent_version }}.tar.gz"
+    dest: /tmp
+    creates: /tmp/vtagent-prod
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
+- name: Copy vtagent binary
+  ansible.builtin.copy:
+    remote_src: true
+    src: /tmp/vtagent-prod
+    dest: /usr/local/bin/vtagent
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  notify: restart vtagent
+  become: true
+  become_user: root
+
+- name: Create vtagent data directory
+  ansible.builtin.file:
+    path: /var/lib/vtagent
+    state: directory
+    mode: "0700"
+    owner: victoria
+    group: victoria
+  become: true
+  become_user: root
+
+- name: Create vtagent systemd service
+  ansible.builtin.template:
+    src: vtagent.service.j2
+    dest: /etc/systemd/system/vtagent.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart vtagent
+  become: true
+  become_user: root
+
+- name: Start and enable vtagent service
+  ansible.builtin.systemd_service:
+    name: vtagent
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root
