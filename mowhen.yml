@@ -1,0 +1,10 @@
+---
+- hosts: mowhen
+  roles:
+    - server
+    - nodejs
+    - postgresql
+    - pg2s3
+    - mfd
+    - mowhen
+    - caddy

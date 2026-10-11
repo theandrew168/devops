@@ -1,0 +1,12 @@
+{{ ansible_managed | comment }}
+
+[Unit]
+Description=mowhen socket
+Documentation=https://github.com/theandrew168/mowhen
+PartOf=mowhen.service
+
+[Socket]
+ListenStream=127.0.0.1:3000
+
+[Install]
+WantedBy=sockets.target

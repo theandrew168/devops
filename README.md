@@ -40,6 +40,8 @@ Terraform views DigitalOcean Spaces as an S3 backend so the following environmen
 ```
 export AWS_ACCESS_KEY_ID="spaces_key_from_web_console"
 export AWS_SECRET_ACCESS_KEY="spaces_secret_from_web_console"
+export SPACES_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+export SPACES_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
 ```
 
 ### Terraform DigitalOcean Access

@@ -1,0 +1,85 @@
+---
+- name: Create mowhen group
+  ansible.builtin.group:
+    name: mowhen
+    system: true
+  become: true
+  become_user: root
+
+- name: Create mowhen user
+  ansible.builtin.user:
+    name: mowhen
+    group: mowhen
+    shell: /usr/sbin/nologin
+    system: true
+    create_home: false
+  become: true
+  become_user: root
+
+- name: Add mowhen user to the mfd group
+  ansible.builtin.user:
+    name: mowhen
+    groups: mfd
+    append: true
+  become: true
+  become_user: root
+
+- name: Add mowhen user to the dbuser group
+  ansible.builtin.user:
+    name: mowhen
+    groups: dbuser
+    append: true
+  when: postgresql_unix_domain_socket_only
+  become: true
+  become_user: root
+
+- name: Setup mowhen config file
+  ansible.builtin.copy:
+    content: "{{ mowhen_config }}"
+    dest: /etc/mowhen.conf
+    mode: "0640"
+    owner: root
+    group: mowhen
+  notify: restart mowhen
+  become: true
+  become_user: root
+
+- name: Create mowhen systemd service
+  ansible.builtin.template:
+    src: mowhen.service.j2
+    dest: /etc/systemd/system/mowhen.service
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart mowhen
+  become: true
+  become_user: root
+
+- name: Create mowhen systemd socket
+  ansible.builtin.template:
+    src: mowhen.socket.j2
+    dest: /etc/systemd/system/mowhen.socket
+    mode: "0644"
+    owner: root
+    group: root
+  notify: restart mowhen
+  become: true
+  become_user: root
+
+- name: Start and enable mowhen.socket
+  ansible.builtin.systemd_service:
+    name: mowhen.socket
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root
+
+- name: Start and enable mowhen.service
+  ansible.builtin.systemd_service:
+    name: mowhen.service
+    state: started
+    enabled: true
+    daemon_reload: true
+  become: true
+  become_user: root

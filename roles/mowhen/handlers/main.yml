@@ -1,0 +1,8 @@
+---
+- name: restart mowhen
+  ansible.builtin.systemd_service:
+    name: mowhen
+    state: restarted
+    daemon_reload: true
+  become: true
+  become_user: root
