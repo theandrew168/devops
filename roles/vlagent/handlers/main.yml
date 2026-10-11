@@ -6,11 +6,3 @@
     daemon_reload: true
   become: true
   become_user: root
-
-- name: restart systemd-journal-upload
-  ansible.builtin.systemd_service:
-    name: systemd-journal-upload
-    state: restarted
-    daemon_reload: true
-  become: true
-  become_user: root

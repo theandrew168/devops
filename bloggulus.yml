@@ -2,10 +2,8 @@
 - hosts: bloggulus
   roles:
     - server
-    - nodejs
     - postgresql
     - pg2s3
-    - mfd
     - bloggulus
     - caddy
     - node_exporter

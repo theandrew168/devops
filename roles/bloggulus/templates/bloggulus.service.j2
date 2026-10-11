@@ -2,23 +2,17 @@
 
 [Unit]
 Description=bloggulus
-Documentation=https://github.com/theandrew168/bloggulus-svelte
+Documentation=https://github.com/theandrew168/bloggulus
 After=network.target network-online.target
 Requires=network-online.target
 
 [Service]
-Type=simple
+Type=notify
 Restart=on-failure
 RestartSec=5
 User=bloggulus
 Group=bloggulus
-LogNamespace=bloggulus
-WorkingDirectory=/usr/local/src/bloggulus-svelte/active
-Environment="BLOGGULUS_CONF=/etc/bloggulus.conf"
-Environment="KEEP_ALIVE_TIMEOUT=65"
-Environment="HEADERS_TIMEOUT=66"
-ExecStartPre=npm run migrate
-ExecStart=node build/
+ExecStart=bloggulus -conf /etc/bloggulus.conf
 
 LockPersonality=true
 NoNewPrivileges=true

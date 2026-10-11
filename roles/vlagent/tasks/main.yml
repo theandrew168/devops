@@ -68,29 +68,3 @@
     daemon_reload: true
   become: true
   become_user: root
-
-- name: Install systemd-journal-remote
-  ansible.builtin.apt:
-    name:
-      - systemd-journal-remote
-    update_cache: true
-  become: true
-  become_user: root
-
-- name: Configure systemd-journal-upload URL
-  ansible.builtin.lineinfile:
-    path: /etc/systemd/journal-upload.conf
-    line: "URL=http://{{ vlagent_remote_server_ip }}:9428/insert/journald"
-    regexp: "^(# )?URL"
-  notify: restart systemd-journal-upload
-  become: true
-  become_user: root
-
-- name: Configure systemd-journal-upload namespace
-  ansible.builtin.lineinfile:
-    path: /usr/lib/systemd/system/systemd-journal-upload.service
-    line: "ExecStart=/usr/lib/systemd/systemd-journal-upload --save-state --namespace={{ vlagent_log_namespace }}"
-    regexp: "^ExecStart="
-  notify: restart systemd-journal-upload
-  become: true
-  become_user: root
