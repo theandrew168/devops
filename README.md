@@ -10,10 +10,10 @@ In general, the infra managed by this repo operates on the following schedule.
 Note that not all of these events occur each day.
 System restarts, for example, only occur as needed (when a package or kernel update requires it).
 
-| What             | When                      |
-| ---------------- | ------------------------- |
-| System restarts  | 8:00 AM UTC (2:00 AM CST) |
-| Database backups | 9:00 AM UTC (3:00 AM CST) |
+| What             | When                                     |
+| ---------------- | ---------------------------------------- |
+| Database backups | 5:00 AM UTC (11:00 PM CST, 12:00 AM CDT) |
+| System restarts  | 6:00 AM UTC (12:00 AM CST, 1:00 AM CDT)  |
 
 ## Install
 
