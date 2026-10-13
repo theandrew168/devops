@@ -26,12 +26,22 @@
   become: true
   become_user: root
 
+- name: Create versioned VictoriaMetrics temporary directory
+  ansible.builtin.file:
+    path: "/tmp/victoria-metrics-{{ victoria_metrics_version }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
 - name: Download and extract victoria-metrics binary
   ansible.builtin.unarchive:
     remote_src: true
     src: "https://github.com/VictoriaMetrics/VictoriaMetrics/releases/download/{{ victoria_metrics_version }}/victoria-metrics-linux-amd64-{{ victoria_metrics_version }}.tar.gz"
-    dest: /tmp
-    creates: /tmp/victoria-metrics-prod
+    dest: "/tmp/victoria-metrics-{{ victoria_metrics_version }}"
+    creates: "/tmp/victoria-metrics-{{ victoria_metrics_version }}/victoria-metrics-prod"
     owner: root
     group: root
   become: true
@@ -40,7 +50,7 @@
 - name: Copy victoria-metrics binary
   ansible.builtin.copy:
     remote_src: true
-    src: /tmp/victoria-metrics-prod
+    src: "/tmp/victoria-metrics-{{ victoria_metrics_version }}/victoria-metrics-prod"
     dest: /usr/local/bin/victoria-metrics
     mode: "0700"
     owner: victoria

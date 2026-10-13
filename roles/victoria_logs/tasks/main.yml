@@ -26,12 +26,22 @@
   become: true
   become_user: root
 
+- name: Create versioned VictoriaLogs temporary directory
+  ansible.builtin.file:
+    path: "/tmp/victoria-logs-{{ victoria_logs_version }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
 - name: Download and extract victoria-logs binary
   ansible.builtin.unarchive:
     remote_src: true
     src: "https://github.com/VictoriaMetrics/VictoriaLogs/releases/download/{{ victoria_logs_version }}/victoria-logs-linux-amd64-{{ victoria_logs_version }}.tar.gz"
-    dest: /tmp
-    creates: /tmp/victoria-logs-prod
+    dest: "/tmp/victoria-logs-{{ victoria_logs_version }}"
+    creates: "/tmp/victoria-logs-{{ victoria_logs_version }}/victoria-logs-prod"
     owner: root
     group: root
   become: true
@@ -40,7 +50,7 @@
 - name: Copy victoria-logs binary
   ansible.builtin.copy:
     remote_src: true
-    src: /tmp/victoria-logs-prod
+    src: "/tmp/victoria-logs-{{ victoria_logs_version }}/victoria-logs-prod"
     dest: /usr/local/bin/victoria-logs
     mode: "0700"
     owner: victoria

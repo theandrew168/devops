@@ -26,12 +26,22 @@
   become: true
   become_user: root
 
+- name: Create versioned victoria-traces temporary directory
+  ansible.builtin.file:
+    path: "/tmp/victoria-traces-{{ victoria_traces_version }}"
+    state: directory
+    mode: "0755"
+    owner: root
+    group: root
+  become: true
+  become_user: root
+
 - name: Download and extract victoria-traces binary
   ansible.builtin.unarchive:
     remote_src: true
     src: "https://github.com/VictoriaMetrics/VictoriaTraces/releases/download/{{ victoria_traces_version }}/victoria-traces-linux-amd64-{{ victoria_traces_version }}.tar.gz"
-    dest: /tmp
-    creates: /tmp/victoria-traces-prod
+    dest: "/tmp/victoria-traces-{{ victoria_traces_version }}"
+    creates: "/tmp/victoria-traces-{{ victoria_traces_version }}/victoria-traces-prod"
     owner: root
     group: root
   become: true
@@ -40,7 +50,7 @@
 - name: Copy victoria-traces binary
   ansible.builtin.copy:
     remote_src: true
-    src: /tmp/victoria-traces-prod
+    src: "/tmp/victoria-traces-{{ victoria_traces_version }}/victoria-traces-prod"
     dest: /usr/local/bin/victoria-traces
     mode: "0700"
     owner: victoria
