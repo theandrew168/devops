@@ -8,3 +8,8 @@
     - mfd
     - mowhen
     - caddy
+    - node_exporter
+    - postgres_exporter
+    - vmagent
+    - vlagent
+    - vtagent
