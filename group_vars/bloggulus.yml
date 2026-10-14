@@ -139,7 +139,7 @@ caddy_config: |
     redir https://bloggulus.com{uri} permanent
   }
   bloggulus.com {
-    reverse_proxy 127.0.0.1:5000
+    reverse_proxy 127.0.0.1:3000
   }
 
 bloggulus_config: !vault |
