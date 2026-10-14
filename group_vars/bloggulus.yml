@@ -16,6 +16,8 @@ postgres_exporter_database_password: !vault |
   66666234393034386263393339633338363361636433613336353431383132336339316639373630
   6562386338326536363535343133343038626163316461623430
 
+vtagent_remote_server_ip: 10.136.0.4
+vlagent_remote_server_ip: 10.136.0.4
 vmagent_remote_server_ip: 10.136.0.4
 vmagent_scrape_config: |
   scrape_configs:
@@ -43,9 +45,6 @@ vmagent_scrape_config: |
           labels:
             app: bloggulus
             name: caddy
-
-vlagent_remote_server_ip: 10.136.0.4
-vlagent_log_namespace: bloggulus
 
 postgresql_data_dir: /mnt/bloggulus_db/data
 postgresql_unix_domain_socket_only: true
